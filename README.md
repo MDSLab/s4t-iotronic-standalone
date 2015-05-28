@@ -9,7 +9,7 @@
 
 Using the **s4t-node-cloud** the embedded devices connected to it, through a [**Reverse Websocket Tunnel Protocol**](https://www.npmjs.com/package/node-reverse-wstunnel) are able to expose their local services, but not only, it is possible to realize a direct connection to the devices and its services behind a strict firewalls or without a public IP. It is obviously necessary to use a public host with a specific IP; on this host there will be installed the s4t-node-cloud and all of the necessary software  components.
 
-**s4t-node-cloud** has a rich REST interface to communicate with all the devices connected to it, you can use the documentation the [**REST API Specification**]() to properly use this REST interface.
+**s4t-node-cloud** has a rich REST interface to communicate with all the devices connected to it, you can use the documentation the [**REST API Specification**](https://github.com/MDSLab/s4t-node-cloud/blob/develop/doc/rest.md) to properly use this REST interface.
 
 ##Installation
 
