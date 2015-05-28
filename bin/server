@@ -5,11 +5,20 @@ Apache License
                            Version 2.0, January 2004
                         http://www.apache.org/licenses/
 
-Copyright (c) 2014 Andrea Rocco Lotronto
+Copyright (c) 2014 2015 Andrea Rocco Lotronto
 */
 
 var s4t = require("../lib/s4t_WS");
 
-var server = new s4t.server
+var nconf = require('nconf');
 
-server.start(8888,'ws://212.189.207.109:8181/ws');
+nconf.file ({file: '/mnt/Data-Partition/Develop/GitRepository/GitHub/MDSLab/s4t-node-cloud/lib/setting.json'});
+var wampR_url = nconf.get('config:wamp:url')+":"+nconf.get('config:wamp:port')+"/ws";
+var wamp_realm = nconf.get('config:wamp:realm');
+var serverPort = nconf.get('config:server:port');
+
+console.log("Value::"+serverPort+"--"+wampR_url+"--"+wamp_realm);
+
+var server = new s4t.server;
+
+server.start(serverPort,wampR_url,wamp_realm);
