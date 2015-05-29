@@ -14,7 +14,9 @@ Using the **s4t-node-cloud** the embedded devices connected to it, through a [**
 ##Installation
 
 **s4t-node-cloud** needs two additionals software components:
+
 	* A WAMP router;
+	
 	* A Reverse Websocket Tunnel Server;
 
 ###WAM Router Installation
