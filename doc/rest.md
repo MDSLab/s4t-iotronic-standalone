@@ -47,9 +47,9 @@ response json:
 }
 ```
 
-### Digital or Analog read
+### Create New Network
 ```
-http://IP:PORT/command/?command=create-network&netname={name-of-the-new-network}&val={Net-IP/Net-Mask}
+http://IP:PORT/command/?command=create-network&netname={name-of-the-network}&val={Net-IP/Net-Mask}
 ```
 response json:
 ```
