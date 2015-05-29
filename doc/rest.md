@@ -47,4 +47,23 @@ response json:
 }
 ```
 
-REST call for virtual network 
+### Digital or Analog read
+```
+http://IP:PORT/command/?command=create-network&netname={name-of-the-new-network}&val={Net-IP/Net-Mask}
+```
+response json:
+```
+{
+	"message": "Network created",
+	"result": {
+		"key": "KeyNumber",
+		"uuid": "UUID-assigned",
+		"name": "name-of-the-network",
+		"netaddr": "Net-IP",
+		"netmask": "Net-Mask",
+		"netbc": "Broadcast-IP",
+		"netsize": "Net-Size",
+		"nethosts": "Array of the hosts in the network"
+	}
+}
+```
