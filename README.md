@@ -1,3 +1,4 @@
+[![Stories in Ready](https://badge.waffle.io/MDSLab/s4t-iotronic-standalone.png?label=ready&title=Ready)](https://waffle.io/MDSLab/s4t-iotronic-standalone)
 # s4t-node-cloud
 **s4t-node-cloud** is the implementation, totally in nodejs, of a personal cloud to remote manage embedded devices **Arduino YUN/Linino One** and **Raspberry Pi**.
 
