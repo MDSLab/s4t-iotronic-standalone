@@ -9,10 +9,9 @@ Copyright (c) 2014 2015 Andrea Rocco Lotronto
 */
 
 var s4t = require("../lib/s4t_WS");
-
 var nconf = require('nconf');
 
-nconf.file ({file: '/mnt/Data-Partition/Develop/GitRepository/GitHub/MDSLab/s4t-node-cloud/lib/setting.json'});
+nconf.file ({file: process.cwd()+'/lib/setting.json'});
 var wampR_url = nconf.get('config:wamp:url')+":"+nconf.get('config:wamp:port')+"/ws";
 var wamp_realm = nconf.get('config:wamp:realm');
 var serverPort = nconf.get('config:server:port');

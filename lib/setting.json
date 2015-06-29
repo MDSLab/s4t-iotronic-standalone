@@ -2,22 +2,22 @@
 	"config":{
 		"server":
 		{
-			"interface": "eth0",
-			"port":"8888",
+			"interface": "",
+			"port":"",
 			"db":{
-				"host":"192.168.56.101",
-				"user":"root",
-				"password":"ubuntu",
-				"db_name":"s4t-cloud-db"
+				"host":"",
+				"user":"",
+				"password":"",
+				"db_name":""
 			}
 		},
 		"wamp":
 		{
-			"url": "ws://212.189.207.212",
-			"port": "8181",
-			"realm": "s4t",
-			"topic_command":"board.command",
-			"topic_connection": "board.connection"
+			"url": "",
+			"port": "",
+			"realm": "",
+			"topic_command":"",
+			"topic_connection": ""
 		},
 		"socat":
 		{		
