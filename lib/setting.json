@@ -7,17 +7,17 @@
 			"db":{
 				"host":"",
 				"user":"",
-				"password":"!",
+				"password":"",
 				"db_name":""
 			}
 		},
 		"wamp":
 		{
-			"url": "ws://",
+			"url": "",
 			"port": "",
 			"realm": "",
-			"topic_command":"board.command",
-			"topic_connection": "board.connection"
+			"topic_command":"",
+			"topic_connection": ""
 		},
 		"socat":
 		{		
