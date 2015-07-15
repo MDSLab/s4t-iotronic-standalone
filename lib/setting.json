@@ -6,7 +6,7 @@
 			"port":"",
 			"db":{
 				"host":"",
-				"user":"",
+				"user":"root",
 				"password":"",
 				"db_name":""
 			}
@@ -16,8 +16,8 @@
 			"url": "",
 			"port": "",
 			"realm": "",
-			"topic_command":"",
-			"topic_connection": ""
+			"topic_command":"board.command'",
+			"topic_connection": "board.connection"
 		},
 		"socat":
 		{		

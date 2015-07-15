@@ -1,3 +1,8 @@
 /bin/node_modules
 /lib/node_modules
 /node_modules
+.idea
+test.js
+test_a.js
+server_cert.pem
+s4t_wamp_server_nr.js
