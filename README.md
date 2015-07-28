@@ -64,6 +64,7 @@ Then to start the **s4t-node-cloud** you need run the following command:
 
 In the root path of the source code there is a json configuration file called *setting.json* using this file it is possible to set all the parameters of the *s4t-node-cloud*.
 
+##Scientific References
 Scientific papers describing the University of Messina work on Stack4Thing can be found here:
 
 [**MDSL**] (http://mdslab.unime.it/biblio)
