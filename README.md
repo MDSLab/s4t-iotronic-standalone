@@ -63,3 +63,13 @@ Then to start the **s4t-node-cloud** you need run the following command:
 ```
 
 In the root path of the source code there is a json configuration file called *setting.json* using this file it is possible to set all the parameters of the *s4t-node-cloud*.
+
+Scientific papers describing the University of Messina work on Stack4Thing can be found here:
+
+[**MDSL**] (http://mdslab.unime.it/biblio)
+
+In particular, you can find details about Stack4Thing in the following papers:
+
+G. Merlino, D. Bruneo, S. Distefano, F. Longo, A. Puliafito - Stack4Things: integrating IoT with OpenStack in a Smart City context. Published on Sensors and Smart Cities, Smart Computing Workshops (SMARTCOMP Workshops), 2014 International Conference on, pp. 21,28, 5-5 Nov. 2014. 
+
+Giovanni Merlino,  Dario Bruneo,  Salvatore Distefano,  Francesco Longo,  Antonio Puliafito, and Adnan Al-Anbuky - A Smart City Lighting Case Study on an OpenStack-Powered Infrastructure, Sensors 2015, 15(7), pp. 16314-16335.
