@@ -1,3 +1,5 @@
 /bin/node_modules
 /lib/node_modules
 /node_modules
+.idea
+server_cert.pem
