@@ -1,6 +1,6 @@
 {
   "name": "s4t-iotronic-standalone",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "s4t-node-cloud is the implementation, totally in nodejs, of a personal cloud to remote manage embedded devices Arduino YUN/Linino One and Raspberry Pi.",
   "main": "index.js",
   "scripts": {
@@ -19,6 +19,11 @@
     "url": "https://github.com/MDSLab/s4t-iotronic-standalone.git"
   },
   "keywords": [
+    "cloud",
+    "IoT",
+    "Arduino",
+    "Raspberry",
+    "WAMP",	
     "tunnel",
     "reverse",
     "WebSocket"
