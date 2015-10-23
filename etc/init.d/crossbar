@@ -10,10 +10,15 @@
 # Description:       starts crossbar using start-stop-daemon
 ### END INIT INFO
 
+#/opt/crossbar/bin/crossbar start --cbdir /etc/crossbar/ &> /var/log/crossbar &
+
 DAEMON=/opt/crossbar/bin/crossbar
 DAEMON_OPTS='--cbdir /etc/crossbar/'
 NAME=crossbar
 DESC=crossbar
+LOGFILE="/var/log/crossbar.log"
+PIDFILE="/var/run/crossbar.pid"
+
 
 test -x $DAEMON || exit 0
 set -e
@@ -23,7 +28,7 @@ set -e
 case "$1" in
   start)
     echo -n "Starting $DESC ... \n"
-    start-stop-daemon --start --quiet --pidfile /tmp/$NAME.pid --exec $DAEMON start -- $DAEMON_OPTS || true &
+    start-stop-daemon --start --quiet --make-pidfile --pidfile $PIDFILE --exec $DAEMON start -- $DAEMON_OPTS >> ${LOGFILE} 2>&1   || true &
     ;;
   stop)
     echo -n "Stopping $DESC ... \n"
@@ -33,7 +38,7 @@ case "$1" in
     echo -n "Restarting $DESC ...\n"
     $DAEMON stop $DAEMON_OPTS
     sleep 1
-    start-stop-daemon --start --quiet --pidfile /tmp/$NAME.pid --exec $DAEMON start -- $DAEMON_OPTS || true &
+    start-stop-daemon --start --quiet --make-pidfile --pidfile $PIDFILE --exec $DAEMON start -- $DAEMON_OPTS >> ${LOGFILE} 2>&1 || true &
     ;;
   check)
     echo -n "Checking config.json file specified by: $DAEMON_OPTS ...\n"
