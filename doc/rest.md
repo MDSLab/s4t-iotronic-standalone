@@ -11,6 +11,38 @@ response json
 }
 ```
 
+###List of the boards on the Map 
+```
+http:/IP:PORT/map/
+```
+response json
+```
+{
+	"boards":{
+		"<BOARD-ID-1>":{
+			"coordinates":{
+				"altitude":"<VALUE>",
+				"latitude":"<VALUE>",
+				"longitude":"<VALUE>"
+			},								
+			"resources":{
+				"metrics":[ {"Temperature":"<VALUE>", ...}, {"Brightness":"<VALUE>", ...}, ...]
+			}
+		},
+		"<BOARD-ID-2":{
+			"coordinates":{
+				"altitude":"<VALUE>",
+				"latitude":"<VALUE>",
+				"longitude":"<VALUE>"
+			},								
+			"resources":{
+				"metrics":[ {"Temperature":"<VALUE>", ...}, {"Brightness":"<VALUE>", ...}, ...]
+			}
+		}
+	}
+}
+```
+
 ###Export Local Services
 ```
 http://IP:PORT/command/?board=id_board&command={service_name}&op={start|stop}
@@ -62,6 +94,79 @@ response json:
 “result”: "value of the PIN | ERROR DESCRIPTION"
 }
 ```
+
+### Create Plugin
+```
+http://IP:PORT/command/?command=createplugin&pluginname=plugin_name&pluginjsonschema=plugin_json&plugincode=plugin_code
+```
+response json:
+```
+{
+	"message": "Create Plugin",
+	"result": {
+		"fieldCount": 0,
+		"affectedRows": rows,
+		"insertId": id,
+		"serverStatus": status, 
+		"warningCount": 0,
+		"message": "",
+		"protocol41": true,
+		"changedRows": 0
+	}
+}
+```
+
+### Inject Plugin
+```
+http://IP:PORT/command/?command=injectplugin&board=id_board&pluginname=$plugin_name&autostart={True|False}
+```
+response json:
+```
+{
+	"message": "Inject Plugin",
+	"result": "Plugin injected successfully!" | "Plugin does not exist!"
+}
+```
+
+###Run Plugin (async)
+```
+http://IP:PORT/command/?command=plugin&pluginname=plugin_name&pluginjson=plugin_json&pluginoperation=run&board=id_board
+```
+response json:
+```
+{
+	"message": "Run Plugin",
+	"result": "OK - Plugin running!" | "Plugin category not supported!"
+}
+```
+
+###Kill Plugin
+```
+http://IP:PORT/command/?command=plugin&pluginname=plugin_name&pluginoperation=kill&board=id_board
+```
+response json:
+```
+{
+	"message": "Kill Plugin",
+	"result": "OK - plugin killed!" | "Plugin is not running on this board!"
+}
+```
+
+
+###Call Plugin (sync)
+```
+http://IP:PORT/command/?command=plugin&pluginname=plugin_name&pluginjson=plugin_json&pluginoperation=call&board=id_board
+```
+response json:
+```
+{
+	"message": "Call Plugin",
+	"result": "< CALL RESPONSE USER DEFINED >" | "Plugin category not supported!"
+	
+}
+```
+
+
 
 ### Create New Network
 ```
