@@ -128,7 +128,7 @@ response json:
 }
 ```
 
-###Run Plugin
+###Run Plugin (async)
 ```
 http://IP:PORT/command/?command=plugin&pluginname=plugin_name&pluginjson=plugin_json&pluginoperation=run&board=id_board
 ```
@@ -151,6 +151,21 @@ response json:
 	"result": "OK - plugin killed!" | "Plugin is not running on this board!"
 }
 ```
+
+
+###Call Plugin (sync)
+```
+http://IP:PORT/command/?command=plugin&pluginname=plugin_name&pluginjson=plugin_json&pluginoperation=call&board=id_board
+```
+response json:
+```
+{
+	"message": "Call Plugin",
+	"result": "< CALL RESPONSE USER DEFINED >" | "Plugin category not supported!"
+	
+}
+```
+
 
 
 ### Create New Network
