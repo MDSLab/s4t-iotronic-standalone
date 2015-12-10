@@ -190,7 +190,7 @@ response json:
 ```
 ### Add to Network
 ```
-http://IP:PORT/command/?command=add-to-network&netuid={uuid-of-the-network}&boad={boardID}&[val={IP}]
+http://IP:PORT/command/?command=add-to-network&netuid={uuid-of-the-network}&board={boardID}&[val={IP}]
 ```
 response json:
 ```
