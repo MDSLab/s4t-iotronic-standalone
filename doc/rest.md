@@ -95,6 +95,15 @@ response json:
 }
 ```
 
+### SSH start/stop
+```
+http://IP:PORT/command/?board=id_board&command=ssh&op=start|stop
+```
+response json:
+```
+{"ip":IP,"port":TUNNELED_PORT,"service":"ssh","status":"start|stop"}
+```
+
 ### Create Plugin
 ```
 http://IP:PORT/command/?command=createplugin&pluginname=plugin_name&pluginjsonschema=plugin_json&plugincode=plugin_code
