@@ -1,0 +1,13 @@
+#! /bin/bash
+if [ "$#" -ne 1 ]; then
+    echo "remove-gre-tunnel IFACE"
+    return 1
+fi
+
+IFACE=$1
+#IFACE="bnetwork-141422"
+
+set -o verbose
+
+ip link del $IFACE 
+
