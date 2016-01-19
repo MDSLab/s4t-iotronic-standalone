@@ -1,0 +1,24 @@
+#! /bin/bash
+
+if [ "$#" -ne 4 ]; then
+    echo "create-gre-tunnel REMOTEIP LOCALIP IFACE NETBRIDGE"
+    return 1
+fi
+
+NETBRIDGE=$4
+IFACE=$3
+REMOTEIP=$1
+LOCALIP=$2
+
+#NETBRIDGE="brnetwork"
+#IFACE="bnetwork-141422"
+#REMOTEIP="10.0.0.6"
+#LOCALIP="10.0.0.5"
+
+set -o verbose
+
+ip link add $IFACE type gretap remote $REMOTEIP local $LOCALIP
+ip link set $IFACE up
+brctl addif $NETBRIDGE $IFACE
+ip link set $NETBRIDGE up
+

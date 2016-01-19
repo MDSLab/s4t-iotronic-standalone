@@ -1,0 +1,32 @@
+#! /bin/bash
+#COUNT
+
+if [ "$#" -ne 1 ]; then
+    echo "start-stocat COUNT"
+    exit 1
+fi
+
+if [ "$1" -eq 1 ]; then
+    echo "COUNT cannot be 1"
+    exit 1
+fi
+
+COUNT=$1
+PORT=`expr $COUNT + 10000`
+
+TUNNAME="soc"$PORT
+echo $TUNNAME on $PORT
+socat -d -d TCP:localhost:$PORT,reuseaddr,forever,interval=10 TUN,tun-type=tap,tun-name=$TUNNAME,up &
+
+ip link add name br-socat type bridge
+if [ $? -eq 0 ]; then
+ip addr add 10.0.0.1/24 dev br-socat
+ip link set br-socat up
+fi
+
+ip link show $TUNNAME
+while [ $? -ne 0 ];
+do
+sleep 3; ip link show $TUNNAME;
+done
+ip link set $TUNNAME master br-socat
