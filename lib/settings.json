@@ -8,7 +8,7 @@
                                 "host":"localhost",
                                 "user":"root",
                                 "password":"",
-                                "db_name":""
+                                "db_name":"s4t-myarduino"
                         }
                 },
                 "wamp":
