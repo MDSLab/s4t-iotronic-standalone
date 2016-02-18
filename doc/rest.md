@@ -75,6 +75,42 @@ response json:
 }
 ```
 
+### Register board
+```
+http://IP:PORT/command/?command=reg-board&board={boardID}&latitude={latitude}&longitude={longitude}&altitude={altitude}&net_enabled={net_enabled_flag}&sensorlist={sensors_list}
+```
+
+response json:
+```
+{
+	"result": "Registration successfully completed!"
+}
+```
+
+### Update board
+```
+http://IP:PORT/command/?command=update-board&board={boardID}&latitude={latitude}&longitude={longitude}&altitude={altitude}&net_enabled={net_enabled_flag}&sensorlist={sensors_list}
+```
+
+response json:
+```
+{
+	"result": "Updating board successfully completed!"
+}
+```
+
+### Unregister board
+```
+http://IP:PORT/command/?command=update-board&board={boardID}&latitude={latitude}&longitude={longitude}&altitude={altitude}&net_enabled={net_enabled_flag}&sensorlist={sensors_list}
+```
+
+response json:
+```
+{
+	"result": "Unegistration board successfully completed!"
+}
+```
+
 
 ### Create Plugin
 ```
@@ -121,7 +157,7 @@ response json:
 }
 ```
 
-###Kill Plugin
+###Kill Plugin (async)
 ```
 http://IP:PORT/command/?command=plugin&pluginname={plugin_name}&pluginoperation=kill&board={boardID}
 ```
