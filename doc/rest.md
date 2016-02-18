@@ -7,62 +7,145 @@ http:/IP:PORT/list/
 response json
 ```
 {
-"list": ["board1", "board2"...]
+	"list":
+	[
+		{
+			"board_code":"boardID",
+			"session_id":"null",
+			"status":"Disconnected/Connected",
+			"altitude":"alt",
+			"longitude":"long",
+			"latitude":"lat"
+		},
+		...
+	]
 }
+
 ```
 
 ###Export Local Services
 ```
-http://IP:PORT/command/?board=id_board&command={service_name}&op={start|stop}
+http://IP:PORT/command/?board={boardID}&command={service_name}&op={start|stop}
 ```
 
 response json:
 ```
 {
-"ip":"212.189.207.212",
-"port":6667,
-"service":"ServiceName",
-"status":"start|stop"
+	"ip":"IP",
+	"port":"TUNNELED_PORT",
+	"service":"ServiceName",
+	"status":"start|stop"
 }
 ```
 
 ###Set PIN mode
 ```
-http://IP:PORT/command/?board=id_board&command=mode&pin=pinName&mode=input|output|pwm
+http://IP:PORT/command/?board={boardID}&command=mode&pin={pinName}&mode={input|output|pwm}
 ```
 response json:
 ```
 {
-“mesage”: “Set Mode”,
-“result”: “0| ERROR DESCRIPTION”
+	"mesage": "Set Mode",
+	"result": "0| ERROR DESCRIPTION"
 }
 ```
 ### Digital or PWM Write
 ```
-http://IP:PORT/command/?board=id_board&command=analog|digital&pin=pinNmae&val=0,1 | 0,1...1024
+http://IP:PORT/command/?board={boardID}&command={analog|digital}&pin={pinName}&val={0,1 | 0,1...1024}
 ```
 *in this REST call analog is used per PWM PIN*
 
 response json:
 ```
 {
-"message": ”Digital Write | Analog Write”,
-“result”: "0 | ERROR DESCRIPTION"
+	"message": "Digital Write | Analog Write",
+	"result": "0 | ERROR DESCRIPTION"
 }
 ```
 
 ### Digital or Analog read
 ```
-http://IP:PORT/command/?board=id_board&command=analog|digital&pin=pinName
+http://IP:PORT/command/?board={boardID}&command={analog|digital}&pin={pinName}
 ```
 response json:
 ```
 {
-“message” : “Digital Read | Analog Read”,
-“result”: "value of the PIN | ERROR DESCRIPTION"
+	"message" : "Digital Read | Analog Read",
+	"result": "value of the PIN | ERROR DESCRIPTION"
 }
 ```
 
+
+### Create Plugin
+```
+http://IP:PORT/command/?command=createplugin&pluginname={plugin_name}&pluginjsonschema={plugin_json}&plugincode={plugin_code}
+```
+response json:
+```
+{
+	"message": "Create Plugin",
+	"result": {
+		"fieldCount": 0,
+		"affectedRows": rows,
+		"insertId": id,
+		"serverStatus": status, 
+		"warningCount": 0,
+		"message": "",
+		"protocol41": true,
+		"changedRows": 0
+	}
+}
+```
+
+### Inject Plugin
+```
+http://IP:PORT/command/?command=injectplugin&board={boardID}&pluginname={plugin_name}&autostart={True|False}
+```
+response json:
+```
+{
+	"message": "Inject Plugin",
+	"result": "Plugin injected successfully!" | "Plugin does not exist!"
+}
+```
+
+###Run Plugin (async)
+```
+http://IP:PORT/command/?command=plugin&pluginname={plugin_name}&pluginjson={plugin_json}&pluginoperation=run&board={boardID}
+```
+response json:
+```
+{
+	"message": "Run Plugin",
+	"result": "OK - Plugin running!" | "Plugin category not supported!"
+}
+```
+
+###Kill Plugin
+```
+http://IP:PORT/command/?command=plugin&pluginname={plugin_name}&pluginoperation=kill&board={boardID}
+```
+response json:
+```
+{
+	"message": "Kill Plugin",
+	"result": "OK - plugin killed!" | "Plugin is not running on this board!"
+}
+```
+
+
+###Call Plugin (sync)
+```
+http://IP:PORT/command/?command=plugin&pluginname={plugin_name}&pluginjson={plugin_json}&pluginoperation=call&board={boardID}
+```
+response json:
+```
+{
+	"message": "Call Plugin",
+	"result": "< CALL RESPONSE USER DEFINED >" | "Plugin category not supported!"
+	
+}
+```
 
 ###Show Networks
 ```
