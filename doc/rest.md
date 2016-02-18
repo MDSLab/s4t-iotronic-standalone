@@ -63,6 +63,28 @@ response json:
 }
 ```
 
+
+###Show Networks
+```
+http://IP:PORT/command/?command=show-network
+```
+response json:
+```
+{
+	"message": "list of networks",
+	"result": [
+		{
+			"uuid": "network-uuid",
+			"name": "network-name",
+			"address": "IP",
+			"size": size,
+			"hosts": []
+		},
+		....
+	] 
+}
+```
+
 ### Create New Network
 ```
 http://IP:PORT/command/?command=create-network&netname={name-of-the-network}&val={Net-IP/Net-Mask}
@@ -80,8 +102,21 @@ response json:
 		"netmask":"Net-Mask"
 	}
 }
+
+### Destroy Network
 ```
-### Add to Network
+http://IP:PORT/command/?command=destroy-network&netuid={uuid-of-the-network}
+```
+response json:
+```
+{
+	"message":"Destroying network",
+	"result": "NETWORK network-uuid DESTROYED!"
+}
+```
+
+```
+### Add Board to Network
 ```
 http://IP:PORT/command/?command=add-to-network&netuid={uuid-of-the-network}&boad={boardID}&[val={IP}]
 ```
@@ -104,7 +139,7 @@ response json:
 
 ```
 
-### Remove from a Network
+### Remove Board from a Network
 ```
 http://IP:PORT/command/?command=remove-from-network&netuid={name-of-the-vlan}&board={board-id}
 ```
@@ -135,39 +170,6 @@ response json:
 
 ```
 
-### Destroy Network
-```
-http://IP:PORT/command/?command=destroy-network&netuid={uuid-of-the-network}
-```
-response json:
-```
-{
-	"message":"Destroying network",
-	"result": "NETWORK network-uuid DESTROYED!"
-}
-
-```
-
-###Show Networks
-```
-http://IP:PORT/command/?command=show-network
-```
-response json:
-```
-{
-	"message": "list of networks",
-	"result": [
-		{
-			"uuid": "network-uuid",
-			"name": "network-name",
-			"address": "IP",
-			"size": size,
-			"hosts": []
-		},
-		....
-	] 
-}
-```
 
 ###Show Boards
 ```
@@ -192,20 +194,4 @@ response json:
 	"log": ""
 }
 
-```
-###Update Network
-```
-http://IP:PORT/command/?command=update-network&netuid={uuid-network}&val={new-IP/new-mask}
-```
-response json:
-```
-{
-	"message": "Updating network",
-	"result": {
-		"netuid": "network-uid",
-		"netname": "network-name",
-		"netaddr": "network-IP",
-		"netmask": netmask
-	}
-}
 ```
