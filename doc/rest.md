@@ -88,50 +88,64 @@ http://IP:PORT/command/?command=add-to-network&netuid={uuid-of-the-network}&boad
 response json:
 ```
 {
-	"message": "Adding boards to a network",
-	"result": []
+	"message":[{"ip":"board_IP"}],
+	"result":"VLAN CONNECTION ON boardID SUCCESSFULLY ESTABLISHED!",
+	"log":{
+		"board":"boardID",
+		"socatID":1,
+		"socatPort":10000,
+		"greIP":"IP",
+		"greMask":"24",
+		"vlanID":"vlanid",
+		"vlan_name":"name-of-the-vlan",
+		"net_uuid":"UUID-assigned"
+	}
 }
+
 ```
 
 ### Remove from a Network
 ```
-http://IP:PORT/command/?command=remove-from-network&netuid=296ff200-1a07-4024-a040-5ce2fb5b6568&board=one1
+http://IP:PORT/command/?command=remove-from-network&netuid={name-of-the-vlan}&board={board-id}
 ```
 response json:
 ```
 {
-	"message": "Removing boards from a network",
-	"result": [
+	"message": [
 		{
-			"key": key-number,
-			"socatMap": key-socat,
-			"value": "board-id",
-			"addr": "IP",
-			"device": "Device-id",
-			"state": 1
+			"found": 1
 		}
-	]
+	],
+	"result": "BOARD board-id REMOVED FROM VLAN name-of-the-vlan",
+	"log": {
+		"message": {
+			"fieldCount": 0,
+			"affectedRows": 1,
+			"insertId": 0,
+			"serverStatus": 34,
+			"warningCount": 0,
+			"message": "",
+			"protocol41": true,
+			"changedRows": 0
+		},
+		"result": "SUCCESS"
+	}
 }
+
+
 ```
 
 ### Destroy Network
 ```
-http://IP:PORT/command/?command=destroy-network&netuid=uid-of-the-network
+http://IP:PORT/command/?command=destroy-network&netuid={uuid-of-the-network}
 ```
 response json:
 ```
 {
-	"message": "Destroying network",
-	"result": [
-		{
-			"uuid": "network-uid",
-			"name": "network-naem",
-			"address": "IP",
-			"size": 254,
-			"hosts": []
-		}
-	]
+	"message":"Destroying network",
+	"result": "NETWORK network-uuid DESTROYED!"
 }
+
 ```
 
 ###Show Networks
@@ -144,7 +158,7 @@ response json:
 	"message": "list of networks",
 	"result": [
 		{
-			"uuid": "network-uid",
+			"uuid": "network-uuid",
 			"name": "network-name",
 			"address": "IP",
 			"size": size,
@@ -157,30 +171,31 @@ response json:
 
 ###Show Boards
 ```
-http://IP:PORT/command/?command=show-boards&netuid=network-uid
+http://IP:PORT/command/?command=show-boards&netuid={network-uuid}
 ```
 response json:
 ```
 {
 	"message": "Showing boards in a network",
 	"result": [
-		[
-			{
-				"key": 0,
-				"socatMap": 0,
-				"value": "idBoar",
-				"addr": "IP",
-				"device": "device-name",
-				"state": 1
-			}
-		],
-		...
-	]
+		{
+			"BOARD_ID": "boardID",
+			"vlan_NAME": "name-of-the-vlan",
+			"vlan_ID": 15,
+			"vlan_IP": "board_vlanIP",
+			"socat_ID": 1,
+			"socat_IP": "board_socatIP",
+			"socat_PORT": 10000
+		}
+	],
+	...
+	"log": ""
 }
+
 ```
 ###Update Network
 ```
-http://IP:PORT/command/?command=update-network&netuid=uid-network&val=new-IP/new-mask'
+http://IP:PORT/command/?command=update-network&netuid={uuid-network}&val={new-IP/new-mask}
 ```
 response json:
 ```
