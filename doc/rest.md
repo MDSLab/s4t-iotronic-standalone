@@ -112,6 +112,143 @@ response json:
 ```
 
 
+
+
+### Sensor List
+```
+http://IP:PORT/sensorlist
+```
+
+response json:
+```
+{
+	"message":
+	[
+		{
+			"id":1,
+			"type":"temperature",
+			"unit":"°C",
+			"fabric_name":"Thermistor",
+			"model":"TinkerKit"
+		},
+		{
+			"id":2,
+			"type":"brightness",
+			"unit":"lux",
+			"fabric_name":"LDR",
+			"model":"TinkerKit"
+		},
+		{
+			"id":3,
+			"type":"humidity",
+			"unit":"%",
+			"fabric_name":"HIH-4030",
+			"model":"Honeywell"
+		},
+		{
+			"id":4,
+			"type":"sound_detect",
+			"unit":"db",
+			"fabric_name":"HY-038",
+			"model":"Keyes"
+		},
+		{
+			"id":5,
+			"type":"gas",
+			"unit":"ppm",
+			"fabric_name":"MQ9",
+			"model":"Grove"
+		},
+		{
+			"id":6,
+			"type":"barometer",
+			"unit":"hPa",
+			"fabric_name":"mpl3115",
+			"model":"TinkerKit"
+		}
+	],
+	"result":"SUCCESS"
+}
+```
+
+### Board Layout
+```
+http://IP:PORT/command/?command=board-layout&board={boardID}
+```
+
+response json:
+```
+{
+	"message":{
+		"sensors":
+		[
+			{
+				"type":"temperature",
+				"model":"TinkerKit",
+				"id":1
+			},
+			{
+				"type":"brightness",
+				"model":"TinkerKit",
+				"id":2
+			}
+			...
+		],
+		"plugins":
+		[
+			{
+				"name":"prova",
+				"id":10,
+				"state":"injected"
+			}
+			...
+		]
+	},
+	"result":"SUCCESS"
+}
+```
+
+
+### Board Info
+```
+http://IP:PORT/command/?command=board-info&board={boardID}
+```
+
+response json:
+```
+{
+	"message":
+	{
+		"info":
+		[
+			{
+				"altitude":altitude,
+				"longitude":longitude,
+				"latitude":latitude,
+				"net_enabled":1
+			}
+		],
+		"sensors":
+		[
+			{
+				"type":"temperature",
+				"model":"TinkerKit",
+				"id":1
+			},
+			{
+				"type":"brightness",
+				"model":"TinkerKit",
+				"id":2
+			}
+		]
+	},
+	"result":"SUCCESS"
+}
+```
+
+
+
+
 ### Create Plugin
 ```
 http://IP:PORT/command/?command=createplugin&pluginname={plugin_name}&pluginjsonschema={plugin_json}&plugincode={plugin_code}
