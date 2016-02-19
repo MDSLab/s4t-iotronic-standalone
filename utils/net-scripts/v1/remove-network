@@ -1,0 +1,11 @@
+#! /bin/bash
+if [ "$#" -ne 1 ]; then
+    echo "remove-network BRIDGENAME"
+    return 1
+fi
+
+#NETBRIDGE="brnetwork"
+NETBRIDGE=$1
+
+set -o verbose
+brctl delbr $NETBRIDGE

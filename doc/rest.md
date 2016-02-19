@@ -7,106 +7,251 @@ http:/IP:PORT/list/
 response json
 ```
 {
-"list": ["board1", "board2"...]
-}
-```
-
-###List of the boards on the Map 
-```
-http:/IP:PORT/map/
-```
-response json
-```
-{
-	"boards":{
-		"<BOARD-ID-1>":{
-			"coordinates":{
-				"altitude":"<VALUE>",
-				"latitude":"<VALUE>",
-				"longitude":"<VALUE>"
-			},								
-			"resources":{
-				"metrics":[ {"Temperature":"<VALUE>", ...}, {"Brightness":"<VALUE>", ...}, ...]
-			}
+	"list":
+	[
+		{
+			"board_code":"boardID",
+			"session_id":"null",
+			"status":"Disconnected/Connected",
+			"altitude":"alt",
+			"longitude":"long",
+			"latitude":"lat"
 		},
-		"<BOARD-ID-2":{
-			"coordinates":{
-				"altitude":"<VALUE>",
-				"latitude":"<VALUE>",
-				"longitude":"<VALUE>"
-			},								
-			"resources":{
-				"metrics":[ {"Temperature":"<VALUE>", ...}, {"Brightness":"<VALUE>", ...}, ...]
-			}
-		}
-	}
+		...
+	]
 }
+
 ```
 
 ###Export Local Services
 ```
-http://IP:PORT/command/?board=id_board&command={service_name}&op={start|stop}
+http://IP:PORT/command/?board={boardID}&command={service_name}&op={start|stop}
 ```
 
 response json:
 ```
 {
-"ip":"212.189.207.212",
-"port":6667,
-"service":"ServiceName",
-"status":"start|stop"
+	"ip":"IP",
+	"port":"TUNNELED_PORT",
+	"service":"ServiceName",
+	"status":"start|stop"
 }
 ```
 
 ###Set PIN mode
 ```
-http://IP:PORT/command/?board=id_board&command=mode&pin=pinName&mode=input|output|pwm
+http://IP:PORT/command/?board={boardID}&command=mode&pin={pinName}&mode={input|output|pwm}
 ```
 response json:
 ```
 {
-“mesage”: “Set Mode”,
-“result”: “0| ERROR DESCRIPTION”
+	"mesage": "Set Mode",
+	"result": "0| ERROR DESCRIPTION"
 }
 ```
 ### Digital or PWM Write
 ```
-http://IP:PORT/command/?board=id_board&command=analog|digital&pin=pinNmae&val=0,1 | 0,1...1024
+http://IP:PORT/command/?board={boardID}&command={analog|digital}&pin={pinName}&val={0,1 | 0,1...1024}
 ```
 *in this REST call analog is used per PWM PIN*
 
 response json:
 ```
 {
-"message": ”Digital Write | Analog Write”,
-“result”: "0 | ERROR DESCRIPTION"
+	"message": "Digital Write | Analog Write",
+	"result": "0 | ERROR DESCRIPTION"
 }
 ```
 
 ### Digital or Analog read
 ```
-http://IP:PORT/command/?board=id_board&command=analog|digital&pin=pinName
+http://IP:PORT/command/?board={boardID}&command={analog|digital}&pin={pinName}
 ```
 response json:
 ```
 {
-“message” : “Digital Read | Analog Read”,
-“result”: "value of the PIN | ERROR DESCRIPTION"
+	"message" : "Digital Read | Analog Read",
+	"result": "value of the PIN | ERROR DESCRIPTION"
 }
 ```
 
-### SSH start/stop
+### Register board
 ```
-http://IP:PORT/command/?board=id_board&command=ssh&op=start|stop
+http://IP:PORT/command/?command=reg-board&board={boardID}&latitude={latitude}&longitude={longitude}&altitude={altitude}&net_enabled={net_enabled_flag}&sensorlist={sensors_list}
 ```
+
 response json:
 ```
-{"ip":IP,"port":TUNNELED_PORT,"service":"ssh","status":"start|stop"}
+{
+	"result": "Registration successfully completed!"
+}
 ```
+
+### Update board
+```
+http://IP:PORT/command/?command=update-board&board={boardID}&latitude={latitude}&longitude={longitude}&altitude={altitude}&net_enabled={net_enabled_flag}&sensorlist={sensors_list}
+```
+
+response json:
+```
+{
+	"result": "Updating board successfully completed!"
+}
+```
+
+### Unregister board
+```
+http://IP:PORT/command/?command=update-board&board={boardID}&latitude={latitude}&longitude={longitude}&altitude={altitude}&net_enabled={net_enabled_flag}&sensorlist={sensors_list}
+```
+
+response json:
+```
+{
+	"result": "Unegistration board successfully completed!"
+}
+```
+
+
+
+
+### Sensor List
+```
+http://IP:PORT/sensorlist
+```
+
+response json:
+```
+{
+	"message":
+	[
+		{
+			"id":1,
+			"type":"temperature",
+			"unit":"°C",
+			"fabric_name":"Thermistor",
+			"model":"TinkerKit"
+		},
+		{
+			"id":2,
+			"type":"brightness",
+			"unit":"lux",
+			"fabric_name":"LDR",
+			"model":"TinkerKit"
+		},
+		{
+			"id":3,
+			"type":"humidity",
+			"unit":"%",
+			"fabric_name":"HIH-4030",
+			"model":"Honeywell"
+		},
+		{
+			"id":4,
+			"type":"sound_detect",
+			"unit":"db",
+			"fabric_name":"HY-038",
+			"model":"Keyes"
+		},
+		{
+			"id":5,
+			"type":"gas",
+			"unit":"ppm",
+			"fabric_name":"MQ9",
+			"model":"Grove"
+		},
+		{
+			"id":6,
+			"type":"barometer",
+			"unit":"hPa",
+			"fabric_name":"mpl3115",
+			"model":"TinkerKit"
+		}
+	],
+	"result":"SUCCESS"
+}
+```
+
+### Board Layout
+```
+http://IP:PORT/command/?command=board-layout&board={boardID}
+```
+
+response json:
+```
+{
+	"message":{
+		"sensors":
+		[
+			{
+				"type":"temperature",
+				"model":"TinkerKit",
+				"id":1
+			},
+			{
+				"type":"brightness",
+				"model":"TinkerKit",
+				"id":2
+			}
+			...
+		],
+		"plugins":
+		[
+			{
+				"name":"prova",
+				"id":10,
+				"state":"injected"
+			}
+			...
+		]
+	},
+	"result":"SUCCESS"
+}
+```
+
+
+### Board Info
+```
+http://IP:PORT/command/?command=board-info&board={boardID}
+```
+
+response json:
+```
+{
+	"message":
+	{
+		"info":
+		[
+			{
+				"altitude":altitude,
+				"longitude":longitude,
+				"latitude":latitude,
+				"net_enabled":1
+			}
+		],
+		"sensors":
+		[
+			{
+				"type":"temperature",
+				"model":"TinkerKit",
+				"id":1
+			},
+			{
+				"type":"brightness",
+				"model":"TinkerKit",
+				"id":2
+			}
+		]
+	},
+	"result":"SUCCESS"
+}
+```
+
+
+
 
 ### Create Plugin
 ```
-http://IP:PORT/command/?command=createplugin&pluginname=plugin_name&pluginjsonschema=plugin_json&plugincode=plugin_code
+http://IP:PORT/command/?command=createplugin&pluginname={plugin_name}&pluginjsonschema={plugin_json}&plugincode={plugin_code}
 ```
 response json:
 ```
@@ -127,7 +272,7 @@ response json:
 
 ### Inject Plugin
 ```
-http://IP:PORT/command/?command=injectplugin&board=id_board&pluginname=$plugin_name&autostart={True|False}
+http://IP:PORT/command/?command=injectplugin&board={boardID}&pluginname={plugin_name}&autostart={True|False}
 ```
 response json:
 ```
@@ -139,7 +284,7 @@ response json:
 
 ###Run Plugin (async)
 ```
-http://IP:PORT/command/?command=plugin&pluginname=plugin_name&pluginjson=plugin_json&pluginoperation=run&board=id_board
+http://IP:PORT/command/?command=plugin&pluginname={plugin_name}&pluginjson={plugin_json}&pluginoperation=run&board={boardID}
 ```
 response json:
 ```
@@ -149,9 +294,9 @@ response json:
 }
 ```
 
-###Kill Plugin
+###Kill Plugin (async)
 ```
-http://IP:PORT/command/?command=plugin&pluginname=plugin_name&pluginoperation=kill&board=id_board
+http://IP:PORT/command/?command=plugin&pluginname={plugin_name}&pluginoperation=kill&board={boardID}
 ```
 response json:
 ```
@@ -164,7 +309,7 @@ response json:
 
 ###Call Plugin (sync)
 ```
-http://IP:PORT/command/?command=plugin&pluginname=plugin_name&pluginjson=plugin_json&pluginoperation=call&board=id_board
+http://IP:PORT/command/?command=plugin&pluginname={plugin_name}&pluginjson={plugin_json}&pluginoperation=call&board={boardID}
 ```
 response json:
 ```
@@ -172,81 +317,6 @@ response json:
 	"message": "Call Plugin",
 	"result": "< CALL RESPONSE USER DEFINED >" | "Plugin category not supported!"
 	
-}
-```
-
-
-
-### Create New Network
-```
-http://IP:PORT/command/?command=create-network&netname={name-of-the-network}&val={Net-IP/Net-Mask}
-```
-response json:
-```
-{
-	"message": "Network created",
-	"result": {
-		"key": "KeyNumber",
-		"uuid": "UUID-assigned",
-		"name": "name-of-the-network",
-		"netaddr": "Net-IP",
-		"netmask": "Net-Mask",
-		"netbc": "Broadcast-IP",
-		"netsize": "Net-Size",
-		"nethosts": "Array of the hosts in the network"
-	}
-}
-```
-### Add to Network
-```
-http://IP:PORT/command/?command=add-to-network&netuid={uuid-of-the-network}&board={boardID}&[val={IP}]
-```
-response json:
-```
-{
-	"message": "Adding boards to a network",
-	"result": []
-}
-```
-
-### Remove from a Network
-```
-http://IP:PORT/command/?command=remove-from-network&netuid=296ff200-1a07-4024-a040-5ce2fb5b6568&board=one1
-```
-response json:
-```
-{
-	"message": "Removing boards from a network",
-	"result": [
-		{
-			"key": key-number,
-			"socatMap": key-socat,
-			"value": "board-id",
-			"addr": "IP",
-			"device": "Device-id",
-			"state": 1
-		}
-	]
-}
-```
-
-### Destroy Network
-```
-http://IP:PORT/command/?command=destroy-network&netuid=uid-of-the-network
-```
-response json:
-```
-{
-	"message": "Destroying network",
-	"result": [
-		{
-			"uuid": "network-uid",
-			"name": "network-naem",
-			"address": "IP",
-			"size": 254,
-			"hosts": []
-		}
-	]
 }
 ```
 
@@ -260,7 +330,7 @@ response json:
 	"message": "list of networks",
 	"result": [
 		{
-			"uuid": "network-uid",
+			"uuid": "network-uuid",
 			"name": "network-name",
 			"address": "IP",
 			"size": size,
@@ -271,42 +341,113 @@ response json:
 }
 ```
 
+### Create New Network
+```
+http://IP:PORT/command/?command=create-network&netname={name-of-the-network}&val={Net-IP/Net-Mask}
+```
+response json:
+```
+{
+	"message": "Network created",
+	"result":"NETWORK SUCCESSFULLY CREATED!",
+	"log":{
+		"vlanid": "vlanid",
+		"uuid":"UUID-assigned",
+		"name":"name-of-the-network",
+		"netaddr":"Net-IP",
+		"netmask":"Net-Mask"
+	}
+}
+
+### Destroy Network
+```
+http://IP:PORT/command/?command=destroy-network&netuid={uuid-of-the-network}
+```
+response json:
+```
+{
+	"message":"Destroying network",
+	"result": "NETWORK network-uuid DESTROYED!"
+}
+```
+
+```
+### Add Board to Network
+```
+http://IP:PORT/command/?command=add-to-network&netuid={uuid-of-the-network}&boad={boardID}&[val={IP}]
+```
+response json:
+```
+{
+	"message":[{"ip":"board_IP"}],
+	"result":"VLAN CONNECTION ON boardID SUCCESSFULLY ESTABLISHED!",
+	"log":{
+		"board":"boardID",
+		"socatID":1,
+		"socatPort":10000,
+		"greIP":"IP",
+		"greMask":"24",
+		"vlanID":"vlanid",
+		"vlan_name":"name-of-the-vlan",
+		"net_uuid":"UUID-assigned"
+	}
+}
+
+```
+
+### Remove Board from a Network
+```
+http://IP:PORT/command/?command=remove-from-network&netuid={name-of-the-vlan}&board={board-id}
+```
+response json:
+```
+{
+	"message": [
+		{
+			"found": 1
+		}
+	],
+	"result": "BOARD board-id REMOVED FROM VLAN name-of-the-vlan",
+	"log": {
+		"message": {
+			"fieldCount": 0,
+			"affectedRows": 1,
+			"insertId": 0,
+			"serverStatus": 34,
+			"warningCount": 0,
+			"message": "",
+			"protocol41": true,
+			"changedRows": 0
+		},
+		"result": "SUCCESS"
+	}
+}
+
+
+```
+
+
 ###Show Boards
 ```
-http://IP:PORT/command/?command=show-boards&netuid=network-uid
+http://IP:PORT/command/?command=show-boards&netuid={network-uuid}
 ```
 response json:
 ```
 {
 	"message": "Showing boards in a network",
 	"result": [
-		[
-			{
-				"key": 0,
-				"socatMap": 0,
-				"value": "idBoar",
-				"addr": "IP",
-				"device": "device-name",
-				"state": 1
-			}
-		],
-		...
-	]
+		{
+			"BOARD_ID": "boardID",
+			"vlan_NAME": "name-of-the-vlan",
+			"vlan_ID": 15,
+			"vlan_IP": "board_vlanIP",
+			"socat_ID": 1,
+			"socat_IP": "board_socatIP",
+			"socat_PORT": 10000
+		}
+	],
+	...
+	"log": ""
 }
-```
-###Update Network
-```
-http://IP:PORT/command/?command=update-network&netuid=uid-network&val=new-IP/new-mask'
-```
-response json:
-```
-{
-	"message": "Updating network",
-	"result": {
-		"netuid": "network-uid",
-		"netname": "network-name",
-		"netaddr": "network-IP",
-		"netmask": netmask
-	}
-}
+
 ```
