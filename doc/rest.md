@@ -77,7 +77,7 @@ response json:
 
 ### Register board
 ```
-http://IP:PORT/command/?command=reg-board&board={boardID}&latitude={latitude}&longitude={longitude}&altitude={altitude}&net_enabled={net_enabled_flag}&sensorlist={sensors_list}
+http://IP:PORT/command/?command=reg-board&board={boardID}&board_label={label}&latitude={latitude}&longitude={longitude}&altitude={altitude}&net_enabled={net_enabled_flag}&sensorlist={sensors_list}
 ```
 
 response json:
@@ -89,7 +89,7 @@ response json:
 
 ### Update board
 ```
-http://IP:PORT/command/?command=update-board&board={boardID}&latitude={latitude}&longitude={longitude}&altitude={altitude}&net_enabled={net_enabled_flag}&sensorlist={sensors_list}
+http://IP:PORT/command/?command=update-board&board={boardID}&board_label={label}&latitude={latitude}&longitude={longitude}&altitude={altitude}&net_enabled={net_enabled_flag}&sensorlist={sensors_list}
 ```
 
 response json:
@@ -171,6 +171,29 @@ response json:
 }
 ```
 
+### Cloud Plugins
+```
+http://IP:PORT/pluginlist
+```
+
+response json:
+```
+{
+	"message":
+		[
+			{
+				"id":<NUM>,
+				"name":"<PLUGINNAME>",
+				"category":"async | sync",
+				"jsonschema":"./schemas/<PLUGINSCHEMA>.json",
+				"code":"./plugins/<PLUGINNAME>.js"
+			},
+			{ ... },
+		],
+	"result":"SUCCESS"
+}
+```
+
 ### Board Layout
 ```
 http://IP:PORT/command/?command=board-layout&board={boardID}
@@ -222,6 +245,7 @@ response json:
 		"info":
 		[
 			{
+				"label": label,
 				"altitude":altitude,
 				"longitude":longitude,
 				"latitude":latitude,
@@ -267,6 +291,19 @@ response json:
 		"protocol41": true,
 		"changedRows": 0
 	}
+}
+```
+
+### Destroy Plugin
+```
+http://IP:PORT/command/?command=destroyplugin&pluginname={plugin_name}
+```
+
+response json:
+```
+{
+	"message":"Destroy Plugin",
+	"result":"Plugin <PLUGINNAME> successfully destroyed!"
 }
 ```
 
