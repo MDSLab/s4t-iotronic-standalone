@@ -7,13 +7,13 @@
                         "db":{
                                 "host":"localhost",
                                 "user":"root",
-                                "password":"",
+                                "password":"smartME#",
                                 "db_name":"s4t-myarduino"
                         }
                 },
                 "wamp":
                 {
-                        "url": "",
+                        "url": "ws://212.189.207.205",
                         "port": "8181",
                         "realm": "s4t",
                         "topic_command":"board.command",
