@@ -91,7 +91,7 @@ if __name__ == "__main__":
 
     #STEP 1 - creazione dataset
     #curl http://smartme-data.unime.it/api/rest/dataset -d '{"name":"00000000", "title":"00000000"}' -H "Authorization:22c5cfa7-9dea-4dd9-9f9d-eedf296852ae"  
-    dictionary= {"name":board_uuid, "title":board_uuid,"extras":{"Label":Label,"Manufacturer":Manufacturer, "Model":Model,"Altitude":Altitude,"Latitude":Latitude,"Longitude":Longitude}}
+    dictionary= {"name":board_uuid, "title":board_uuid, "owner_org":"smartme", "extras":{"Label":Label,"Manufacturer":Manufacturer, "Model":Model,"Altitude":Altitude,"Latitude":Latitude,"Longitude":Longitude}}
     url="http://smartme-data.unime.it/api/rest/dataset"
     result = rest_call_post(url, dictionary)
     #print "\nSTEP 1: \n" + str(result)
@@ -117,7 +117,7 @@ if __name__ == "__main__":
 
     #STEP 2 creazione datastore sensors
     #curl -H 'Authorization: 22c5cfa7-9dea-4dd9-9f9d-eedf296852ae' 'http://smartme-data.unime.it/api/3/action/datastore_create' -d '{"resource": {"package_id":"00000000", "name":"sensors"}, "fields": [ {"id": "Type", "type":"text"}, {"id": "Model", "type":"text"}, {"id": "Unit", "type":"text"}, {"id": "FabricName", "type":"text"}, {"id": "ResourceID", "type":"text"}, {"id": "Date", "type":"timestamp"}] }'
-    dictionary= {"resource": {"package_id":board_uuid, "name":"sensors"}, "fields": [ {"id": "Type", "type":"text"}, {"id": "Model", "type":"text"}, {"id": "Unit", "type":"text"}, {"id": "FabricName", "type":"text"}, {"id": "ResourceID", "type":"text"}, {"id": "Date", "type":"timestamp"}] }
+    dictionary= {"resource": {"package_id":board_uuid, "name":"sensors"}, "primary_key":["Type", "Model"], "fields": [ {"id": "Type", "type":"text"}, {"id": "Model", "type":"text"}, {"id": "Unit", "type":"text"}, {"id": "FabricName", "type":"text"}, {"id": "ResourceID", "type":"text"}, {"id": "Date", "type":"timestamp"}] }
     result = rest_call_post(url_datastore_create, dictionary)
     #print "\nSTEP 3:\n" + str(result)
     sensors_result = result["result"]
