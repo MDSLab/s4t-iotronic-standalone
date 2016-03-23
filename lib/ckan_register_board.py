@@ -190,6 +190,6 @@ if __name__ == "__main__":
 	datastore_result = m_result["result"]
 	datastore_id= datastore_result.get("resource_id")
 	print "Noise datastore UUID: " + str(datastore_id)
-	dictionary = {"resource_id":sensors_id, "method":"insert", "records":[{"Type":"sound_detect","Model":"HY-038","Unit":"dB","FabricName":"Keyes","ResourceID":datastore_id,"Date":timestamp}]}
+	dictionary = {"resource_id":sensors_id, "method":"insert", "records":[{"Type":"sound_detect","Model":"HY-038","Unit":"amplitude","FabricName":"Keyes","ResourceID":datastore_id,"Date":timestamp}]}
 	rest_call_post(url_upsert, dictionary)    
     
