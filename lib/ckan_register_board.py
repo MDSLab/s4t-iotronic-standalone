@@ -85,13 +85,15 @@ if __name__ == "__main__":
     print 'Model:', Model
 
 
+    organization = "mdslab" 
+    print 'Organization:', organization
     
     
     timestamp = datetime.now().strftime('%Y-%m-%dT%H:%M:%S.%f')
 
     #STEP 1 - creazione dataset
     #curl http://smartme-data.unime.it/api/rest/dataset -d '{"name":"00000000", "title":"00000000"}' -H "Authorization:22c5cfa7-9dea-4dd9-9f9d-eedf296852ae"  
-    dictionary= {"name":board_uuid, "title":board_uuid, "owner_org":"smartme", "extras":{"Label":Label,"Manufacturer":Manufacturer, "Model":Model,"Altitude":Altitude,"Latitude":Latitude,"Longitude":Longitude}}
+    dictionary= {"name":board_uuid, "title":board_uuid, "owner_org":organization, "extras":{"Label":Label,"Manufacturer":Manufacturer, "Model":Model,"Altitude":Altitude,"Latitude":Latitude,"Longitude":Longitude}}
     url="http://smartme-data.unime.it/api/rest/dataset"
     result = rest_call_post(url, dictionary)
     #print "\nSTEP 1: \n" + str(result)
