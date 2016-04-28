@@ -1,0 +1,14 @@
+#! /bin/bash
+
+if [ "$#" -ne 1 ]; then
+    echo "stop-stocat PORT"
+    return 1
+fi
+
+PORT=$1
+
+#PORT="5000"
+
+set -o verbose
+PID=$(ps aux | grep socat | grep $PORT | awk '{print $2}')
+kill -9 $PID

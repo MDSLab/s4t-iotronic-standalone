@@ -1,0 +1,12 @@
+#! /bin/sh
+
+if [ "$#" -ne 2 ]; then
+    echo "add-network VLAN COUNT"
+    exit 1
+fi
+
+VLAN=$1
+COUNT=$(($2*2))
+PORT=`expr $COUNT + 10000`
+IFACE="gre-lr$PORT"
+bridge vlan add dev $IFACE vid $VLAN

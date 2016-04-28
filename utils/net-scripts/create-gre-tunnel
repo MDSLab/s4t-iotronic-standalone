@@ -1,0 +1,36 @@
+#! /bin/bash
+#COUNT
+
+#SERVER
+
+if [ "$#" -ne 1 ]; then
+    echo "start-stocat COUNT"
+    exit 1
+fi
+
+COUNT=$(($1*2))
+PORT=`expr $COUNT + 10000`
+
+LOCALIP="10.0.0.$COUNT"
+
+REMOTEIP="10.0.0.$(($COUNT+1))"
+
+
+echo $REMOTEIP $LOCALIP 
+
+IFACE="gre-lr$PORT"
+ip link add $IFACE type gretap remote $REMOTEIP local $LOCALIP
+ip link set $IFACE up
+
+ip link add name br-gre type bridge
+if [ $? -eq 0 ]; then
+ip link set br-gre up
+fi
+
+ip link show $IFACE
+while [ $? -ne 0 ];
+do
+sleep 3; ip link show $IFACE;
+done
+ip link set $IFACE master br-gre
+bridge vlan add vid $(($1+2050)) dev $IFACE  pvid

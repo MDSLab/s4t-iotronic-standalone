@@ -1,0 +1,31 @@
+{
+        "config":{
+                "server":
+                {
+                        "interface": "eth0",
+                        "port":"8888",
+                        "db":{
+                                "host":"localhost",
+                                "user":"root",
+                                "password":"root",
+                                "db_name":"stack4things"
+                        }
+                },
+                "wamp":
+                {
+                        "url": "ws://localhost",
+                        "port": "8181",
+                        "realm": "stack4things",
+                        "topic_command":"board.command",
+                        "topic_connection": "board.connection"
+                },
+                "socat":
+                {
+                        "ip":"192.168.0.0",
+                        "server":
+                        {
+                                "port":"10000"
+                        }
+                }
+        }
+}

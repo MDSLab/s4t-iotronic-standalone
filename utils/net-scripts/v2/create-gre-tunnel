@@ -1,0 +1,34 @@
+#! /bin/bash
+#COUNT
+
+if [ "$#" -ne 1 ]; then
+    echo "start-stocat COUNT"
+    exit 1
+fi
+
+if [ "$1" -eq 1 ]; then
+    echo "COUNT cannot be 1"
+    exit 1
+fi
+
+COUNT=$1
+LOCALIP="10.0.0.1"
+
+REMOTEIP="10.0.0.$COUNT"
+
+
+IFACE="gre-lr$COUNT"
+ip link add $IFACE type gretap remote $REMOTEIP local $LOCALIP
+ip link set $IFACE up
+
+ip link add name br-gre type bridge
+if [ $? -eq 0 ]; then
+ip link set br-gre up
+fi
+
+ip link show $IFACE
+while [ $? -ne 0 ];
+do
+sleep 3; ip link show $IFACE;
+done
+ip link set $IFACE master br-gre

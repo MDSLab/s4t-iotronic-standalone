@@ -1,0 +1,59 @@
+#! /bin/sh
+
+### BEGIN INIT INFO
+# Provides:          crossbar
+# Required-Start:    $all
+# Required-Stop:     $all
+# Default-Start:     2 3 4 5
+# Default-Stop:      0 1 6
+# Short-Description: starts the crossbar message router
+# Description:       starts crossbar using start-stop-daemon
+### END INIT INFO
+
+#/opt/crossbar/bin/crossbar start --cbdir /etc/crossbar/ &> /var/log/crossbar &
+
+DAEMON=/opt/crossbar/bin/crossbar
+DAEMON_OPTS='--cbdir /etc/crossbar/'
+NAME=crossbar
+DESC=crossbar
+LOGFILE="/var/log/crossbar.log"
+PIDFILE="/var/run/crossbar.pid"
+
+
+test -x $DAEMON || exit 0
+set -e
+
+. /lib/lsb/init-functions
+
+case "$1" in
+  start)
+    echo -n "Starting $DESC ... \n"
+    start-stop-daemon --start --quiet --make-pidfile --pidfile $PIDFILE --exec $DAEMON start -- $DAEMON_OPTS >> ${LOGFILE} 2>&1   || true &
+    ;;
+  stop)
+    echo -n "Stopping $DESC ... \n"
+    $DAEMON stop $DAEMON_OPTS
+    ;;
+  restart|force-reload)
+    echo -n "Restarting $DESC ...\n"
+    $DAEMON stop $DAEMON_OPTS
+    sleep 1
+    start-stop-daemon --start --quiet --make-pidfile --pidfile $PIDFILE --exec $DAEMON start -- $DAEMON_OPTS >> ${LOGFILE} 2>&1 || true &
+    ;;
+  check)
+    echo -n "Checking config.json file specified by: $DAEMON_OPTS ...\n"
+    $DAEMON check $DAEMON_OPTS
+      ;;
+  status)
+      echo -n "$DESC status... \n"
+      $DAEMON status $DAEMON_OPTS
+      ;;
+  *)
+    N=/etc/init.d/$NAME
+    echo "Usage: $N {start|stop|restart|force-reload|check|status}" >&2
+    exit 1
+    ;;
+esac
+
+exit 0
+

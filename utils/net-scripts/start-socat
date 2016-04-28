@@ -1,0 +1,25 @@
+#! /bin/bash
+#COUNT
+
+#SERVER
+
+if [ "$#" -ne 1 ]; then
+    echo "start-stocat COUNT"
+    exit 1
+fi
+
+COUNT=$(($1*2))
+PORT=`expr $COUNT + 10000`
+IPTUN="10.0.0.$COUNT/31"
+
+TUNNAME="soc"$PORT
+echo $TUNNAME on $PORT for $IPTUN
+socat -d -d TCP:localhost:$PORT,reuseaddr,forever,interval=10 TUN,tun-name=$TUNNAME,up &
+
+ip link show $TUNNAME
+while [ $? -ne 0 ];
+do
+sleep 3; ip link show $TUNNAME;
+done
+ip addr add $IPTUN dev $TUNNAME
+ip link set $TUNNAME up
