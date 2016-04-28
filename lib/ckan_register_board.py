@@ -1,13 +1,3 @@
-"""
-				 Apache License
-                           Version 2.0, January 2004
-                        http://www.apache.org/licenses/
-
-Copyright (c) 2016 Nicola Peditto
-
-"""
-
-
 import json
 import httplib2
 import uuid
