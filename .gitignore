@@ -3,3 +3,4 @@
 /node_modules
 .idea
 server_cert.pem
+/lib/settings.json
