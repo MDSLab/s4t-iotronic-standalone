@@ -1,4 +1,5 @@
 {
+   "version": 2,
    "controller": {
    },
    "workers": [
@@ -13,10 +14,12 @@
                      "permissions": [
                         {
                            "uri": "*",
-                           "publish": true,
-                           "subscribe": true,
-                           "call": true,
-                           "register": true
+                           "allow": {
+                                "publish": true,
+                                "subscribe": true,
+                                "call": true,
+                                "register": true
+                            }
                         }
                      ]
                   }

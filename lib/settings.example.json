@@ -2,26 +2,26 @@
         "config":{
                 "server":
                 {
-                        "interface": "eth0",
+                        "interface": "" ,
                         "port":"8888",
                         "db":{
                                 "host":"localhost",
                                 "user":"root",
-                                "password":"root",
-                                "db_name":"stack4things"
+                                "password":"",
+                                "db_name":""
                         }
                 },
                 "wamp":
                 {
                         "url": "ws://localhost",
                         "port": "8181",
-                        "realm": "stack4things",
+                        "realm": "",
                         "topic_command":"board.command",
                         "topic_connection": "board.connection"
                 },
                 "socat":
                 {
-                        "ip":"192.168.0.0",
+                        "ip":"10.0.0.0",
                         "server":
                         {
                                 "port":"10000"

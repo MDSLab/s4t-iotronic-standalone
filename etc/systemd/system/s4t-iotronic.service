@@ -1,0 +1,19 @@
+[Unit]
+Description=Stack4Things IoTronic
+Wants=node-reverse-wstunnel.service
+After=node-reverse-wstunnel.service network.target
+
+[Service]
+Type=simple
+User=root
+Group=root
+StandardInput=null
+StandardOutput=journal
+StandardError=journal
+WorkingDirectory=/opt/stack4things/iotronic-standalone
+Environment="NODE_PATH=/usr/local/lib/node_modules"
+ExecStart=/opt/stack4things/iotronic-standalone/bin/server
+Restart=on-abort
+
+[Install]
+WantedBy=multi-user.target
