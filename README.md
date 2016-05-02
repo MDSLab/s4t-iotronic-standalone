@@ -12,11 +12,15 @@ We tested this procedure on a Kubuntu box version 16.04.
 
 ####Install dependencies via apt-get:
 
-```$ sudo apt-get -y install nodejs nodejs-legacy npm git python-dev libyaml-dev libpython2.7-dev mysql-server nmap apache2 unzip socat bridge-utils python-pip```
+```
+$ sudo apt-get -y install nodejs nodejs-legacy npm git python-dev libyaml-dev libpython2.7-dev mysql-server nmap apache2 unzip socat bridge-utils python-pip
+```
 
 ####Install dependencies using pyp:
 
-```$ pip install httplib2```
+```
+$ pip install httplib2
+```
 
 ####Install dependencies using npm:
 
@@ -63,7 +67,7 @@ $ sudo cp /opt/stack4things/iotronic-standalone/etc/systemd/system/crossbar.serv
 $ sudo chmod +x /etc/systemd/system/crossbar.service
 $ sudo /opt/crossbar/bin/crossbar check --cbdir /etc/crossbar
 $ sudo systemctl daemon-reload
-$ sudo systemctl enable crossabar.service
+$ sudo systemctl enable crossbar.service
 $ sudo systemctl start crossbar
 ```
 
@@ -81,11 +85,11 @@ $ sudo systemctl start node-reverse-wstunnel
 This is an example of a minimal configuration compliant with the above installation instructions, i.e., with the MySQL database and the Crossbar.io router installed locally.
 
 ```
-$ mysql -u root -p <DB_PASSWORD> < /opt/stack4things/s4t-iotronic-standalone/utils/s4t-db.sql
+$ mysql -u root -p<DB_PASSWORD> < /opt/stack4things/iotronic-standalone/utils/s4t-db.sql
 $ sudo cp /opt/stack4things/iotronic-standalone/lib/settings.example.json /opt/stack4things/iotronic-standalone/lib/settings.json
-$ sudo sed -i "s/\"interface\":\"\"/\"interface\":\"<INTERFACE>\"/g" /opt/stack4things/iotronic-standalone/lib/settings.json
-$ sudo sed -i "s/\"password\":\"\"/\"password\":\"<DB_PASSWORD>\"/g" /opt/stack4things/iotronic-standalone/lib/settings.json
-$ sudo sed -i "s/\"db_name\":\"\"/\"db_name\":\"<DB_NAME>\"/g" /opt/stack4things/iotronic-standalone/lib/settings.json
-$ sudo sed -i "s/\"realm\":\"\"/\"realm\":\"<WAMP_REALM>\"/g" /opt/stack4things/iotronic-standalone/lib/settings.json
+$ sudo sed -i "s/\"interface\": \"\"/\"interface\":\"<INTERFACE>\"/g" /opt/stack4things/iotronic-standalone/lib/settings.json
+$ sudo sed -i "s/\"password\": \"\"/\"password\":\"<DB_PASSWORD>\"/g" /opt/stack4things/iotronic-standalone/lib/settings.json
+$ sudo sed -i "s/\"db_name\": \"\"/\"db_name\":\"<DB_NAME>\"/g" /opt/stack4things/iotronic-standalone/lib/settings.json
+$ sudo sed -i "s/\"realm\": \"\"/\"realm\":\"<WAMP_REALM>\"/g" /opt/stack4things/iotronic-standalone/lib/settings.json
 $ sudo systemctl start s4t-iotronic
 ```
