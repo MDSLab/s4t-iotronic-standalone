@@ -89,3 +89,22 @@ $ sudo sed -i "s/\"db_name\":\"\"/\"db_name\":\"<DB_NAME>\"/g" /opt/stack4things
 $ sudo sed -i "s/\"realm\":\"\"/\"realm\":\"<WAMP_REALM>\"/g" /opt/stack4things/iotronic-standalone/lib/settings.json
 $ sudo systemctl start s4t-iotronic
 ```
+
+
+###Docker image
+
+####Build Iotronic image
+
+	git clone https://github.com/MDSLab/s4t-iotronic-standalone.git
+	docker build -t mdslab/s4t-iotronic-standalone:latest .
+
+####Run containers
+
+	docker network create iotronic
+	docker run --name mysql --net iotronic -e MYSQL_ROOT_PASSWORD=root -d mysql:5.7
+	docker run --name iotronic_standalone --net iotronic -p 8181:8181 -p 8080:8080 -p 8888:8888 -d mdslab/s4t-iotronic-standalone:latest
+
+
+Above commands should be sufficient for a simple development setup.
+Database data will be automatically imported if it does not exist.
+
