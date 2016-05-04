@@ -1,7 +1,7 @@
 { 
     "m_authid" : "", 
     "autostart": "true",
-    "timer" : "60000", 
+    "timer" : "600000", 
     "ckan_enabled" : "true",
     "temp_sensor": { "pin" : "A0", "enabled":"true" }, 
     "hum_sensor": { "pin" : "A1", "enabled":"true" }

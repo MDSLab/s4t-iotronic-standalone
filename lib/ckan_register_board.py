@@ -5,13 +5,13 @@ import sys
 
 from datetime import datetime
 
-ckan_token = '22c5cfa7-9dea-4dd9-9f9d-eedf296852ae'
-organization = "TEST" 
-ckan_addr = 'smartme-data.unime.it';
+ckan_token = ''
+organization = "" 
+ckan_addr = ''
 
 url_datastore_create = "http://"+ckan_addr+"/api/3/action/datastore_create"
 url_upsert = "http://"+ckan_addr+"/api/3/action/datastore_upsert"
-url_dataset="http://smartme-data.unime.it/api/rest/dataset"
+url_dataset="http://"+ckan_addr+"/api/rest/dataset"
 
 metrics = ["temperature", "humidity"]
 
@@ -81,7 +81,7 @@ if __name__ == "__main__":
     #STEP 2 creazione datastore sensors
     dictionary= {"resource": {"package_id":board_uuid, "name":"sensors"}, "primary_key":["Type", "Model"], "fields": [ {"id": "Type", "type":"text"}, {"id": "Model", "type":"text"}, {"id": "Unit", "type":"text"}, {"id": "FabricName", "type":"text"}, {"id": "ResourceID", "type":"text"}, {"id": "Date", "type":"timestamp"}] }
     result = rest_call_post(url_datastore_create, dictionary)
-    #print "\nSTEP 3:\n" + str(result)
+    #print "\nSTEP 2:\n" + str(result)
     sensors_result = result["result"]
     sensors_id= sensors_result.get("resource_id")
     #print "Sensors UUID: " + str(sensors_id)
