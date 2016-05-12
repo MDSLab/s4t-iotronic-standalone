@@ -9,7 +9,13 @@
                                 "user":"root",
                                 "password":"root",
                                 "db_name":"stack4things"
-                        }
+                        },
+                        ,
+                        "log": {
+			    "logfile": "/var/log/s4t-lightning-rod.log",
+			    "loglevel": "info"
+			}
+
                 },
                 "wamp":
                 {
@@ -21,7 +27,7 @@
                 },
                 "socat":
                 {
-                        "ip":"192.168.0.0",
+                        "ip":"10.0.0.0",
                         "server":
                         {
                                 "port":"10000"
