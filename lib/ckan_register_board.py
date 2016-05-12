@@ -5,9 +5,13 @@ import sys
 
 from datetime import datetime
 
+ckan_token = ''
+organization = '' 
+ckan_addr = ''
 
-url_datastore_create = "http://smartme-data.unime.it/api/3/action/datastore_create"
-url_upsert = "http://smartme-data.unime.it/api/3/action/datastore_upsert"
+url_datastore_create = "http://"+ckan_addr+"/api/3/action/datastore_create"
+url_upsert = "http://"+ckan_addr+"/api/3/action/datastore_upsert"
+url_dataset="http://"+ckan_addr+"/api/rest/dataset"
 
 metrics = ["temperature", "brightness", "humidity", "pressure", "gas", "noise"]
 
@@ -26,7 +30,7 @@ def rest_call_post(url, dictionary):
     resp, content = http.request(
         uri=url,
         method='POST',
-        headers={'Content-Type': 'application/json; charset=UTF-8', 'Authorization':'22c5cfa7-9dea-4dd9-9f9d-eedf296852ae'},
+        headers={'Content-Type': 'application/json; charset=UTF-8', 'Authorization': ckan_token},
         body=json.dumps(dictionary),
     )
     #print resp
@@ -34,21 +38,6 @@ def rest_call_post(url, dictionary):
     
     return json.loads(content)
   
-
-
-"""
-ckan_host = 'http://smartme-data.unime.it'
-ckan_datastore_search = "http://smartme-data.unime.it/api/3/action/datastore_search"
-id = "14144545"
-url = ckan_host + '/api/rest/dataset/'+id
- 
-print url
-metadata_response = json.loads( rest_call_get(url) )
-#print metadata_response.get("resources")
-
-for resource in metadata_response.get("resources"):
-  print resource.get("name") +" ID: "+ resource.get("id")
-"""
 
 
 
@@ -84,25 +73,22 @@ if __name__ == "__main__":
     Model = "Yun" #str(sys.argv[6]) 
     print 'Model:', Model
 
-
-    organization = "mdslab" 
     print 'Organization:', organization
     
     
     timestamp = datetime.now().strftime('%Y-%m-%dT%H:%M:%S.%f')
 
     #STEP 1 - creazione dataset
-    #curl http://smartme-data.unime.it/api/rest/dataset -d '{"name":"00000000", "title":"00000000"}' -H "Authorization:22c5cfa7-9dea-4dd9-9f9d-eedf296852ae"  
+    #curl http://<CKAN-ADDR>/api/rest/dataset -d '{"name":"00000000", "title":"00000000"}' -H "Authorization:<API-KEY>"  
     dictionary= {"name":board_uuid, "title":board_uuid, "owner_org":organization, "extras":{"Label":Label,"Manufacturer":Manufacturer, "Model":Model,"Altitude":Altitude,"Latitude":Latitude,"Longitude":Longitude}}
-    url="http://smartme-data.unime.it/api/rest/dataset"
-    result = rest_call_post(url, dictionary)
+    result = rest_call_post(url_dataset, dictionary)
     #print "\nSTEP 1: \n" + str(result)
     print "\nSTEP 1 - Dataset created: " + str(result["name"])
 
 
     """
     #STEP 1.1 creazione datastore metadata
-    #curl -H 'Authorization: 22c5cfa7-9dea-4dd9-9f9d-eedf296852ae' 'http://smartme-data.unime.it/api/3/action/datastore_create' -d '{"resource": {"package_id":"00000000", "name":"metadata"}, "fields": [ {"id": "Manufacturer", "type":"text"}, {"id": "Model", "type":"text"}, {"id": "Altitude", "type":"numeric"}, {"id": "Latitude", "type":"numeric"}, {"id": "Longitude", "type":"numeric"}] }'
+    #curl -H 'Authorization: <API-KEY>' 'http://<CKAN-ADDR>/api/3/action/datastore_create' -d '{"resource": {"package_id":"00000000", "name":"metadata"}, "fields": [ {"id": "Manufacturer", "type":"text"}, {"id": "Model", "type":"text"}, {"id": "Altitude", "type":"numeric"}, {"id": "Latitude", "type":"numeric"}, {"id": "Longitude", "type":"numeric"}] }'
     dictionary= {"resource": {"package_id":board_uuid, "name":"metadata"}, "fields": [ {"id": "Label", "type":"text"}, {"id": "Manufacturer", "type":"text"}, {"id": "Model", "type":"text"}, {"id": "Altitude", "type":"numeric"}, {"id": "Latitude", "type":"numeric"}, {"id": "Longitude", "type":"numeric"}] }
     result = rest_call_post(url_datastore_create, dictionary)
     #print "\nSTEP 1.1:\n" + str(result)
@@ -112,13 +98,13 @@ if __name__ == "__main__":
     print "\nSTEP 1.1 - Metadata UUID:\n" + str(matadata_id)
 
     #STEP 1.2 inserimento dati in metadata
-    #curl -H 'Authorization: 22c5cfa7-9dea-4dd9-9f9d-eedf296852ae' 'http://smartme-data.unime.it/api/3/action/datastore_upsert' -d '{"resource_id":"5730a2fd-f832-42f6-9795-ecee3f7b8ee1", "method":"insert", "records":[{"Manufacturer":"Arduino","Model":"Yun","Altitude":19,"Latitude":38.19642,"Longitude":15.56287 }]}'
+    #curl -H 'Authorization: <API-KEY>' 'http://<CKAN-ADDR>/api/3/action/datastore_upsert' -d '{"resource_id":"5730a2fd-f832-42f6-9795-ecee3f7b8ee1", "method":"insert", "records":[{"Manufacturer":"Arduino","Model":"Yun","Altitude":19,"Latitude":38.19642,"Longitude":15.56287 }]}'
     dictionary = {"resource_id":matadata_id, "method":"insert", "records":[{"Label":"@ing","Manufacturer":"Arduino","Model":"Yun","Altitude":19,"Latitude":38.19642,"Longitude":15.56287 }]}
     rest_call_post(url_upsert, dictionary)
     """
 
     #STEP 2 creazione datastore sensors
-    #curl -H 'Authorization: 22c5cfa7-9dea-4dd9-9f9d-eedf296852ae' 'http://smartme-data.unime.it/api/3/action/datastore_create' -d '{"resource": {"package_id":"00000000", "name":"sensors"}, "fields": [ {"id": "Type", "type":"text"}, {"id": "Model", "type":"text"}, {"id": "Unit", "type":"text"}, {"id": "FabricName", "type":"text"}, {"id": "ResourceID", "type":"text"}, {"id": "Date", "type":"timestamp"}] }'
+    #curl -H 'Authorization: <API-KEY>' 'http://<CKAN-ADDR>/api/3/action/datastore_create' -d '{"resource": {"package_id":"00000000", "name":"sensors"}, "fields": [ {"id": "Type", "type":"text"}, {"id": "Model", "type":"text"}, {"id": "Unit", "type":"text"}, {"id": "FabricName", "type":"text"}, {"id": "ResourceID", "type":"text"}, {"id": "Date", "type":"timestamp"}] }'
     dictionary= {"resource": {"package_id":board_uuid, "name":"sensors"}, "primary_key":["Type", "Model"], "fields": [ {"id": "Type", "type":"text"}, {"id": "Model", "type":"text"}, {"id": "Unit", "type":"text"}, {"id": "FabricName", "type":"text"}, {"id": "ResourceID", "type":"text"}, {"id": "Date", "type":"timestamp"}] }
     result = rest_call_post(url_datastore_create, dictionary)
     #print "\nSTEP 3:\n" + str(result)
@@ -129,7 +115,7 @@ if __name__ == "__main__":
 
 
     #STEP 4 creazione datastore delle metriche
-    #curl -H 'Authorization: 22c5cfa7-9dea-4dd9-9f9d-eedf296852ae' 'http://smartme-data.unime.it/api/3/action/datastore_create' -d '{"resource": {"package_id":"00000000", "name":"temperature"}, "fields": [ {"id": "Date", "type":"timestamp"}, {"id": "Temperature", "type":"numeric"}, {"id": "Altitude", "type":"numeric"}, {"id": "Latitude", "type":"numeric"}, {"id": "Longitude", "type":"numeric"}] }'
+    #curl -H 'Authorization: <API-KEY>' 'http://<CKAN-ADDR>/api/3/action/datastore_create' -d '{"resource": {"package_id":"00000000", "name":"temperature"}, "fields": [ {"id": "Date", "type":"timestamp"}, {"id": "Temperature", "type":"numeric"}, {"id": "Altitude", "type":"numeric"}, {"id": "Latitude", "type":"numeric"}, {"id": "Longitude", "type":"numeric"}] }'
     print "\nSTEP 3 - Metrics datastores creation...\n"
     for metric in metrics:
       
