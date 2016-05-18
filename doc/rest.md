@@ -488,3 +488,125 @@ response json:
 }
 
 ```
+
+
+### Create driver
+```
+http://IP:PORT/command/?command=createdriver&drivername={driver_name}&driverjson={driver_json}&drivercode={driver_code}
+```
+Success response json:
+```
+{	
+	"message":"Create Driver",
+	"result":"Driver <driver_name> injected into Iotronic successfully"
+}
+```
+
+### Inject driver
+```
+http://IP:PORT/command/?command=injectdriver&board={board-id}&drivername={driver_name}
+```
+Success response json:
+```
+{	
+	"message":"Inject driver",
+	"result":"Driver <driver_name> successfully injected!"
+}
+```
+
+### Mount driver
+```
+http://IP:PORT/command/?command=driver&drivername={driver_name}&driveroperation=mount&board={board-id}
+
+```
+Success response json:
+```
+{	
+	"message":Driver '<driver_name>' successfully mounted!",
+	"result":"SUCCESS"
+
+}
+```
+
+
+### Unmount driver
+```
+http://IP:PORT/command/?command=driver&drivername={driver_name}&driveroperation=unmount&board={board-id}
+```
+Success response json:
+```
+{	
+	"message":Driver '<driver_name>' successfully unmounted!",
+	"result":"SUCCESS"
+
+}
+```
+
+### Read remote driver file
+```
+http://IP:PORT/command/?command=readdriverfile&board={board-id}&drivername={driver_name}&filename={driver_file}
+```
+Success response json:
+```
+{	
+	"message":"Read remote file",
+	"result":{
+		"driver":"<driver_name>",
+		"file":"<driver_file>",
+		"value":"<file_content>"
+	}
+}
+```
+
+### Write remote driver file
+```
+http://IP:PORT/command/?command=writedriverfile&board={board-id}&drivername={driver_name}&filename={driver_file}&filecontent={file_content}
+```
+Success response json:
+```
+{	
+	"message":"Write remote file",
+	"result":{
+		"driver":"<driver_name>",
+		"file":"<driver_file>",
+		"response":"writing completed"
+	}
+
+}
+```
+
+
+
+### Remove driver from board
+```
+http://IP:PORT/command/?command=remove-driver-board&board={board-id}&drivername={driver_name}
+```
+Success response json:
+```
+{	
+	"message":"Remove driver",
+	"result":"Driver <driver_name> successfully removed!"
+
+}
+```
+
+
+### Remove driver from Iotronic
+```
+http://IP:PORT/command/?command=destroydriver&drivername={driver_name}
+```
+Success response json:
+```
+{	
+	"message":"Destroy driver",
+	"result":"Driver <driver_name> successfully deleted from Iotronic!"
+}
+```
+
+### MIRRORED: Mount driver
+```
+http://IP:PORT/command/?command=driver&drivername={driver_name}&driveroperation=mount&board={board-id}&remote_driver=true&mirror_board={mirrored-board-id}
+```
+
+
+
