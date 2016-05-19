@@ -2,20 +2,26 @@
         "config":{
                 "server":
                 {
-                        "interface": "" ,
+                        "interface": "eth0",
                         "port":"8888",
                         "db":{
                                 "host":"localhost",
                                 "user":"root",
-                                "password": "",
-                                "db_name": ""
-                        }
+                                "password":"root",
+                                "db_name":"stack4things"
+                        },
+                        ,
+                        "log": {
+			    "logfile": "/var/log/s4t-lightning-rod.log",
+			    "loglevel": "info"
+			}
+
                 },
                 "wamp":
                 {
                         "url": "ws://localhost",
                         "port": "8181",
-                        "realm": "",
+                        "realm": "stack4things",
                         "topic_command":"board.command",
                         "topic_connection": "board.connection"
                 },
