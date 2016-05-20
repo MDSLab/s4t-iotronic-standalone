@@ -490,6 +490,51 @@ response json:
 ```
 
 
+### Iotronic drivers list
+```
+http://IP:PORT/driverlist/
+```
+
+Success response json:
+```
+{
+	"message":
+		[
+			{
+				"id":<NUM>,
+				"name":"<DRIVERNAME>",
+				"jsonschema":"./schemas/<PLUGINSCHEMA>.json",
+				"code":"./plugins/<PLUGINNAME>.js"
+			},
+			{ ... },
+		],
+	"result":"SUCCESS"
+}
+```
+
+### List of drivers injected in a board
+```
+http://IP:PORT/driverlist/?board={board-id}
+```
+
+Success response json:
+```
+{
+	"message":
+		[
+			{
+				"id":<NUM>,
+				"name":"<DRIVERNAME>",
+				"jsonschema":"./schemas/<PLUGINSCHEMA>.json",
+				"code":"./plugins/<PLUGINNAME>.js"
+			},
+			{ ... },
+		],
+	"result":"SUCCESS"
+}
+```
+
+
 ### Create driver
 ```
 http://IP:PORT/command/?command=createdriver&drivername={driver_name}&driverjson={driver_json}&drivercode={driver_code}
