@@ -1,6 +1,6 @@
 var fs = require('fs');
 
-
+/* ONLY FOR Arduino YUN */
 var ADCres = 1023.0 ;
 var Beta = 3950;
 var Kelvin = 273.15;

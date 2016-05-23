@@ -1,76 +1,95 @@
-[![Stories in Ready](https://badge.waffle.io/MDSLab/s4t-iotronic-standalone.png?label=ready&title=Ready)](https://waffle.io/MDSLab/s4t-iotronic-standalone)
-# s4t-node-cloud
-**s4t-node-cloud** is the implementation, totally in nodejs, of a personal cloud to remote manage embedded devices **Arduino YUN/Linino One** and **Raspberry Pi**.
+#Stack4Things IoTronic (standalone version)
 
-**s4t-node-cloud** uses for the communication with the embedded devices a protocol called [**WAMP**](http://wamp.ws/)  *Web Application Protocol*, this protocol uses an element called **WAMP Router** to provides an *"Unified Application Routing"* for the applications:
+Stack4Things is an Internet of Things framework developed by the Mobile and Distributed Systems Lab (MDSLab) at the University of Messina, Italy. Stack4Things is an open source project that helps you in managing IoT device fleets without caring about their physical location, their network configuration, their underlying technology. It is a Cloud-oriented horizontal solution providing IoT object virtualization, customization, and orchestration. Stack4Things provides you with an out-of-the-box experience on several of the most popular embedded and mobile systems.
 
-  * Routing of events (for Publish/Subscribe communication pattern );
-   
-  * Routing of calls (for Remote Procedure Call communication pattern);
+IoTronic is the Cloud-side component in the Stack4Things architecture. In this repository you find the standalone version of the IoTronic. It works with the version of the Lightining-rod probe that you can find [here] (https://github.com/MDSLab/s4t-lightning-rod).
 
-Using the **s4t-node-cloud** the embedded devices connected to it, through a [**Reverse Websocket Tunnel Protocol**](https://www.npmjs.com/package/node-reverse-wstunnel) are able to expose their local services, but not only, it is possible to realize a direct connection to the devices and its services behind a strict firewalls or without a public IP. It is obviously necessary to use a public host with a specific IP; on this host there will be installed the s4t-node-cloud and all of the necessary software  components.
+##Installation instructions
 
-**s4t-node-cloud** has a rich REST interface to communicate with all the devices connected to it, you can use the documentation the [**REST API Specification**](https://github.com/MDSLab/s4t-node-cloud/blob/develop/doc/rest.md) to properly use this REST interface.
+###Ubuntu with systemV
 
-##Installation
+We tested this procedure on a Kubuntu box version 16.04.
 
-**s4t-node-cloud** needs two additionals software components:
-
-	* A WAMP router;
-	
-	* A Reverse Websocket Tunnel Server;
-
-###WAM Router Installation
-**s4t-node-cloud** has been tested with the Crossbar.io, a python implementation of the WAMP Router. To install and configure Crossbar.io it is possible following the instructions to the official web page:
-http://crossbar.io/, generally if there is installed python and python package manager *pip* it is possible to install crossbar using the follow command:
+####Install dependencies via apt-get:
 
 ```
-pip install crossbar
+$ sudo apt-get -y install nodejs nodejs-legacy npm git python-dev libyaml-dev libpython2.7-dev mysql-server nmap apache2 unzip socat bridge-utils python-pip
 ```
 
-to start Crossbar.io it is necessary to use the follow command:
+####Install dependencies using pyp:
 
 ```
-crossbar start
-```
-Make sure to start Crossbar.io in a path where is present the directory *.crossbar*  inside of it there will need the json configuration file the official web site explain all the details
-
-###Reverse Websocket Tunnel Server Installation
-To install the **Reverse Websocket Tunnel Server** it is only necessary to download the nodejs package using *npm* utility using the follow command:
-
-```
-npm install node-reverse-wstunnel
-```
-For more details on this package it is possible to visit the official page of [**node-reverse-wstunnel**](https://www.npmjs.com/package/node-reverse-wstunnel).
-
-Assuing to start a Reverse Websocket Tunnel server on the TCP port 8080 we can use the follow command:
-
-```
-/node_modules/node-reverse-wstunnel/bin/wstt.js -r -s 8080
+$ pip install httplib2
 ```
 
-###s4t-node-cloud Installation
-To install the **s4t-node-cloud** it is only necessary to copy the source code using for example the follow command:
+####Install dependencies using npm:
 
 ```
-git clone https://github.com/MDSLab/s4t-node-cloud.git
+$ sudo npm install -g node-reverse-wstunnel requestify mysql nconf ip express uuid autobahn log4js q
 ```
 
-Then to start the **s4t-node-cloud** you need run the following command:
+####Configure npm NODE_PATH variable
 
 ```
-/bin/server
+$ echo "export NODE_PATH=/usr/local/lib/node_modules" | sudo tee -a /etc/profile
+$ source /etc/profile > /dev/null
+$ echo $NODE_PATH
 ```
 
-In the root path of the source code there is a json configuration file called *setting.json* using this file it is possible to set all the parameters of the *s4t-node-cloud*.
+####Install Crossbar.io router
 
-##Scientific References
-Scientific papers describing the University of Messina work on Stack4Thing can be found here:
+```
+$ sudo apt-key adv --keyserver hkps.pool.sks-keyservers.net --recv D58C6920 && sh -c "echo 'deb http://package.crossbar.io/ubuntu xenial main' | sudo tee /etc/apt/sources.list.d/crossbar.list"
+$ sudo apt-get update
+$ sudo apt-get install crossbar
+```
 
-[**MDSL**] (http://mdslab.unime.it/biblio)
+####Install IoTronic
 
-In particular, you can find details about Stack4Thing in the following papers:
+```
+$ sudo mkdir /opt/stack4things
+$ cd /opt/stack4things
+$ sudo wget https://github.com/MDSLab/s4t-iotronic-standalone/archive/master.zip
+$ sudo unzip master.zip && sudo rm master.zip
+$ sudo mv s4t-iotronic-standalone-master/ iotronic-standalone
+$ sudo cp /opt/stack4things/iotronic-standalone/etc/systemd/system/s4t-iotronic.service /etc/systemd/system/
+$ sudo chmod +x /etc/systemd/system/s4t-iotronic.service
+$ sudo systemctl daemon-reload
+$ sudo systemctl enable s4t-iotronic.service
+```
 
-G. Merlino, D. Bruneo, S. Distefano, F. Longo, A. Puliafito - Stack4Things: integrating IoT with OpenStack in a Smart City context. Published on Sensors and Smart Cities, Smart Computing Workshops (SMARTCOMP Workshops), 2014 International Conference on, pp. 21,28, 5-5 Nov. 2014. 
+####Configure and start Crossbar.io router
 
-Giovanni Merlino,  Dario Bruneo,  Salvatore Distefano,  Francesco Longo,  Antonio Puliafito, and Adnan Al-Anbuky - A Smart City Lighting Case Study on an OpenStack-Powered Infrastructure, Sensors 2015, 15(7), pp. 16314-16335.
+```
+$ sudo mkdir /etc/crossbar
+$ sudo cp /opt/stack4things/iotronic-standalone/etc/crossbar/config.example.json /etc/crossbar/config.json
+$ sudo cp /opt/stack4things/iotronic-standalone/etc/systemd/system/crossbar.service /etc/systemd/system/
+$ sudo chmod +x /etc/systemd/system/crossbar.service
+$ sudo /opt/crossbar/bin/crossbar check --cbdir /etc/crossbar
+$ sudo systemctl daemon-reload
+$ sudo systemctl enable crossbar.service
+$ sudo systemctl start crossbar
+```
+
+####Configure and start Websocket reverse tunnel
+
+```
+$ sudo cp /opt/stack4things/iotronic-standalone/etc/systemd/system/node-reverse-wstunnel.service /etc/systemd/system/
+$ sudo chmod +x /etc/systemd/system/node-reverse-wstunnel.service
+$ sudo systemctl daemon-reload
+$ sudo systemctl enable node-reverse-wstunnel.service
+$ sudo systemctl start node-reverse-wstunnel
+```
+
+####Configure and start IoTronic
+This is an example of a minimal configuration compliant with the above installation instructions, i.e., with the MySQL database and the Crossbar.io router installed locally.
+
+```
+$ mysql -u root -p<DB_PASSWORD> < /opt/stack4things/iotronic-standalone/utils/s4t-db.sql
+$ sudo cp /opt/stack4things/iotronic-standalone/lib/settings.example.json /opt/stack4things/iotronic-standalone/lib/settings.json
+$ sudo sed -i "s/\"interface\": \"\"/\"interface\":\"<INTERFACE>\"/g" /opt/stack4things/iotronic-standalone/lib/settings.json
+$ sudo sed -i "s/\"password\": \"\"/\"password\":\"<DB_PASSWORD>\"/g" /opt/stack4things/iotronic-standalone/lib/settings.json
+$ sudo sed -i "s/\"db_name\": \"\"/\"db_name\":\"<DB_NAME>\"/g" /opt/stack4things/iotronic-standalone/lib/settings.json
+$ sudo sed -i "s/\"realm\": \"\"/\"realm\":\"<WAMP_REALM>\"/g" /opt/stack4things/iotronic-standalone/lib/settings.json
+$ sudo systemctl start s4t-iotronic
+```

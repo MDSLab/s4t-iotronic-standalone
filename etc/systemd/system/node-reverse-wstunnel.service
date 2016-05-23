@@ -1,0 +1,17 @@
+[Unit]
+Description=node-reverse-wstunnel
+After=network.target
+
+[Service]
+Type=simple
+User=root
+Group=root
+StandardInput=null
+StandardOutput=journal
+StandardError=journal
+Environment="NODE_PATH=/usr/local/lib/node_modules"
+ExecStart=/usr/local/lib/node_modules/node-reverse-wstunnel/bin/wstt.js -r -s 8080
+Restart=on-abort
+
+[Install]
+WantedBy=multi-user.target

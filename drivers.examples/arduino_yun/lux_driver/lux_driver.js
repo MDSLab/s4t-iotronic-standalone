@@ -1,5 +1,6 @@
 var fs = require('fs');
 
+/* ONLY FOR Arduino YUN */
 var pin = 'A1';
 
 exports.read_pin = function(cb){
