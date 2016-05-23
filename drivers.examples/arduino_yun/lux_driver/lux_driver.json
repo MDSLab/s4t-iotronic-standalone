@@ -1,0 +1,22 @@
+{
+    "name": "lux_driver",
+    "type": "directory",
+    "permissions": 40755,
+    "children": [
+	{
+	  "name": "pin",
+	  "type": "file",
+	  "permissions": 100644,
+	  "read_function": "read_pin",
+	  "write_function": "write_pin"
+	  
+	},
+	{
+	  "name": "ldr",
+	  "type": "file",
+	  "permissions": 100644,
+	  "read_function": "read_ldr"
+	}
+    ]
+}
+
