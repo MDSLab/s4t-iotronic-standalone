@@ -10,7 +10,6 @@
                                 "password":"root",
                                 "db_name":"stack4things"
                         },
-                        ,
                         "log": {
 			    "logfile": "/var/log/s4t-lightning-rod.log",
 			    "loglevel": "info"
