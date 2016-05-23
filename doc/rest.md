@@ -520,17 +520,15 @@ http://IP:PORT/driverlist/?board={board-id}
 Success response json:
 ```
 {
-	"message":
-		[
-			{
-				"id":<NUM>,
-				"name":"<DRIVERNAME>",
-				"jsonschema":"./schemas/<PLUGINSCHEMA>.json",
-				"code":"./plugins/<PLUGINNAME>.js"
-			},
-			{ ... },
-		],
-	"result":"SUCCESS"
+	"message": [
+		{
+			"name": "<DRIVERNAME>",
+			"state": "< mounted | unmounted | injected >",
+			"latest_change": "2016-05-20T16:12:45.000Z"
+		},
+		{ ... },
+	],
+	"result": "SUCCESS"
 }
 ```
 
