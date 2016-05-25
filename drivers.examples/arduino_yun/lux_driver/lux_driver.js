@@ -1,13 +1,35 @@
 var fs = require('fs');
 
+var pin = 'A1';
 
 exports.init = function(cb){
  
     /* ONLY FOR Arduino YUN */
-    pin = 'A1';
+    
+    var init_response = {};
+    
+    // ENABLING YUN DEVICE "device_0"
+    var device0_file = '/sys/bus/iio/devices/iio:device0/enable';
+    console.log('[DRIVER] --> Enabling GPIO device for '+device+': ' + device0_file);
+    fs.writeFile(device0_file, '1', function(err) {
+      
+	if(err) {
+	  
+	    //console.log('[DRIVER] --> Error writing device0 file: ' + err);
+	    init_response.message = "Error writing device0 file: " + err;
+	    init_response.result = "ERROR";
+	    cb(init_response);
+	    
+	} else {
+	  
+	    //console.log("[DRIVER] -->  device0 successfully enabled!");
+	    init_response.message = "Initialization completed!";
+	    init_response.result = "SUCCESS";
+	    cb(init_response);
+	}
+	
+    });
 
-    var init_result = "Initialization completed!";
-    cb(init_result);
 }
 
 exports.finalize = function(cb){
