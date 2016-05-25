@@ -1,15 +1,29 @@
 var fs = require('fs');
 
-/* ONLY FOR Arduino YUN */
-var ADCres = 1023.0 ;
-var Beta = 3950;
-var Kelvin = 273.15;
-var Rb = 10000;
-var Ginf = 120.6685;
-var pin = 'A0';
 
 
 
+
+exports.init = function(cb){
+  
+    /* ONLY FOR Arduino YUN */
+    ADCres = 1023.0 ;
+    Beta = 3950;
+    Kelvin = 273.15;
+    Rb = 10000;
+    Ginf = 120.6685;
+    pin = 'A0';
+
+    var init_result = "Initialization completed!";
+    cb(init_result);
+}
+
+exports.finalize = function(cb){
+  
+    var end_result = "Pre-unmounting procedures completed!";
+    cb(end_result);
+    
+}
 
 exports.read_ADCres = function(cb){
     cb(ADCres);

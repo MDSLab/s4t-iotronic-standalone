@@ -1,14 +1,29 @@
 var fs = require('fs');
 
-/* ONLY FOR Arduino YUN */
-var pin = 'D13';
-
-/*
+/* ONLY FOR Arduino YUN 
 cd /sys/class/gpio/
 echo 115 > export
 echo out > D13/direction
 echo 1 > D13/value
 */
+
+
+exports.init = function(cb){
+ 
+    /* ONLY FOR Arduino YUN */
+    pin = 'D13';
+
+    var init_result = "Initialization completed!";
+    cb(init_result);
+}
+
+exports.finalize = function(cb){
+  
+    var end_result = "Pre-unmounting procedures completed!";
+    cb(end_result);
+    
+}
+
 
 exports.read_led = function(cb){
     var led = fs.readFileSync('/sys/class/gpio/'+pin+'/value', 'utf8')

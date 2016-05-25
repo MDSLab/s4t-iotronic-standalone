@@ -1,7 +1,22 @@
 var fs = require('fs');
 
-/* ONLY FOR Arduino YUN */
-var pin = 'A1';
+
+exports.init = function(cb){
+ 
+    /* ONLY FOR Arduino YUN */
+    pin = 'A1';
+
+    var init_result = "Initialization completed!";
+    cb(init_result);
+}
+
+exports.finalize = function(cb){
+  
+    var end_result = "Pre-unmounting procedures completed!";
+    cb(end_result);
+    
+}
+
 
 exports.read_pin = function(cb){
     cb(pin);
@@ -20,4 +35,5 @@ exports.read_ldr = function(cb){
 
     cb(ldr);
 }
+
 
