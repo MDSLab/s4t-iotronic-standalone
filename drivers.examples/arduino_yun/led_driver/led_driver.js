@@ -1,5 +1,7 @@
 var fs = require('fs');
 
+var pin = 'D13';
+
 /* ONLY FOR Arduino YUN 
 cd /sys/class/gpio/
 echo 115 > export
@@ -11,10 +13,13 @@ echo 1 > D13/value
 exports.init = function(cb){
  
     /* ONLY FOR Arduino YUN */
-    pin = 'D13';
+    
+    var init_response = {};
 
-    var init_result = "Initialization completed!";
-    cb(init_result);
+    init_response.message = "Initialization completed!";
+    init_response.result = "SUCCESS";
+    cb(init_response);
+    
 }
 
 exports.finalize = function(cb){
