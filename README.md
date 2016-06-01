@@ -6,7 +6,7 @@ IoTronic is the Cloud-side component in the Stack4Things architecture. In this r
 
 ##Installation instructions
 
-###Ubuntu with systemV
+###Ubuntu with systemd
 
 We tested this procedure on a Kubuntu box version 16.04.
 
