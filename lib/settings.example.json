@@ -11,7 +11,7 @@
                                 "db_name":"stack4things"
                         },
                         "log": {
-			    "logfile": "/var/log/s4t-lightning-rod.log",
+			    "logfile": "/var/log/s4t-iotronic.log",
 			    "loglevel": "info"
 			}
 
