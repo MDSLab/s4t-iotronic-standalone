@@ -7,3 +7,4 @@ test_a.js
 server_cert.pem
 s4t_wamp_server_nr.js
 /lib/settings.json
+/lib/.directory
