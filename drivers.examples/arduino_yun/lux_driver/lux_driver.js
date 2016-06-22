@@ -30,24 +30,24 @@ exports.init = function(cb){
 	
     });
 
-}
+};
 
 exports.finalize = function(cb){
   
     var end_result = "Pre-unmounting procedures completed!";
     cb(end_result);
     
-}
+};
 
 
 exports.read_pin = function(cb){
     cb(pin);
-}
+};
 
 exports.write_pin = function(content, cb){
     pin = content;
     cb(); 
-}
+};
 
 
 exports.read_ldr = function(cb){
