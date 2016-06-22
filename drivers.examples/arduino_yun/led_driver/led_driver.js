@@ -20,25 +20,25 @@ exports.init = function(cb){
     init_response.result = "SUCCESS";
     cb(init_response);
     
-}
+};
 
 exports.finalize = function(cb){
   
     var end_result = "Pre-unmounting procedures completed!";
     cb(end_result);
     
-}
+};
 
 
 exports.read_led = function(cb){
-    var led = fs.readFileSync('/sys/class/gpio/'+pin+'/value', 'utf8')
+    var led = fs.readFileSync('/sys/class/gpio/'+pin+'/value', 'utf8');
     cb(led);
-}
+};
 
 exports.write_led = function(content, cb){
-    fs.writeFileSync('/sys/class/gpio/'+pin+'/value', content, 'utf8')
+    fs.writeFileSync('/sys/class/gpio/'+pin+'/value', content, 'utf8');
     cb(); 
-}
+};
 
 
 
