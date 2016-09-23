@@ -1,6 +1,6 @@
 #Ubuntu 14.04 Stack4Things IoTronic (standalone) installation guide.
 
-We tested this procedure on a Uubuntu 14.04 server. Everything needs to be run as root.
+We tested this procedure on a Ubuntu 14.04 server. Everything needs to be run as root.
 
 ####Install dependencies via apt-get:
 
