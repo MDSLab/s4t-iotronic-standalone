@@ -2,7 +2,7 @@
 
 ###List of the connected devices 
 ```
-http:/IP:PORT/list/
+http://IP:PORT/list/
 ```
 response json
 ```
