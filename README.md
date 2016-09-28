@@ -15,3 +15,8 @@ Stack4Things IoTronic (standalone) has been tested to work on:
 * [Install on Ubuntu 16.04](doc/ubuntu1604.md)
 
 * [Install on Ubuntu 14.04](doc/ubuntu1404.md)
+
+
+##REST API reference
+
+[Iotronic-standalone API](doc/rest.md)
