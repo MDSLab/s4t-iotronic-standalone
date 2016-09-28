@@ -2,13 +2,13 @@
         "config":{
                 "server":
                 {
-                        "interface": "eth0",
+                        "interface": "",
                         "port":"8888",
                         "db":{
                                 "host":"localhost",
                                 "user":"root",
-                                "password":"root",
-                                "db_name":"stack4things"
+                                "password": "",
+                                "db_name": ""
                         },
                         "log": {
 			    "logfile": "/var/log/s4t-iotronic.log",
@@ -20,7 +20,7 @@
                 {
                         "url": "ws://localhost",
                         "port": "8181",
-                        "realm": "stack4things",
+                        "realm": "",
                         "topic_command":"board.command",
                         "topic_connection": "board.connection"
                 },
