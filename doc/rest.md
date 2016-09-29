@@ -101,7 +101,7 @@ response json:
 
 ### Unregister board
 ```
-http://IP:PORT/command/?command=update-board&board={boardID}&latitude={latitude}&longitude={longitude}&altitude={altitude}&net_enabled={net_enabled_flag}&sensorlist={sensors_list}
+http://IP:PORT/command/?command=unreg-board&board={boardID}
 ```
 
 response json:
