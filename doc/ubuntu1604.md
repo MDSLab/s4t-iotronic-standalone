@@ -77,11 +77,22 @@ $ sudo systemctl start node-reverse-wstunnel
 This is an example of a minimal configuration compliant with the above installation instructions, i.e., with the MySQL database and the Crossbar.io router installed locally.
 
 ```
+Import the Iotronic DB schema:
 $ mysql -u root -p<DB_PASSWORD> < /opt/stack4things/iotronic-standalone/utils/s4t-db.sql
+
 $ sudo cp /opt/stack4things/iotronic-standalone/lib/settings.example.json /opt/stack4things/iotronic-standalone/lib/settings.json
+
+Specify the server's NIC used by Iotronic:
 $ sudo sed -i "s/\"interface\": \"\"/\"interface\":\"<INTERFACE>\"/g" /opt/stack4things/iotronic-standalone/lib/settings.json
+
+Specify DB references:
 $ sudo sed -i "s/\"password\": \"\"/\"password\":\"<DB_PASSWORD>\"/g" /opt/stack4things/iotronic-standalone/lib/settings.json
-$ sudo sed -i "s/\"db_name\": \"\"/\"db_name\":\"<DB_NAME>\"/g" /opt/stack4things/iotronic-standalone/lib/settings.json
+$ sudo sed -i "s/\"db_name\": \"\"/\"db_name\":\"s4t-iotronic\"/g" /opt/stack4things/iotronic-standalone/lib/settings.json
+
+Specify the WAMP realm (e.g. "s4t"):
 $ sudo sed -i "s/\"realm\": \"\"/\"realm\":\"<WAMP_REALM>\"/g" /opt/stack4things/iotronic-standalone/lib/settings.json
+
+Start Iotronic:
 $ sudo systemctl start s4t-iotronic
+$ CHECK: tail -f /var/log/s4t-iotronic.log
 ```

@@ -19,4 +19,4 @@ Stack4Things IoTronic (standalone) has been tested to work on:
 
 ##REST API reference
 
-[Iotronic-standalone API](doc/rest.md)
+* [Iotronic-standalone API](doc/rest.md)

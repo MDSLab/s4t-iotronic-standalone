@@ -8,22 +8,22 @@ SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='TRADITIONAL,ALLOW_INVALID_DATES';
 
 -- -----------------------------------------------------
--- Schema s4t-myarduino
+-- Schema s4t-iotronic
 -- -----------------------------------------------------
-DROP SCHEMA IF EXISTS `s4t-myarduino` ;
+DROP SCHEMA IF EXISTS `s4t-iotronic` ;
 
 -- -----------------------------------------------------
--- Schema s4t-myarduino
+-- Schema s4t-iotronic
 -- -----------------------------------------------------
-CREATE SCHEMA IF NOT EXISTS `s4t-myarduino` DEFAULT CHARACTER SET latin1 ;
-USE `s4t-myarduino` ;
+CREATE SCHEMA IF NOT EXISTS `s4t-iotronic` DEFAULT CHARACTER SET latin1 ;
+USE `s4t-iotronic` ;
 
 -- -----------------------------------------------------
--- Table `s4t-myarduino`.`board_codes`
+-- Table `s4t-iotronic`.`board_codes`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `s4t-myarduino`.`board_codes` ;
+DROP TABLE IF EXISTS `s4t-iotronic`.`board_codes` ;
 
-CREATE TABLE IF NOT EXISTS `s4t-myarduino`.`board_codes` (
+CREATE TABLE IF NOT EXISTS `s4t-iotronic`.`board_codes` (
   `code` VARCHAR(36) NOT NULL,
   `creation_date` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`code`))
@@ -32,11 +32,11 @@ DEFAULT CHARACTER SET = utf8;
 
 
 -- -----------------------------------------------------
--- Table `s4t-myarduino`.`user_groups`
+-- Table `s4t-iotronic`.`user_groups`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `s4t-myarduino`.`user_groups` ;
+DROP TABLE IF EXISTS `s4t-iotronic`.`user_groups` ;
 
-CREATE TABLE IF NOT EXISTS `s4t-myarduino`.`user_groups` (
+CREATE TABLE IF NOT EXISTS `s4t-iotronic`.`user_groups` (
   `id` INT(8) NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(50) NULL DEFAULT NULL,
   PRIMARY KEY (`id`))
@@ -46,11 +46,11 @@ DEFAULT CHARACTER SET = utf8;
 
 
 -- -----------------------------------------------------
--- Table `s4t-myarduino`.`users`
+-- Table `s4t-iotronic`.`users`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `s4t-myarduino`.`users` ;
+DROP TABLE IF EXISTS `s4t-iotronic`.`users` ;
 
-CREATE TABLE IF NOT EXISTS `s4t-myarduino`.`users` (
+CREATE TABLE IF NOT EXISTS `s4t-iotronic`.`users` (
   `id` INT(8) NOT NULL AUTO_INCREMENT,
   `username` VARCHAR(50) NULL DEFAULT NULL,
   `password` VARCHAR(25) NULL DEFAULT NULL,
@@ -61,7 +61,7 @@ CREATE TABLE IF NOT EXISTS `s4t-myarduino`.`users` (
   INDEX `group_id` (`group_id` ASC),
   CONSTRAINT `users_ibfk_1`
     FOREIGN KEY (`group_id`)
-    REFERENCES `s4t-myarduino`.`user_groups` (`id`)
+    REFERENCES `s4t-iotronic`.`user_groups` (`id`)
     ON DELETE RESTRICT
     ON UPDATE RESTRICT)
 ENGINE = InnoDB
@@ -70,11 +70,11 @@ DEFAULT CHARACTER SET = utf8;
 
 
 -- -----------------------------------------------------
--- Table `s4t-myarduino`.`board_imports`
+-- Table `s4t-iotronic`.`board_imports`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `s4t-myarduino`.`board_imports` ;
+DROP TABLE IF EXISTS `s4t-iotronic`.`board_imports` ;
 
-CREATE TABLE IF NOT EXISTS `s4t-myarduino`.`board_imports` (
+CREATE TABLE IF NOT EXISTS `s4t-iotronic`.`board_imports` (
   `id` INT(8) NOT NULL AUTO_INCREMENT,
   `idate` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `user_id` INT(8) NOT NULL,
@@ -82,17 +82,17 @@ CREATE TABLE IF NOT EXISTS `s4t-myarduino`.`board_imports` (
   INDEX `user_id` (`user_id` ASC),
   CONSTRAINT `board_imports_ibfk_1`
     FOREIGN KEY (`user_id`)
-    REFERENCES `s4t-myarduino`.`users` (`id`))
+    REFERENCES `s4t-iotronic`.`users` (`id`))
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8;
 
 
 -- -----------------------------------------------------
--- Table `s4t-myarduino`.`board_types`
+-- Table `s4t-iotronic`.`board_types`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `s4t-myarduino`.`board_types` ;
+DROP TABLE IF EXISTS `s4t-iotronic`.`board_types` ;
 
-CREATE TABLE IF NOT EXISTS `s4t-myarduino`.`board_types` (
+CREATE TABLE IF NOT EXISTS `s4t-iotronic`.`board_types` (
   `id` INT(8) NOT NULL AUTO_INCREMENT,
   `sku` VARCHAR(15) NOT NULL,
   `image` VARCHAR(250) NULL DEFAULT NULL,
@@ -104,11 +104,11 @@ DEFAULT CHARACTER SET = utf8;
 
 
 -- -----------------------------------------------------
--- Table `s4t-myarduino`.`boards`
+-- Table `s4t-iotronic`.`boards`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `s4t-myarduino`.`boards` ;
+DROP TABLE IF EXISTS `s4t-iotronic`.`boards` ;
 
-CREATE TABLE IF NOT EXISTS `s4t-myarduino`.`boards` (
+CREATE TABLE IF NOT EXISTS `s4t-iotronic`.`boards` (
   `id` INT(8) NOT NULL AUTO_INCREMENT,
   `type_id` INT(8) NOT NULL,
   `name` VARCHAR(200) NULL DEFAULT NULL,
@@ -119,7 +119,7 @@ CREATE TABLE IF NOT EXISTS `s4t-myarduino`.`boards` (
   INDEX `type_id` (`type_id` ASC),
   CONSTRAINT `boards_ibfk_1`
     FOREIGN KEY (`type_id`)
-    REFERENCES `s4t-myarduino`.`board_types` (`id`)
+    REFERENCES `s4t-iotronic`.`board_types` (`id`)
     ON DELETE RESTRICT
     ON UPDATE RESTRICT)
 ENGINE = InnoDB
@@ -127,11 +127,11 @@ DEFAULT CHARACTER SET = utf8;
 
 
 -- -----------------------------------------------------
--- Table `s4t-myarduino`.`boards_connected`
+-- Table `s4t-iotronic`.`boards_connected`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `s4t-myarduino`.`boards_connected` ;
+DROP TABLE IF EXISTS `s4t-iotronic`.`boards_connected` ;
 
-CREATE TABLE IF NOT EXISTS `s4t-myarduino`.`boards_connected` (
+CREATE TABLE IF NOT EXISTS `s4t-iotronic`.`boards_connected` (
   `board_code` VARCHAR(36) NOT NULL,
   `label` VARCHAR(100) NOT NULL,
   `session_id` VARCHAR(250) NULL DEFAULT NULL,
@@ -144,7 +144,7 @@ CREATE TABLE IF NOT EXISTS `s4t-myarduino`.`boards_connected` (
   UNIQUE INDEX `board_codes_code_UNIQUE` (`board_code` ASC),
   CONSTRAINT `fk_boards_connected_board_codes1`
     FOREIGN KEY (`board_code`)
-    REFERENCES `s4t-myarduino`.`board_codes` (`code`)
+    REFERENCES `s4t-iotronic`.`board_codes` (`code`)
     ON DELETE CASCADE
     ON UPDATE CASCADE)
 ENGINE = InnoDB
@@ -152,11 +152,11 @@ DEFAULT CHARACTER SET = utf8;
 
 
 -- -----------------------------------------------------
--- Table `s4t-myarduino`.`measures`
+-- Table `s4t-iotronic`.`measures`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `s4t-myarduino`.`measures` ;
+DROP TABLE IF EXISTS `s4t-iotronic`.`measures` ;
 
-CREATE TABLE IF NOT EXISTS `s4t-myarduino`.`measures` (
+CREATE TABLE IF NOT EXISTS `s4t-iotronic`.`measures` (
   `id` INT(11) NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(20) NOT NULL,
   `read_plugin` VARCHAR(20) NOT NULL,
@@ -168,11 +168,11 @@ DEFAULT CHARACTER SET = utf8;
 
 
 -- -----------------------------------------------------
--- Table `s4t-myarduino`.`measures_injected`
+-- Table `s4t-iotronic`.`measures_injected`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `s4t-myarduino`.`measures_injected` ;
+DROP TABLE IF EXISTS `s4t-iotronic`.`measures_injected` ;
 
-CREATE TABLE IF NOT EXISTS `s4t-myarduino`.`measures_injected` (
+CREATE TABLE IF NOT EXISTS `s4t-iotronic`.`measures_injected` (
   `board_id` INT(11) NOT NULL,
   `measure_id` INT(11) NOT NULL,
   `pin` VARCHAR(20) NOT NULL,
@@ -183,11 +183,11 @@ DEFAULT CHARACTER SET = utf8;
 
 
 -- -----------------------------------------------------
--- Table `s4t-myarduino`.`plugins`
+-- Table `s4t-iotronic`.`plugins`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `s4t-myarduino`.`plugins` ;
+DROP TABLE IF EXISTS `s4t-iotronic`.`plugins` ;
 
-CREATE TABLE IF NOT EXISTS `s4t-myarduino`.`plugins` (
+CREATE TABLE IF NOT EXISTS `s4t-iotronic`.`plugins` (
   `id` INT(11) NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(20) NOT NULL,
   `category` VARCHAR(20) NOT NULL,
@@ -201,11 +201,11 @@ DEFAULT CHARACTER SET = utf8;
 
 
 -- -----------------------------------------------------
--- Table `s4t-myarduino`.`plugins_injected`
+-- Table `s4t-iotronic`.`plugins_injected`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `s4t-myarduino`.`plugins_injected` ;
+DROP TABLE IF EXISTS `s4t-iotronic`.`plugins_injected` ;
 
-CREATE TABLE IF NOT EXISTS `s4t-myarduino`.`plugins_injected` (
+CREATE TABLE IF NOT EXISTS `s4t-iotronic`.`plugins_injected` (
   `board_id` VARCHAR(36) NOT NULL,
   `plugin_id` INT(11) NOT NULL,
   `state` VARCHAR(20) NOT NULL,
@@ -215,12 +215,12 @@ CREATE TABLE IF NOT EXISTS `s4t-myarduino`.`plugins_injected` (
   INDEX `fk_plugins_injected_board_codes1_idx` (`board_id` ASC),
   CONSTRAINT `fk_plugins_injected_plugins1`
     FOREIGN KEY (`plugin_id`)
-    REFERENCES `s4t-myarduino`.`plugins` (`id`)
+    REFERENCES `s4t-iotronic`.`plugins` (`id`)
     ON DELETE CASCADE
     ON UPDATE CASCADE,
   CONSTRAINT `fk_plugins_injected_board_codes1`
     FOREIGN KEY (`board_id`)
-    REFERENCES `s4t-myarduino`.`board_codes` (`code`)
+    REFERENCES `s4t-iotronic`.`board_codes` (`code`)
     ON DELETE CASCADE
     ON UPDATE CASCADE)
 ENGINE = InnoDB
@@ -228,11 +228,11 @@ DEFAULT CHARACTER SET = utf8;
 
 
 -- -----------------------------------------------------
--- Table `s4t-myarduino`.`reverse_cloud_services`
+-- Table `s4t-iotronic`.`reverse_cloud_services`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `s4t-myarduino`.`reverse_cloud_services` ;
+DROP TABLE IF EXISTS `s4t-iotronic`.`reverse_cloud_services` ;
 
-CREATE TABLE IF NOT EXISTS `s4t-myarduino`.`reverse_cloud_services` (
+CREATE TABLE IF NOT EXISTS `s4t-iotronic`.`reverse_cloud_services` (
   `board_id` INT(8) NOT NULL,
   `service` VARCHAR(50) NOT NULL,
   `public_ip` VARCHAR(16) NOT NULL,
@@ -243,11 +243,11 @@ DEFAULT CHARACTER SET = utf8;
 
 
 -- -----------------------------------------------------
--- Table `s4t-myarduino`.`user_boards`
+-- Table `s4t-iotronic`.`user_boards`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `s4t-myarduino`.`user_boards` ;
+DROP TABLE IF EXISTS `s4t-iotronic`.`user_boards` ;
 
-CREATE TABLE IF NOT EXISTS `s4t-myarduino`.`user_boards` (
+CREATE TABLE IF NOT EXISTS `s4t-iotronic`.`user_boards` (
   `id` INT(8) NOT NULL AUTO_INCREMENT,
   `user_id` INT(8) NOT NULL,
   `board_type` INT(8) NOT NULL,
@@ -260,15 +260,15 @@ CREATE TABLE IF NOT EXISTS `s4t-myarduino`.`user_boards` (
   INDEX `board_code` (`board_code` ASC),
   CONSTRAINT `user_boards_ibfk_1`
     FOREIGN KEY (`user_id`)
-    REFERENCES `s4t-myarduino`.`users` (`id`),
+    REFERENCES `s4t-iotronic`.`users` (`id`),
   CONSTRAINT `user_boards_ibfk_2`
     FOREIGN KEY (`board_type`)
-    REFERENCES `s4t-myarduino`.`board_types` (`id`)
+    REFERENCES `s4t-iotronic`.`board_types` (`id`)
     ON DELETE RESTRICT
     ON UPDATE RESTRICT,
   CONSTRAINT `user_boards_ibfk_3`
     FOREIGN KEY (`board_code`)
-    REFERENCES `s4t-myarduino`.`board_codes` (`code`)
+    REFERENCES `s4t-iotronic`.`board_codes` (`code`)
     ON DELETE CASCADE
     ON UPDATE CASCADE)
 ENGINE = InnoDB
@@ -277,11 +277,11 @@ DEFAULT CHARACTER SET = utf8;
 
 
 -- -----------------------------------------------------
--- Table `s4t-myarduino`.`user_profiles`
+-- Table `s4t-iotronic`.`user_profiles`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `s4t-myarduino`.`user_profiles` ;
+DROP TABLE IF EXISTS `s4t-iotronic`.`user_profiles` ;
 
-CREATE TABLE IF NOT EXISTS `s4t-myarduino`.`user_profiles` (
+CREATE TABLE IF NOT EXISTS `s4t-iotronic`.`user_profiles` (
   `id` INT(8) NOT NULL AUTO_INCREMENT,
   `user_id` INT(8) NOT NULL,
   `name` VARCHAR(50) NULL DEFAULT NULL,
@@ -291,7 +291,7 @@ CREATE TABLE IF NOT EXISTS `s4t-myarduino`.`user_profiles` (
   INDEX `user_id` (`user_id` ASC),
   CONSTRAINT `user_profiles_ibfk_1`
     FOREIGN KEY (`user_id`)
-    REFERENCES `s4t-myarduino`.`users` (`id`)
+    REFERENCES `s4t-iotronic`.`users` (`id`)
     ON DELETE RESTRICT
     ON UPDATE RESTRICT)
 ENGINE = InnoDB
@@ -299,11 +299,11 @@ DEFAULT CHARACTER SET = utf8;
 
 
 -- -----------------------------------------------------
--- Table `s4t-myarduino`.`userprojects`
+-- Table `s4t-iotronic`.`userprojects`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `s4t-myarduino`.`userprojects` ;
+DROP TABLE IF EXISTS `s4t-iotronic`.`userprojects` ;
 
-CREATE TABLE IF NOT EXISTS `s4t-myarduino`.`userprojects` (
+CREATE TABLE IF NOT EXISTS `s4t-iotronic`.`userprojects` (
   `id` INT(8) NOT NULL AUTO_INCREMENT,
   `user_id` INT(8) NOT NULL,
   `title` VARCHAR(100) NOT NULL,
@@ -314,17 +314,17 @@ CREATE TABLE IF NOT EXISTS `s4t-myarduino`.`userprojects` (
   INDEX `user_id` (`user_id` ASC),
   CONSTRAINT `userprojects_ibfk_1`
     FOREIGN KEY (`user_id`)
-    REFERENCES `s4t-myarduino`.`users` (`id`))
+    REFERENCES `s4t-iotronic`.`users` (`id`))
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8;
 
 
 -- -----------------------------------------------------
--- Table `s4t-myarduino`.`userproject_comments`
+-- Table `s4t-iotronic`.`userproject_comments`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `s4t-myarduino`.`userproject_comments` ;
+DROP TABLE IF EXISTS `s4t-iotronic`.`userproject_comments` ;
 
-CREATE TABLE IF NOT EXISTS `s4t-myarduino`.`userproject_comments` (
+CREATE TABLE IF NOT EXISTS `s4t-iotronic`.`userproject_comments` (
   `id` INT(8) NOT NULL AUTO_INCREMENT,
   `project_id` INT(8) NOT NULL,
   `user_id` INT(8) NOT NULL,
@@ -336,40 +336,40 @@ CREATE TABLE IF NOT EXISTS `s4t-myarduino`.`userproject_comments` (
   INDEX `user_id` (`user_id` ASC),
   CONSTRAINT `userproject_comments_ibfk_1`
     FOREIGN KEY (`project_id`)
-    REFERENCES `s4t-myarduino`.`userprojects` (`id`),
+    REFERENCES `s4t-iotronic`.`userprojects` (`id`),
   CONSTRAINT `userproject_comments_ibfk_2`
     FOREIGN KEY (`user_id`)
-    REFERENCES `s4t-myarduino`.`users` (`id`))
+    REFERENCES `s4t-iotronic`.`users` (`id`))
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8;
 
 
 -- -----------------------------------------------------
--- Table `s4t-myarduino`.`userproject_likes`
+-- Table `s4t-iotronic`.`userproject_likes`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `s4t-myarduino`.`userproject_likes` ;
+DROP TABLE IF EXISTS `s4t-iotronic`.`userproject_likes` ;
 
-CREATE TABLE IF NOT EXISTS `s4t-myarduino`.`userproject_likes` (
+CREATE TABLE IF NOT EXISTS `s4t-iotronic`.`userproject_likes` (
   `project_id` INT(8) NOT NULL,
   `user_id` INT(8) NOT NULL,
   INDEX `project_id` (`project_id` ASC),
   INDEX `user_id` (`user_id` ASC),
   CONSTRAINT `userproject_likes_ibfk_1`
     FOREIGN KEY (`project_id`)
-    REFERENCES `s4t-myarduino`.`userprojects` (`id`),
+    REFERENCES `s4t-iotronic`.`userprojects` (`id`),
   CONSTRAINT `userproject_likes_ibfk_2`
     FOREIGN KEY (`user_id`)
-    REFERENCES `s4t-myarduino`.`users` (`id`))
+    REFERENCES `s4t-iotronic`.`users` (`id`))
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8;
 
 
 -- -----------------------------------------------------
--- Table `s4t-myarduino`.`vlans`
+-- Table `s4t-iotronic`.`vlans`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `s4t-myarduino`.`vlans` ;
+DROP TABLE IF EXISTS `s4t-iotronic`.`vlans` ;
 
-CREATE TABLE IF NOT EXISTS `s4t-myarduino`.`vlans` (
+CREATE TABLE IF NOT EXISTS `s4t-iotronic`.`vlans` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `vlan_name` VARCHAR(45) NOT NULL,
   `vlan_ip` VARCHAR(45) NOT NULL,
@@ -381,11 +381,11 @@ DEFAULT CHARACTER SET = utf8;
 
 
 -- -----------------------------------------------------
--- Table `s4t-myarduino`.`socat_connections`
+-- Table `s4t-iotronic`.`socat_connections`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `s4t-myarduino`.`socat_connections` ;
+DROP TABLE IF EXISTS `s4t-iotronic`.`socat_connections` ;
 
-CREATE TABLE IF NOT EXISTS `s4t-myarduino`.`socat_connections` (
+CREATE TABLE IF NOT EXISTS `s4t-iotronic`.`socat_connections` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `id_board` VARCHAR(36) NOT NULL,
   `port` INT(6) NOT NULL,
@@ -397,7 +397,7 @@ CREATE TABLE IF NOT EXISTS `s4t-myarduino`.`socat_connections` (
   UNIQUE INDEX `id_board_UNIQUE` (`id_board` ASC),
   CONSTRAINT `fk_socat_connections_board_codes1`
     FOREIGN KEY (`id_board`)
-    REFERENCES `s4t-myarduino`.`board_codes` (`code`)
+    REFERENCES `s4t-iotronic`.`board_codes` (`code`)
     ON DELETE CASCADE
     ON UPDATE CASCADE)
 ENGINE = InnoDB
@@ -405,11 +405,11 @@ DEFAULT CHARACTER SET = utf8;
 
 
 -- -----------------------------------------------------
--- Table `s4t-myarduino`.`vlans_connection`
+-- Table `s4t-iotronic`.`vlans_connection`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `s4t-myarduino`.`vlans_connection` ;
+DROP TABLE IF EXISTS `s4t-iotronic`.`vlans_connection` ;
 
-CREATE TABLE IF NOT EXISTS `s4t-myarduino`.`vlans_connection` (
+CREATE TABLE IF NOT EXISTS `s4t-iotronic`.`vlans_connection` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `id_vlan` INT NOT NULL,
   `id_socat_connection` INT NOT NULL,
@@ -419,12 +419,12 @@ CREATE TABLE IF NOT EXISTS `s4t-myarduino`.`vlans_connection` (
   INDEX `fk_vlans_connection_socat_connections1_idx` (`id_socat_connection` ASC),
   CONSTRAINT `fk_vlans_connection_vlans1`
     FOREIGN KEY (`id_vlan`)
-    REFERENCES `s4t-myarduino`.`vlans` (`id`)
+    REFERENCES `s4t-iotronic`.`vlans` (`id`)
     ON DELETE CASCADE
     ON UPDATE CASCADE,
   CONSTRAINT `fk_vlans_connection_socat_connections1`
     FOREIGN KEY (`id_socat_connection`)
-    REFERENCES `s4t-myarduino`.`socat_connections` (`id`)
+    REFERENCES `s4t-iotronic`.`socat_connections` (`id`)
     ON DELETE CASCADE
     ON UPDATE CASCADE)
 ENGINE = InnoDB
@@ -432,11 +432,11 @@ DEFAULT CHARACTER SET = utf8;
 
 
 -- -----------------------------------------------------
--- Table `s4t-myarduino`.`sensors`
+-- Table `s4t-iotronic`.`sensors`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `s4t-myarduino`.`sensors` ;
+DROP TABLE IF EXISTS `s4t-iotronic`.`sensors` ;
 
-CREATE TABLE IF NOT EXISTS `s4t-myarduino`.`sensors` (
+CREATE TABLE IF NOT EXISTS `s4t-iotronic`.`sensors` (
   `id` INT NOT NULL,
   `type` VARCHAR(45) NOT NULL,
   `unit` VARCHAR(45) NOT NULL,
@@ -448,23 +448,23 @@ DEFAULT CHARACTER SET = utf8;
 
 
 -- -----------------------------------------------------
--- Table `s4t-myarduino`.`sensors_on_board`
+-- Table `s4t-iotronic`.`sensors_on_board`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `s4t-myarduino`.`sensors_on_board` ;
+DROP TABLE IF EXISTS `s4t-iotronic`.`sensors_on_board` ;
 
-CREATE TABLE IF NOT EXISTS `s4t-myarduino`.`sensors_on_board` (
+CREATE TABLE IF NOT EXISTS `s4t-iotronic`.`sensors_on_board` (
   `id_sensor` INT NOT NULL,
   `id_board` VARCHAR(36) NOT NULL,
   INDEX `fk_sensors_on_board_board_codes1_idx` (`id_board` ASC),
   PRIMARY KEY (`id_sensor`, `id_board`),
   CONSTRAINT `fk_sensors_on_board_sensors1`
     FOREIGN KEY (`id_sensor`)
-    REFERENCES `s4t-myarduino`.`sensors` (`id`)
+    REFERENCES `s4t-iotronic`.`sensors` (`id`)
     ON DELETE CASCADE
     ON UPDATE CASCADE,
   CONSTRAINT `fk_sensors_on_board_board_codes1`
     FOREIGN KEY (`id_board`)
-    REFERENCES `s4t-myarduino`.`board_codes` (`code`)
+    REFERENCES `s4t-iotronic`.`board_codes` (`code`)
     ON DELETE CASCADE
     ON UPDATE CASCADE)
 ENGINE = InnoDB
@@ -472,11 +472,11 @@ DEFAULT CHARACTER SET = utf8;
 
 
 -- -----------------------------------------------------
--- Table `s4t-myarduino`.`plugin_sensors`
+-- Table `s4t-iotronic`.`plugin_sensors`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `s4t-myarduino`.`plugin_sensors` ;
+DROP TABLE IF EXISTS `s4t-iotronic`.`plugin_sensors` ;
 
-CREATE TABLE IF NOT EXISTS `s4t-myarduino`.`plugin_sensors` (
+CREATE TABLE IF NOT EXISTS `s4t-iotronic`.`plugin_sensors` (
   `plugins_id` INT(11) NOT NULL,
   `sensors_id` INT NOT NULL,
   INDEX `fk_plugin_sensors_plugins1_idx` (`plugins_id` ASC),
@@ -484,12 +484,12 @@ CREATE TABLE IF NOT EXISTS `s4t-myarduino`.`plugin_sensors` (
   PRIMARY KEY (`plugins_id`, `sensors_id`),
   CONSTRAINT `fk_plugin_sensors_plugins1`
     FOREIGN KEY (`plugins_id`)
-    REFERENCES `s4t-myarduino`.`plugins` (`id`)
+    REFERENCES `s4t-iotronic`.`plugins` (`id`)
     ON DELETE CASCADE
     ON UPDATE CASCADE,
   CONSTRAINT `fk_plugin_sensors_sensors1`
     FOREIGN KEY (`sensors_id`)
-    REFERENCES `s4t-myarduino`.`sensors` (`id`)
+    REFERENCES `s4t-iotronic`.`sensors` (`id`)
     ON DELETE NO ACTION
     ON UPDATE CASCADE)
 ENGINE = InnoDB
@@ -497,11 +497,11 @@ DEFAULT CHARACTER SET = utf8;
 
 
 -- -----------------------------------------------------
--- Table `s4t-myarduino`.`free_addresses`
+-- Table `s4t-iotronic`.`free_addresses`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `s4t-myarduino`.`free_addresses` ;
+DROP TABLE IF EXISTS `s4t-iotronic`.`free_addresses` ;
 
-CREATE TABLE IF NOT EXISTS `s4t-myarduino`.`free_addresses` (
+CREATE TABLE IF NOT EXISTS `s4t-iotronic`.`free_addresses` (
   `vlans_id` INT NOT NULL,
   `ip` VARCHAR(45) NOT NULL,
   `insert_date` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -509,7 +509,7 @@ CREATE TABLE IF NOT EXISTS `s4t-myarduino`.`free_addresses` (
   PRIMARY KEY (`vlans_id`, `ip`),
   CONSTRAINT `fk_free_addresses_vlans1`
     FOREIGN KEY (`vlans_id`)
-    REFERENCES `s4t-myarduino`.`vlans` (`id`)
+    REFERENCES `s4t-iotronic`.`vlans` (`id`)
     ON DELETE CASCADE
     ON UPDATE CASCADE)
 ENGINE = InnoDB
@@ -517,11 +517,11 @@ DEFAULT CHARACTER SET = utf8;
 
 
 -- -----------------------------------------------------
--- Table `s4t-myarduino`.`drivers`
+-- Table `s4t-iotronic`.`drivers`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `s4t-myarduino`.`drivers` ;
+DROP TABLE IF EXISTS `s4t-iotronic`.`drivers` ;
 
-CREATE TABLE IF NOT EXISTS `s4t-myarduino`.`drivers` (
+CREATE TABLE IF NOT EXISTS `s4t-iotronic`.`drivers` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(20) NOT NULL,
   `jsonschema` LONGTEXT NOT NULL,
@@ -533,11 +533,11 @@ DEFAULT CHARACTER SET = utf8;
 
 
 -- -----------------------------------------------------
--- Table `s4t-myarduino`.`drivers_injected`
+-- Table `s4t-iotronic`.`drivers_injected`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `s4t-myarduino`.`drivers_injected` ;
+DROP TABLE IF EXISTS `s4t-iotronic`.`drivers_injected` ;
 
-CREATE TABLE IF NOT EXISTS `s4t-myarduino`.`drivers_injected` (
+CREATE TABLE IF NOT EXISTS `s4t-iotronic`.`drivers_injected` (
   `board_id` VARCHAR(36) NOT NULL,
   `driver_id` INT NOT NULL,
   `state` VARCHAR(20) NOT NULL,
@@ -546,30 +546,30 @@ CREATE TABLE IF NOT EXISTS `s4t-myarduino`.`drivers_injected` (
   INDEX `fk_drivers_injected_board_codes1_idx` (`board_id` ASC),
   CONSTRAINT `fk_drivers_injected_drivers1`
     FOREIGN KEY (`driver_id`)
-    REFERENCES `s4t-myarduino`.`drivers` (`id`)
+    REFERENCES `s4t-iotronic`.`drivers` (`id`)
     ON DELETE CASCADE
     ON UPDATE CASCADE,
   CONSTRAINT `fk_drivers_injected_board_codes1`
     FOREIGN KEY (`board_id`)
-    REFERENCES `s4t-myarduino`.`board_codes` (`code`)
+    REFERENCES `s4t-iotronic`.`board_codes` (`code`)
     ON DELETE CASCADE
     ON UPDATE CASCADE)
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8;
 
-USE `s4t-myarduino` ;
+USE `s4t-iotronic` ;
 
 -- -----------------------------------------------------
--- Placeholder table for view `s4t-myarduino`.`view1`
+-- Placeholder table for view `s4t-iotronic`.`view1`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `s4t-myarduino`.`view1` (`id` INT);
+CREATE TABLE IF NOT EXISTS `s4t-iotronic`.`view1` (`id` INT);
 
 -- -----------------------------------------------------
--- View `s4t-myarduino`.`view1`
+-- View `s4t-iotronic`.`view1`
 -- -----------------------------------------------------
-DROP VIEW IF EXISTS `s4t-myarduino`.`view1` ;
-DROP TABLE IF EXISTS `s4t-myarduino`.`view1`;
-USE `s4t-myarduino`;
+DROP VIEW IF EXISTS `s4t-iotronic`.`view1` ;
+DROP TABLE IF EXISTS `s4t-iotronic`.`view1`;
+USE `s4t-iotronic`;
 
 
 SET SQL_MODE=@OLD_SQL_MODE;
@@ -577,46 +577,46 @@ SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
 
 -- -----------------------------------------------------
--- Data for table `s4t-myarduino`.`user_groups`
+-- Data for table `s4t-iotronic`.`user_groups`
 -- -----------------------------------------------------
 START TRANSACTION;
-USE `s4t-myarduino`;
-INSERT INTO `s4t-myarduino`.`user_groups` (`id`, `name`) VALUES (1, 'admin');
+USE `s4t-iotronic`;
+INSERT INTO `s4t-iotronic`.`user_groups` (`id`, `name`) VALUES (1, 'admin');
 
 COMMIT;
 
 
 -- -----------------------------------------------------
--- Data for table `s4t-myarduino`.`users`
+-- Data for table `s4t-iotronic`.`users`
 -- -----------------------------------------------------
 START TRANSACTION;
-USE `s4t-myarduino`;
-INSERT INTO `s4t-myarduino`.`users` (`id`, `username`, `password`, `group_id`, `email`, `active`) VALUES (1, 'admin', 'admin', 1, 'smartme@unime.it ', 0);
+USE `s4t-iotronic`;
+INSERT INTO `s4t-iotronic`.`users` (`id`, `username`, `password`, `group_id`, `email`, `active`) VALUES (1, 'admin', 'admin', 1, 'smartme@unime.it ', 0);
 
 COMMIT;
 
 
 -- -----------------------------------------------------
--- Data for table `s4t-myarduino`.`board_types`
+-- Data for table `s4t-iotronic`.`board_types`
 -- -----------------------------------------------------
 START TRANSACTION;
-USE `s4t-myarduino`;
-INSERT INTO `s4t-myarduino`.`board_types` (`id`, `sku`, `image`, `electric_schema`) VALUES (1, '0000000', 'NULL', 'NULL');
+USE `s4t-iotronic`;
+INSERT INTO `s4t-iotronic`.`board_types` (`id`, `sku`, `image`, `electric_schema`) VALUES (1, '0000000', 'NULL', 'NULL');
 
 COMMIT;
 
 
 -- -----------------------------------------------------
--- Data for table `s4t-myarduino`.`sensors`
+-- Data for table `s4t-iotronic`.`sensors`
 -- -----------------------------------------------------
 START TRANSACTION;
-USE `s4t-myarduino`;
-INSERT INTO `s4t-myarduino`.`sensors` (`id`, `type`, `unit`, `fabric_name`, `model`) VALUES (1, 'temperature', '°C', 'TinkerKit', 'Thermistor');
-INSERT INTO `s4t-myarduino`.`sensors` (`id`, `type`, `unit`, `fabric_name`, `model`) VALUES (2, 'brightness', 'lux', 'TinkerKit', 'LDR');
-INSERT INTO `s4t-myarduino`.`sensors` (`id`, `type`, `unit`, `fabric_name`, `model`) VALUES (3, 'humidity', '%', 'Honeywell', 'HIH-4030');
-INSERT INTO `s4t-myarduino`.`sensors` (`id`, `type`, `unit`, `fabric_name`, `model`) VALUES (4, 'sound_detect', 'db', 'Keyes', 'HY-038');
-INSERT INTO `s4t-myarduino`.`sensors` (`id`, `type`, `unit`, `fabric_name`, `model`) VALUES (5, 'gas', 'ppm', 'Grove', 'MQ9');
-INSERT INTO `s4t-myarduino`.`sensors` (`id`, `type`, `unit`, `fabric_name`, `model`) VALUES (6, 'barometer', 'hPa', 'TinkerKit', 'mpl3115');
+USE `s4t-iotronic`;
+INSERT INTO `s4t-iotronic`.`sensors` (`id`, `type`, `unit`, `fabric_name`, `model`) VALUES (1, 'temperature', '°C', 'TinkerKit', 'Thermistor');
+INSERT INTO `s4t-iotronic`.`sensors` (`id`, `type`, `unit`, `fabric_name`, `model`) VALUES (2, 'brightness', 'lux', 'TinkerKit', 'LDR');
+INSERT INTO `s4t-iotronic`.`sensors` (`id`, `type`, `unit`, `fabric_name`, `model`) VALUES (3, 'humidity', '%', 'Honeywell', 'HIH-4030');
+INSERT INTO `s4t-iotronic`.`sensors` (`id`, `type`, `unit`, `fabric_name`, `model`) VALUES (4, 'sound_detect', 'db', 'Keyes', 'HY-038');
+INSERT INTO `s4t-iotronic`.`sensors` (`id`, `type`, `unit`, `fabric_name`, `model`) VALUES (5, 'gas', 'ppm', 'Grove', 'MQ9');
+INSERT INTO `s4t-iotronic`.`sensors` (`id`, `type`, `unit`, `fabric_name`, `model`) VALUES (6, 'barometer', 'hPa', 'TinkerKit', 'mpl3115');
 
 COMMIT;
 
