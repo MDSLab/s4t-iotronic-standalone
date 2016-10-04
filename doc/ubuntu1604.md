@@ -5,12 +5,13 @@ We tested this procedure on a Kubuntu 16.04. Everything needs to be run as root.
 ####Install dependencies via apt-get:
 
 ```
-# apt-get -y install nodejs nodejs-legacy npm git python-dev libyaml-dev libpython2.7-dev mysql-server nmap apache2 unzip socat bridge-utils python-pip python-httplib2
+# apt-get -y install nodejs nodejs-legacy npm python-dev libyaml-dev libpython2.7-dev mysql-server nmap apache2 unzip socat bridge-utils python-pip python-httplib2
 ```
 
 ####Install dependencies using npm:
 
 ```
+# npm install -g npm
 # npm install -g node-reverse-wstunnel requestify mysql nconf ip express uuid autobahn log4js q
 ```
 
@@ -88,5 +89,5 @@ Specify the WAMP realm (e.g. "s4t"):
 
 Start Iotronic:
 # systemctl start s4t-iotronic
-# CHECK: tail -f /var/log/s4t-iotronic.log
+# tail -f /var/log/s4t-iotronic.log
 ```
