@@ -1,4 +1,4 @@
-#Ubuntu 16.04 Stack4Things IoTronic (standalone) installation guide.
+#Stack4Things IoTronic (standalone version) installation guide for Ubuntu 16.04.
 
 We tested this procedure on a Kubuntu 16.04. Everything needs to be run as root.
 
