@@ -202,32 +202,37 @@ http://IP:PORT/command/?command=board-layout&board={boardID}
 response json:
 ```
 {
-	"message":{
-		"sensors":
-		[
-			{
-				"type":"temperature",
-				"model":"TinkerKit",
-				"id":1
-			},
-			{
-				"type":"brightness",
-				"model":"TinkerKit",
-				"id":2
-			}
-			...
-		],
-		"plugins":
-		[
-			{
-				"name":"prova",
-				"id":10,
-				"state":"injected"
-			}
-			...
-		]
-	},
-	"result":"SUCCESS"
+    "message":{
+        "sensors":
+        [
+            {
+                "type": <SENSOR-TYPE>,
+                "model": <SENSOR-MODEL>,
+                "id": <SENSOR-ID>
+            },
+            ...
+        ],
+        "plugins":
+        [
+            {
+                "name": <PLUGIN-NAME>,
+                "id": <PLUGIN-ID>,
+                "state": [ "running" | "executed" | "failed" | "killed" | "injected" ]
+            },
+            ...
+        ],
+        "drivers":
+        [
+            { 
+                "name": <DRIVER-NAME>, 
+                "state": [ "mounted" | "unmounted" ], 
+                "latest_change": <TIMESTAMP>
+            } ,
+            ...
+        ]
+
+
+    "result": [ "SUCCESS" | <IOTRONIC-ERR-MSG> ]
 }
 ```
 
