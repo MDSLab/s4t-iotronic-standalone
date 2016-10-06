@@ -225,7 +225,7 @@ response json:
         [
             { 
                 "name": <DRIVER-NAME>, 
-                "state": [ "mounted" | "unmounted" ], 
+                "state": [ "mounted" | "unmounted" | “injected” ], 
                 "latest_change": <TIMESTAMP>
             } ,
             ...
