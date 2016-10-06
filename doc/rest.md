@@ -1,6 +1,6 @@
 #REST API Specification
 
-###List of the connected devices 
+###List of the devices 
 ```
 http://IP:PORT/list/
 ```
@@ -49,7 +49,7 @@ response json:
 	"result": "0| ERROR DESCRIPTION"
 }
 ```
-### Digital or PWM Write
+### Digital or Analog Write
 ```
 http://IP:PORT/command/?board={boardID}&command={analog|digital}&pin={pinName}&val={0,1 | 0,1...1024}
 ```
@@ -63,7 +63,7 @@ response json:
 }
 ```
 
-### Digital or Analog read
+### Digital or Analog Read
 ```
 http://IP:PORT/command/?board={boardID}&command={analog|digital}&pin={pinName}
 ```
@@ -75,7 +75,7 @@ response json:
 }
 ```
 
-### Register board
+### Register a board
 ```
 http://IP:PORT/command/?command=reg-board&board={boardID}&board_label={label}&latitude={latitude}&longitude={longitude}&altitude={altitude}&net_enabled={net_enabled_flag}&sensorlist={sensors_list}
 ```
@@ -87,7 +87,7 @@ response json:
 }
 ```
 
-### Update board
+### Update a board
 ```
 http://IP:PORT/command/?command=update-board&board={boardID}&board_label={label}&latitude={latitude}&longitude={longitude}&altitude={altitude}&net_enabled={net_enabled_flag}&sensorlist={sensors_list}
 ```
@@ -99,7 +99,7 @@ response json:
 }
 ```
 
-### Unregister board
+### Unregister a board
 ```
 http://IP:PORT/command/?command=unreg-board&board={boardID}
 ```
@@ -114,7 +114,7 @@ response json:
 
 
 
-### Sensor List
+### Board Sensors List
 ```
 http://IP:PORT/sensorlist
 ```
@@ -171,7 +171,7 @@ response json:
 }
 ```
 
-### Cloud Plugins
+### Iotronic Plugins list
 ```
 http://IP:PORT/pluginlist
 ```
@@ -194,7 +194,7 @@ response json:
 }
 ```
 
-### Board Layout
+### Show Board Layout
 ```
 http://IP:PORT/command/?command=board-layout&board={boardID}
 ```
