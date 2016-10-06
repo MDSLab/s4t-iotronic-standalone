@@ -57,6 +57,7 @@ We tested this procedure on a Kubuntu 16.04. Everything needs to be run as root.
 # systemctl enable crossbar.service
 # systemctl start crossbar
 ```
+Note that the config.example.json coming with the iotronic-standalone package set the name of the realm to "s4t" and the listening port to "8181". If you want to change such values please consider that later on you would need to correctly change them in other configuration files. 
 
 ####Configure and start Websocket reverse tunnel
 
