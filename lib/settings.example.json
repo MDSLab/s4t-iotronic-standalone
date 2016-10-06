@@ -8,7 +8,7 @@
                                 "host":"localhost",
                                 "user":"root",
                                 "password": "",
-                                "db_name": ""
+                                "db_name": "s4t-iotronic"
                         },
                         "log": {
 			    "logfile": "/var/log/s4t-iotronic.log",
@@ -20,7 +20,7 @@
                 {
                         "url": "ws://localhost",
                         "port": "8181",
-                        "realm": "",
+                        "realm": "s4t",
                         "topic_command":"board.command",
                         "topic_connection": "board.connection"
                 },
