@@ -57,7 +57,7 @@ We tested this procedure on a Kubuntu 16.04. Everything needs to be run as root.
 # systemctl enable crossbar.service
 # systemctl start crossbar
 ```
-Note that the config.example.json coming with the iotronic-standalone package set the name of the realm to "s4t" and the listening port to "8181". If you want to change such values please consider that later on you would need to correctly change them in other configuration files. 
+Please, note that the config.example.json coming with the iotronic-standalone package sets the name of the WAMP realm to "s4t" and the Crossbar.io listening port to "8181". If you want to change such values, please consider that later on you will need to correctly change them in other configuration files. 
 
 ####Configure and start Websocket reverse tunnel
 
@@ -70,25 +70,35 @@ Note that the config.example.json coming with the iotronic-standalone package se
 ```
 
 ####Configure and start IoTronic
-This is an example of a minimal configuration compliant with the above installation instructions, i.e., with the MySQL database and the Crossbar.io router installed locally.
+
+First of all, you need to import the Iotronic database schema. During the installation of the MySQL package you should have been asked for a database root password. Please, substiture <DB_PASSWORD> with the one you chose. Also, please note that name of the database is set to "s4t-iotronic". If you want to change it, please consider that later on you will need to correctly change it in other configuration files.
 
 ```
-Import the Iotronic DB schema:
 # mysql -u root -p<DB_PASSWORD> < /opt/stack4things/iotronic-standalone/utils/s4t-db.sql
+```
 
+Then, copy the example of IoTronic configuration file coming with the package in the correct path. 
+```
 # cp /opt/stack4things/iotronic-standalone/lib/settings.example.json /opt/stack4things/iotronic-standalone/lib/settings.json
+``` 
+Please, note that the settings.example.json coming with the iotronic-standalone package sets the IoTronic listening port to "8888", the database name to "s4t-iotronic" (the database server is supposed to be running locally), the WAMP realm to "s4t" (the Crossbar.io WAMP router is supposed to be running locally on port 8181). If you want to change such values, please consider that later on you will need to correctly change them in other configuration files. 
 
-Specify the server's NIC used by Iotronic:
+Specify the network interface that IoTronic is supposed to use (e.g., change <INTERFACE> with "eth0").
+```
 # sed -i "s/\"interface\": \"\"/\"interface\":\"<INTERFACE>\"/g" /opt/stack4things/iotronic-standalone/lib/settings.json
+```
 
-Specify DB references:
+Specify the database password (use the same password you set while installing the MySQL package).
+```
 # sed -i "s/\"password\": \"\"/\"password\":\"<DB_PASSWORD>\"/g" /opt/stack4things/iotronic-standalone/lib/settings.json
-# sed -i "s/\"db_name\": \"\"/\"db_name\":\"s4t-iotronic\"/g" /opt/stack4things/iotronic-standalone/lib/settings.json
+```
 
-Specify the WAMP realm (e.g. "s4t"):
-# sed -i "s/\"realm\": \"\"/\"realm\":\"<WAMP_REALM>\"/g" /opt/stack4things/iotronic-standalone/lib/settings.json
-
-Start Iotronic:
+Now you are ready to start Iotronic.
+```
 # systemctl start s4t-iotronic
+```
+
+You can check logs by typing:
+```
 # tail -f /var/log/s4t-iotronic.log
 ```
