@@ -2,13 +2,13 @@
 
 We tested this procedure on a Kubuntu 16.04. Everything needs to be run as root.
 
-####Install dependencies via apt-get:
+####Install dependencies via apt-get
 
 ```
 # apt-get -y install nodejs nodejs-legacy npm python-dev libyaml-dev libpython2.7-dev mysql-server nmap apache2 unzip socat bridge-utils python-pip python-httplib2
 ```
 
-####Install dependencies using npm:
+####Install dependencies using npm
 
 ```
 # npm install -g npm
