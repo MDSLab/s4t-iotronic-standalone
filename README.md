@@ -6,7 +6,7 @@ More details about Stack4Things can be found [here](https://github.com/MDSLab/st
 
 IoTronic is the Cloud-side component in the Stack4Things architecture. In this repository, you find the standalone version of the IoTronic. It works with the version of the Lightining-rod probe that you can find [here] (https://github.com/MDSLab/s4t-lightning-rod).
 
-Stack4Things IoTronic (standalone) has been tested to work on:
+IoTronic (in the standalone version) has been tested to work on:
 
 * Ubuntu 16.04 
 * Ubuntu 14.04 
