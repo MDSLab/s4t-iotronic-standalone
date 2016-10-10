@@ -324,6 +324,21 @@ response json:
 }
 ```
 
+
+### Remove Plugin from board
+```
+http://IP:PORT/command/?command=remove-plugin-board&board={boardID}&pluginname={plugin_name}
+```
+
+response json:
+```
+{
+	"message":"Remove Plugin",
+	"result":"Plugin <PLUGINNAME> successfully removed!"
+}
+```
+
+
 ###Run Plugin (async)
 ```
 http://IP:PORT/command/?command=plugin&pluginname={plugin_name}&pluginjson={plugin_json}&pluginoperation=run&board={boardID}
