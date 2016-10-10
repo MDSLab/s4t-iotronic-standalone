@@ -502,17 +502,17 @@ http://IP:PORT/driverlist/
 Success response json:
 ```
 {
-	"message":
-		[
-			{
-				"id":<NUM>,
-				"name":"<DRIVERNAME>",
-				"jsonschema":"./schemas/<PLUGINSCHEMA>.json",
-				"code":"./plugins/<PLUGINNAME>.js"
-			},
-			{ ... },
-		],
-	"result":"SUCCESS"
+    "message":
+        [
+            {
+                "id": <DRIVER-ID>,
+                "name": <DRIVER-NAME>,
+                "jsonschema":"./schemas/<DRIVE-CONF-FILE-NAME>",
+                "code":"./plugins/<DRIVER-CODE-FILE-NAME>"
+            },
+            { ... },
+        ],
+    "result": [ "SUCCESS" | <IOTRONIC-ERR-MSG> ]
 }
 ```
 
