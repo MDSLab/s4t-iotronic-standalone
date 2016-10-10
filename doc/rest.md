@@ -405,15 +405,15 @@ http://IP:PORT/command/?command=create-network&netname={name-of-the-network}&val
 response json:
 ```
 {
-	"message": "Network created",
-	"result":"NETWORK SUCCESSFULLY CREATED!",
-	"log":{
-		"vlanid": "vlanid",
-		"uuid":"UUID-assigned",
-		"name":"name-of-the-network",
-		"netaddr":"Net-IP",
-		"netmask":"Net-Mask"
-	}
+    "message": "Network created",
+    "result":"NETWORK SUCCESSFULLY CREATED!",
+    "log":{
+        "vlanid": <VLAN-ID>,
+        "uuid": <IOTRONIC-NETWORK-UUID>,
+        "name": <IOTRONIC-NETWORK-NAME>,
+        "netaddr": <VLAN-NETWORK-ADDRESS>,
+        "netmask": <VLAN-NETWORK-NETMASK>
+    }
 }
 ```
 
