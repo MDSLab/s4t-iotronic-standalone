@@ -415,9 +415,9 @@ response json:
 		"netmask":"Net-Mask"
 	}
 }
+```
 
 ### Destroy Network
-```
 http://IP:PORT/command/?command=destroy-network&netuid={uuid-of-the-network}
 ```
 response json:
