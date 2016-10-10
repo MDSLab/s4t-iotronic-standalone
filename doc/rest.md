@@ -386,14 +386,14 @@ response json:
 {
 	"message": "list of networks",
 	"result": [
-		{
-			"uuid": "network-uuid",
-			"name": "network-name",
-			"address": "IP",
-			"size": size,
-			"hosts": []
-		},
-		....
+	    {
+		"uuid":  <IOTRONIC-NETWORK-UUID>,
+		"vlan_ip":  <VLAN-NETWORK-ADDRESS>,
+		"vlan_mask":  <VLAN-NETWORK-NETMASK>,
+		"vlan_name":  <IOTRONIC-NETWORK-NAME>,
+		"vlan_id":  <VLAN-ID>
+	    },
+	    ...
 	] 
 }
 ```
@@ -418,13 +418,15 @@ response json:
 ```
 
 ### Destroy Network
+```
 http://IP:PORT/command/?command=destroy-network&netuid={uuid-of-the-network}
 ```
 response json:
+
 ```
 {
 	"message":"Destroying network",
-	"result": "NETWORK network-uuid DESTROYED!"
+	"result": "NETWORK <NETWORK-UUID> DESTROYED!"
 }
 ```
 
@@ -436,55 +438,37 @@ http://IP:PORT/command/?command=add-to-network&netuid={uuid-of-the-network}&boad
 response json:
 ```
 {
-	"message":[{"ip":"board_IP"}],
-	"result":"VLAN CONNECTION ON boardID SUCCESSFULLY ESTABLISHED!",
+	"message":"VLAN CONNECTION ON <BOARD-UUID> SUCCESSFULLY ESTABLISHED!",
+	"result": {"ip": <VLAN-BOARD-IP>},
 	"log":{
-		"board":"boardID",
-		"socatID":1,
-		"socatPort":10000,
-		"greIP":"IP",
-		"greMask":"24",
-		"vlanID":"vlanid",
-		"vlan_name":"name-of-the-vlan",
-		"net_uuid":"UUID-assigned"
+               "board":<BOARD-UUID>,
+               "socatID": <SOCAT-BOARD-ID>,
+               "socatPort": <SOCAT-BOARD-PORT>,
+               "greIP": <VLAN-BOARD-IP>,
+               "greMask": <VLAN-BOARD-NETMASK>,
+               "vlanID": <VLAN-TAG-ID>,
+               "vlan_name": <VLAN-NAME>,
+               "net_uuid": <VLAN-UUID>
 	}
-}
 
+}
 ```
 
 ### Remove Board from a Network
 ```
-http://IP:PORT/command/?command=remove-from-network&netuid={name-of-the-vlan}&board={board-id}
+http://IP:PORT/command/?command=remove-from-network&netuid={vlan-uuid}&board={board-id}
 ```
 response json:
 ```
 {
-	"message": [
-		{
-			"found": 1
-		}
-	],
-	"result": "BOARD board-id REMOVED FROM VLAN name-of-the-vlan",
-	"log": {
-		"message": {
-			"fieldCount": 0,
-			"affectedRows": 1,
-			"insertId": 0,
-			"serverStatus": 34,
-			"warningCount": 0,
-			"message": "",
-			"protocol41": true,
-			"changedRows": 0
-		},
-		"result": "SUCCESS"
-	}
+	"message":"BOARD <BOARD-UUID> REMOVED FROM VLAN <VLAN-NAME>",
+	"result": {"found": [ 1 | 0 ]},
+        "log": <IOTRONIC-DB-MESSAGE>
 }
-
-
 ```
 
 
-###Show Boards
+###Show boards in a network
 ```
 http://IP:PORT/command/?command=show-boards&netuid={network-uuid}
 ```
@@ -494,17 +478,17 @@ response json:
 	"message": "Showing boards in a network",
 	"result": [
 		{
-			"BOARD_ID": "boardID",
-			"vlan_NAME": "name-of-the-vlan",
-			"vlan_ID": 15,
-			"vlan_IP": "board_vlanIP",
-			"socat_ID": 1,
-			"socat_IP": "board_socatIP",
-			"socat_PORT": 10000
+			"BOARD_ID": <BOARD-UUID>,
+			"vlan_NAME": <VLAN-NAME>,
+			"vlan_ID": <VLAN-TAG-ID>,
+			"vlan_IP": <VLAN-BOARD-IP>,
+			"socat_ID": <SOCAT-BOARD-ID>,
+			"socat_IP": <SOCAT-BOARD-IP>,
+			"socat_PORT": <SOCAT-BOARD-PORT>
 		}
 	],
 	...
-	"log": ""
+
 }
 
 ```
