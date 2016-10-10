@@ -430,7 +430,7 @@ response json:
 }
 ```
 
-```
+
 ### Add Board to Network
 ```
 http://IP:PORT/command/?command=add-to-network&netuid={uuid-of-the-network}&boad={boardID}&val=[{IP}]
