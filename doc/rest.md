@@ -463,7 +463,7 @@ response json:
 {
 	"message":"BOARD <BOARD-UUID> REMOVED FROM VLAN <VLAN-NAME>",
 	"result": {"found": [ 1 | 0 ]},
-        "log": <IOTRONIC-DB-MESSAGE>
+	"log": <IOTRONIC-DB-MESSAGE>
 }
 ```
 
