@@ -75,6 +75,7 @@ First of all, you need to import the Iotronic database schema. During the instal
 
 ```
 # mysql -u root -p<DB_PASSWORD> < /opt/stack4things/iotronic-standalone/utils/s4t-db.sql
+# mkdir /opt/stack4things/iotronic-standalone/drivers/
 ```
 
 Then, copy the example of IoTronic configuration file coming with the package in the correct path. 
