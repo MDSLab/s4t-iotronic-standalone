@@ -512,11 +512,11 @@ Success response json:
             },
             { ... },
         ],
-    "result": [ "SUCCESS" | <IOTRONIC-ERR-MSG> ]
+    "result": <IOTRONIC-RESULT-MSG>
 }
 ```
 
-### List of drivers injected in a board
+### Board drivers list
 ```
 http://IP:PORT/driverlist/?board={board-id}
 ```
@@ -532,46 +532,45 @@ Success response json:
 		},
 		{ ... },
 	],
-	"result": "SUCCESS"
+	"result": <IOTRONIC-RESULT-MSG>
 }
 ```
 
 
-### Create driver
+### Upload driver to Iotronic
 ```
 http://IP:PORT/command/?command=createdriver&drivername={driver_name}&driverjson={driver_json}&drivercode={driver_code}
 ```
 Success response json:
 ```
 {	
-	"message":"Create Driver",
-	"result":"Driver <driver_name> injected into Iotronic successfully"
+	"message": "Create Driver",
+	"result": <IOTRONIC-RESULT-MSG>
 }
 ```
 
 ### Inject driver
 ```
-http://IP:PORT/command/?command=injectdriver&board={board-id}&drivername={driver_name}
+http://IP:PORT/command/?command=injectdriver&board={board-id}&drivername={driver_name}&autostart={True|False}
 ```
 Success response json:
 ```
 {	
-	"message":"Inject driver",
-	"result":"Driver <driver_name> successfully injected!"
+	"message": "Inject driver",
+	"result": <IOTRONIC-RESULT-MSG>
 }
 ```
 
 ### Mount driver
 ```
-http://IP:PORT/command/?command=driver&drivername={driver_name}&driveroperation=mount&board={board-id}
+http://IP:PORT/command/?command=driver&drivername={driver_name}&driveroperation=mount&board={board-id}&remote_driver={true|false}
 
 ```
 Success response json:
 ```
 {	
-	"message":Driver '<driver_name>' successfully mounted!",
-	"result":"SUCCESS"
-
+	"message": <IOTRONIC-MSG>",
+	"result": <IOTRONIC-RESULT-MSG>
 }
 ```
 
@@ -583,42 +582,40 @@ http://IP:PORT/command/?command=driver&drivername={driver_name}&driveroperation=
 Success response json:
 ```
 {	
-	"message":Driver '<driver_name>' successfully unmounted!",
-	"result":"SUCCESS"
-
+	"message": <IOTRONIC-MSG>",
+	"result": <IOTRONIC-RESULT-MSG>
 }
 ```
 
-### Read remote driver file
+### Read driver file remotely
 ```
 http://IP:PORT/command/?command=readdriverfile&board={board-id}&drivername={driver_name}&filename={driver_file}
 ```
 Success response json:
-```
-{	
-	"message":"Read remote file",
-	"result":{
-		"driver":"<driver_name>",
-		"file":"<driver_file>",
-		"value":"<file_content>"
-	}
+```	
+{
+    "message": "Read remote file",
+    "result": {
+	  "driver": <DRIVER-NAME>,
+	  "file": <DRIVER-FILE-NAME>,
+	  "value": <DRIVER-FILE-CONTENT>
+      }
 }
 ```
 
-### Write remote driver file
+### Write driver file remotely
 ```
 http://IP:PORT/command/?command=writedriverfile&board={board-id}&drivername={driver_name}&filename={driver_file}&filecontent={file_content}
 ```
 Success response json:
 ```
 {	
-	"message":"Write remote file",
-	"result":{
-		"driver":"<driver_name>",
-		"file":"<driver_file>",
-		"response":"writing completed"
-	}
-
+    "message":"Write remote file",
+    "result":{
+      "driver": <DRIVER-NAME>,
+      "file": <DRIVER-FILE-NAME>,
+      "response": <DRIVER-RESULT-MSG>
+    }
 }
 ```
 
@@ -630,10 +627,9 @@ http://IP:PORT/command/?command=remove-driver-board&board={board-id}&drivername=
 ```
 Success response json:
 ```
-{	
-	"message":"Remove driver",
-	"result":"Driver <driver_name> successfully removed!"
-
+{
+	"message": "Remove driver",
+	"result": <IOTRONIC-RESULT-MSG>
 }
 ```
 
@@ -645,8 +641,8 @@ http://IP:PORT/command/?command=destroydriver&drivername={driver_name}
 Success response json:
 ```
 {	
-	"message":"Destroy driver",
-	"result":"Driver <driver_name> successfully deleted from Iotronic!"
+	"message": "Destroy driver",
+	"result": <IOTRONIC-RESULT-MSG>
 }
 ```
 
