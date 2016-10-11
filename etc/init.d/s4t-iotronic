@@ -3,16 +3,14 @@
 
 #/usr/local/lib/node_modules/node-reverse-wstunnel/bin/wstt.js -r -s 8080 &> /var/log/node-reverse-wstunnel &
 
-
-
 export PATH=/bin:/sbin:/usr/bin:/usr/sbin:/opt/usr/bin
 export NODE_PATH=/usr/local/lib/node_modules:$NODE_PATH
 
 NAME=s4t-iotronic
 
 
-FOLDER=/opt/stack4things/s4t-iotronic-standalone
-DAEMON=/opt/stack4things/s4t-iotronic-standalone/bin/server
+FOLDER=/opt/stack4things/iotronic-standalone
+DAEMON=/opt/stack4things/iotronic-standalone/bin/server
 
 DESC=s4t-iotronic
 LOGFILE="/var/log/s4t-iotronic.log"
@@ -34,7 +32,7 @@ set -e
 
 . /lib/lsb/init-functions
 
-MYPID=`ps www | grep /opt/stack4things/s4t-iotronic-standalone/bin/server | grep -v grep | awk {'print $1'}`
+MYPID=`ps www | grep /opt/stack4things/iotronic-standalone/bin/server | grep -v grep | awk {'print $1'}`
 MYPID2=`ps www | grep /usr/local/lib/node_modules/node-reverse-wstunnel/bin/wstt.js | grep -v grep | awk {'print $1'}`
 
 
