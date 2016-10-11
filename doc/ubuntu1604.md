@@ -1,11 +1,11 @@
 #Stack4Things IoTronic (standalone version) installation guide for Ubuntu 16.04
 
-We tested this procedure on a Kubuntu 16.04. Everything needs to be run as root.
+We tested this procedure on a Ubuntu 16.04 within a LXD container on top of a Kubuntu 16.04 on 11th October 2016. Everything needs to be run as root.
 
 ####Install dependencies via apt-get
 
 ```
-# apt-get -y install nodejs nodejs-legacy npm python-dev libyaml-dev libpython2.7-dev mysql-server nmap apache2 unzip socat bridge-utils python-pip python-httplib2
+# apt -y install nodejs nodejs-legacy npm python-dev libyaml-dev libpython2.7-dev mysql-server nmap apache2 unzip socat bridge-utils python-pip python-httplib2
 ```
 
 ####Install dependencies using npm
@@ -27,8 +27,8 @@ We tested this procedure on a Kubuntu 16.04. Everything needs to be run as root.
 
 ```
 # apt-key adv --keyserver hkps.pool.sks-keyservers.net --recv D58C6920 && sh -c "echo 'deb http://package.crossbar.io/ubuntu xenial main' | sudo tee /etc/apt/sources.list.d/crossbar.list"
-# apt-get update
-# apt-get install crossbar
+# apt update
+# apt install crossbar
 ```
 
 ####Install IoTronic
