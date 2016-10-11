@@ -76,6 +76,7 @@ Import the Iotronic DB schema:
 $ mysql -u root -p<DB_PASSWORD> < /opt/stack4things/iotronic-standalone/utils/s4t-db.sql
 
 $ cp /opt/stack4things/iotronic-standalone/lib/settings.example.json /opt/stack4things/iotronic-standalone/lib/settings.json
+$ mkdir /opt/stack4things/iotronic-standalone/drivers/
 
 Specify the server's NIC used by Iotronic:
 $ sed -i "s/\"interface\": \"\"/\"interface\":\"<INTERFACE>\"/g" /opt/stack4things/iotronic-standalone/lib/settings.json
