@@ -4,7 +4,7 @@
 ```
 http://IP:PORT/list/
 ```
-response json
+Response:
 ```
 {
 	"list":
@@ -23,67 +23,16 @@ response json
 
 ```
 
-###Export Local Services
-```
-http://IP:PORT/command/?board={boardID}&command={service_name}&op={start|stop}
-```
-
-response json:
-```
-{
-	"ip":"IP",
-	"port":"TUNNELED_PORT",
-	"service":"ServiceName",
-	"status":"start|stop"
-}
-```
-
-###Set PIN mode
-```
-http://IP:PORT/command/?board={boardID}&command=mode&pin={pinName}&mode={input|output|pwm}
-```
-response json:
-```
-{
-	"mesage": "Set Mode",
-	"result": "0| ERROR DESCRIPTION"
-}
-```
-### Digital or Analog Write
-```
-http://IP:PORT/command/?board={boardID}&command={analog|digital}&pin={pinName}&val={0,1 | 0,1...1024}
-```
-*in this REST call analog is used per PWM PIN*
-
-response json:
-```
-{
-	"message": "Digital Write | Analog Write",
-	"result": "0 | ERROR DESCRIPTION"
-}
-```
-
-### Digital or Analog Read
-```
-http://IP:PORT/command/?board={boardID}&command={analog|digital}&pin={pinName}
-```
-response json:
-```
-{
-	"message" : "Digital Read | Analog Read",
-	"result": "value of the PIN | ERROR DESCRIPTION"
-}
-```
 
 ### Register a board
 ```
 http://IP:PORT/command/?command=reg-board&board={boardID}&board_label={label}&latitude={latitude}&longitude={longitude}&altitude={altitude}&net_enabled={net_enabled_flag}&sensorlist={sensors_list}
 ```
 
-response json:
+Response:
 ```
 {
-	"result": "Registration successfully completed!"
+	"result": <IOTRONIC-RESULT-MSG>
 }
 ```
 
@@ -92,10 +41,10 @@ response json:
 http://IP:PORT/command/?command=update-board&board={boardID}&board_label={label}&latitude={latitude}&longitude={longitude}&altitude={altitude}&net_enabled={net_enabled_flag}&sensorlist={sensors_list}
 ```
 
-response json:
+Response:
 ```
 {
-	"result": "Updating board successfully completed!"
+	"result": <IOTRONIC-RESULT-MSG>
 }
 ```
 
@@ -104,22 +53,19 @@ response json:
 http://IP:PORT/command/?command=unreg-board&board={boardID}
 ```
 
-response json:
+Response:
 ```
 {
-	"result": "Unegistration board successfully completed!"
+	"result": <IOTRONIC-RESULT-MSG>
 }
 ```
-
-
-
 
 ### Board Sensors List
 ```
 http://IP:PORT/sensorlist
 ```
 
-response json:
+Response:
 ```
 {
 	"message":
@@ -167,39 +113,17 @@ response json:
 			"model":"TinkerKit"
 		}
 	],
-	"result":"SUCCESS"
+	"result": <IOTRONIC-RESULT-MSG>
 }
 ```
 
-### Iotronic Plugins list
-```
-http://IP:PORT/pluginlist
-```
-
-response json:
-```
-{
-	"message":
-		[
-			{
-				"id":<NUM>,
-				"name":"<PLUGINNAME>",
-				"category":"async | sync",
-				"jsonschema":"./schemas/<PLUGINSCHEMA>.json",
-				"code":"./plugins/<PLUGINNAME>.js"
-			},
-			{ ... },
-		],
-	"result":"SUCCESS"
-}
-```
 
 ### Show Board Layout
 ```
 http://IP:PORT/command/?command=board-layout&board={boardID}
 ```
 
-response json:
+Response:
 ```
 {
     "message":{
@@ -232,17 +156,17 @@ response json:
         ]
 
 
-    "result": [ "SUCCESS" | <IOTRONIC-ERR-MSG> ]
+    "result": <IOTRONIC-RESULT-MSG>
 }
 ```
 
 
-### Board Info
+### Show Board Information
 ```
 http://IP:PORT/command/?command=board-info&board={boardID}
 ```
 
-response json:
+Response:
 ```
 {
 	"message":
@@ -271,56 +195,132 @@ response json:
 			}
 		]
 	},
+	"result": <IOTRONIC-RESULT-MSG>
+}
+```
+
+
+
+
+###Export Board Services
+```
+http://IP:PORT/command/?board={boardID}&command={service_name}&op={"start"|"stop"}
+```
+
+Response:
+```
+{
+    "ip": <IOTRONIC-IP>,
+    "port": <SERVICE-PORT-NUMBER>,
+    "service": <SERVICE-NAME>,
+    "status": [ “start” | “stop” ]
+}
+```
+
+
+
+###Set PIN mode
+```
+http://IP:PORT/command/?board={boardID}&command=mode&pin={pinName}&mode={input|output|pwm}
+```
+Response:
+```
+{
+	"mesage": "Set Mode",
+	"result": [ <IOTRONIC-RESULT-MSG> | <IDEINO-ERR-MSG> ]
+}
+```
+
+### Digital or Analog (PWM) Write
+```
+http://IP:PORT/command/?board={boardID}&command={analog|digital}&pin={pinName}&val={0,1 | 0,1...1024}
+```
+*in this REST call analog is used per PWM PIN*
+
+Response:
+```
+{
+	"message": [ "Digital Write" | "Analog Write" ],
+	"result":  [ <IOTRONIC-RESULT-MSG> | <IDEINO-ERR-MSG> ]
+}
+```
+
+### Digital or Analog Read
+```
+http://IP:PORT/command/?board={boardID}&command={analog|digital}&pin={pinName}
+```
+Response:
+```
+{
+	"message" : [ "Digital Write" | "Analog Write" ],
+	"result": [ <PIN-VALUE> | <IDEINO-ERR-MSG> ]
+}
+```
+
+
+
+
+
+
+
+### Iotronic Plugins list
+```
+http://IP:PORT/pluginlist
+```
+Response:
+```
+{
+	"message":
+		[
+			{
+				"id":<NUM>,
+				"name":"<PLUGINNAME>",
+				"category":"async | sync",
+				"jsonschema":"./schemas/<PLUGINSCHEMA>.json",
+				"code":"./plugins/<PLUGINNAME>.js"
+			},
+			{ ... },
+		],
 	"result":"SUCCESS"
 }
 ```
 
 
-
-
-### Create Plugin
+### Upload Plugin to Iotronic
 ```
 http://IP:PORT/command/?command=createplugin&pluginname={plugin_name}&pluginjsonschema={plugin_json}&plugincode={plugin_code}
 ```
-response json:
+Response:
 ```
 {
 	"message": "Create Plugin",
-	"result": {
-		"fieldCount": 0,
-		"affectedRows": rows,
-		"insertId": id,
-		"serverStatus": status, 
-		"warningCount": 0,
-		"message": "",
-		"protocol41": true,
-		"changedRows": 0
-	}
+	"result": <IOTRONIC-RESULT-MSG>
 }
 ```
 
-### Destroy Plugin
+
+### Remove Plugin from Iotronic
 ```
 http://IP:PORT/command/?command=destroyplugin&pluginname={plugin_name}
 ```
-
-response json:
+Response:
 ```
 {
 	"message":"Destroy Plugin",
-	"result":"Plugin <PLUGINNAME> successfully destroyed!"
+	"result": <IOTRONIC-RESULT-MSG>
 }
 ```
 
-### Inject Plugin
+
+### Inject Plugin to Board
 ```
 http://IP:PORT/command/?command=injectplugin&board={boardID}&pluginname={plugin_name}&autostart={True|False}
 ```
-response json:
+Response:
 ```
 {
 	"message": "Inject Plugin",
-	"result": "Plugin injected successfully!" | "Plugin does not exist!"
+	"result": <IOTRONIC-RESULT-MSG>
 }
 ```
 
@@ -329,59 +329,62 @@ response json:
 ```
 http://IP:PORT/command/?command=remove-plugin-board&board={boardID}&pluginname={plugin_name}
 ```
-
-response json:
+Response:
 ```
 {
 	"message":"Remove Plugin",
-	"result":"Plugin <PLUGINNAME> successfully removed!"
+	"result": <IOTRONIC-RESULT-MSG>
 }
 ```
 
 
-###Run Plugin (async)
+### Start Asynchronous Plugin
 ```
 http://IP:PORT/command/?command=plugin&pluginname={plugin_name}&pluginjson={plugin_json}&pluginoperation=run&board={boardID}
 ```
-response json:
+Response:
 ```
 {
 	"message": "Run Plugin",
-	"result": "OK - Plugin running!" | "Plugin category not supported!"
+	"result": <IOTRONIC-RESULT-MSG>
 }
 ```
 
-###Kill Plugin (async)
+
+### Stop Asynchronous Plugin
 ```
 http://IP:PORT/command/?command=plugin&pluginname={plugin_name}&pluginoperation=kill&board={boardID}
 ```
-response json:
+Response:
 ```
 {
 	"message": "Kill Plugin",
-	"result": "OK - plugin killed!" | "Plugin is not running on this board!"
+	"result": <IOTRONIC-RESULT-MSG>
 }
 ```
 
 
-###Call Plugin (sync)
+### Execute Synchronous Plugin
 ```
 http://IP:PORT/command/?command=plugin&pluginname={plugin_name}&pluginjson={plugin_json}&pluginoperation=call&board={boardID}
 ```
-response json:
+Response:
 ```
 {
 	"message": "Call Plugin",
-	"result": "< CALL RESPONSE USER DEFINED >" | "Plugin category not supported!"
+	"result": <IOTRONIC-RESULT-MSG>
 	
 }
 ```
 
-###Show Networks
+
+
+
+### Show Iotronic virtual networks
 ```
 http://IP:PORT/command/?command=show-network
 ```
-response json:
+Response:
 ```
 {
 	"message": "list of networks",
@@ -398,14 +401,15 @@ response json:
 }
 ```
 
-### Create New Network
+
+### Create new virtual network
 ```
 http://IP:PORT/command/?command=create-network&netname={name-of-the-network}&val={Net-IP/Net-Mask}
 ```
-response json:
+Response:
 ```
 {
-    "message": "Network created",
+    "message": "Network creation",
     "result":"NETWORK SUCCESSFULLY CREATED!",
     "log":{
         "vlanid": <VLAN-ID>,
@@ -417,16 +421,15 @@ response json:
 }
 ```
 
-### Destroy Network
+### Destroy virtual network
 ```
 http://IP:PORT/command/?command=destroy-network&netuid={uuid-of-the-network}
 ```
-response json:
-
+Response:
 ```
 {
 	"message":"Destroying network",
-	"result": "NETWORK <NETWORK-UUID> DESTROYED!"
+	"result": <IOTRONIC-RESULT-MSG>
 }
 ```
 
@@ -435,10 +438,10 @@ response json:
 ```
 http://IP:PORT/command/?command=add-to-network&netuid={uuid-of-the-network}&board={boardID}&val=[{IP}]
 ```
-response json:
+Response:
 ```
 {
-	"message":"VLAN CONNECTION ON <BOARD-UUID> SUCCESSFULLY ESTABLISHED!",
+	"message": <IOTRONIC-RESULT-MSG>,
 	"result": {"ip": <VLAN-BOARD-IP>},
 	"log":{
                "board":<BOARD-UUID>,
@@ -454,25 +457,26 @@ response json:
 }
 ```
 
-### Remove Board from a Network
+
+### Remove Board from a virtual network
 ```
 http://IP:PORT/command/?command=remove-from-network&netuid={vlan-uuid}&board={board-id}
 ```
-response json:
+Response:
 ```
 {
-	"message":"BOARD <BOARD-UUID> REMOVED FROM VLAN <VLAN-NAME>",
+	"message": <IOTRONIC-RESULT-MSG>,
 	"result": {"found": [ 1 | 0 ]},
 	"log": <IOTRONIC-DB-MESSAGE>
 }
 ```
 
 
-###Show boards in a network
+### Show boards in a network
 ```
 http://IP:PORT/command/?command=show-boards&netuid={network-uuid}
 ```
-response json:
+Response:
 ```
 {
 	"message": "Showing boards in a network",
@@ -494,12 +498,13 @@ response json:
 ```
 
 
+
+
 ### Iotronic drivers list
 ```
 http://IP:PORT/driverlist/
 ```
-
-Success response json:
+Response:
 ```
 {
     "message":
@@ -516,17 +521,17 @@ Success response json:
 }
 ```
 
+
 ### Board drivers list
 ```
 http://IP:PORT/driverlist/?board={board-id}
 ```
-
-Success response json:
+Response:
 ```
 {
 	"message": [
 		{
-			"name": "<DRIVERNAME>",
+			"name": "<DRIVER-NAME>",
 			"state": "< mounted | unmounted | injected >",
 			"latest_change": "2016-05-20T16:12:45.000Z"
 		},
@@ -541,7 +546,7 @@ Success response json:
 ```
 http://IP:PORT/command/?command=createdriver&drivername={driver_name}&driverjson={driver_json}&drivercode={driver_code}
 ```
-Success response json:
+Response:
 ```
 {	
 	"message": "Create Driver",
@@ -549,11 +554,12 @@ Success response json:
 }
 ```
 
-### Inject driver
+
+### Inject driver to board
 ```
 http://IP:PORT/command/?command=injectdriver&board={board-id}&drivername={driver_name}&autostart={True|False}
 ```
-Success response json:
+Response:
 ```
 {	
 	"message": "Inject driver",
@@ -561,37 +567,38 @@ Success response json:
 }
 ```
 
-### Mount driver
+
+### Mount driver on board
 ```
 http://IP:PORT/command/?command=driver&drivername={driver_name}&driveroperation=mount&board={board-id}&remote_driver={true|false}
-
 ```
-Success response json:
+Response:
 ```
 {	
-	"message": <IOTRONIC-MSG>",
+	"message": <IOTRONIC-MSG>,
 	"result": <IOTRONIC-RESULT-MSG>
 }
 ```
 
 
-### Unmount driver
+### Unmount driver from board
 ```
 http://IP:PORT/command/?command=driver&drivername={driver_name}&driveroperation=unmount&board={board-id}
 ```
 Success response json:
 ```
 {	
-	"message": <IOTRONIC-MSG>",
+	"message": <IOTRONIC-MSG>,
 	"result": <IOTRONIC-RESULT-MSG>
 }
 ```
+
 
 ### Read driver file remotely
 ```
 http://IP:PORT/command/?command=readdriverfile&board={board-id}&drivername={driver_name}&filename={driver_file}
 ```
-Success response json:
+Response:
 ```	
 {
     "message": "Read remote file",
@@ -599,15 +606,16 @@ Success response json:
 	  "driver": <DRIVER-NAME>,
 	  "file": <DRIVER-FILE-NAME>,
 	  "value": <DRIVER-FILE-CONTENT>
-      }
+    }
 }
 ```
+
 
 ### Write driver file remotely
 ```
 http://IP:PORT/command/?command=writedriverfile&board={board-id}&drivername={driver_name}&filename={driver_file}&filecontent={file_content}
 ```
-Success response json:
+Response:
 ```
 {	
     "message":"Write remote file",
@@ -620,12 +628,11 @@ Success response json:
 ```
 
 
-
 ### Remove driver from board
 ```
 http://IP:PORT/command/?command=remove-driver-board&board={board-id}&drivername={driver_name}
 ```
-Success response json:
+Response:
 ```
 {
 	"message": "Remove driver",
@@ -646,11 +653,12 @@ Success response json:
 }
 ```
 
+
 ### Mount mirrored driver
 ```
 http://IP:PORT/command/?command=driver&drivername={driver_name}&driveroperation=mount&board={board-id}&remote_driver=true&mirror_board={mirrored-board-id}
 ```
-Success response json:
+Response:
 ```
 {
     "message": <IOTRONIC-MSG>,
