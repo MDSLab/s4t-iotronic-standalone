@@ -1,4 +1,4 @@
-#User Manual
+#Stack4Things REST API
 
 
 ###List of the devices 
@@ -8,18 +8,18 @@ http://IP:PORT/list/
 Response:
 ```
 {
-	"list":
-	[
-		{
-			"board_code":"boardID",
-			"session_id":"null",
-			"status":"Disconnected/Connected",
-			"altitude":"alt",
-			"longitude":"long",
-			"latitude":"lat"
-		},
-		...
-	]
+    "list":
+    [
+        {
+            "board_code":<IOTRONIC-BOARD-ID>,
+            "session_id":[ "null" | <WAMP-SESSION-ID> ],
+            "status": [ "D" | "C" ],
+            "altitude":<BOARD-ALTITUDE>,
+            "longitude":<BOARD-LONGITUDE>,
+            "latitude":<BOARD-LATITUDE>
+        },
+        ...
+    ]
 }
 ```
 
