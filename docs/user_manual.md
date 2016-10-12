@@ -1,7 +1,8 @@
-#Stack4Things REST API
+# Stack4Things REST API
 
+## Device management
 
-###List of the devices 
+### List of the devices 
 ```
 http://IP:PORT/list/
 ```
