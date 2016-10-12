@@ -164,9 +164,9 @@ Response:
 ```
 
 
+## Board services management
 
-
-###Export Board Services
+### Export Board Services
 ```
 http://IP:PORT/command/?board={boardID}&command={service_name}&op={"start"|"stop"}
 ```
@@ -181,7 +181,10 @@ Response:
 ```
 
 
-###Set PIN mode
+
+## Arduino YUN | Linino ONE PINs management
+
+### Set PIN mode
 ```
 http://IP:PORT/command/?board={boardID}&command=mode&pin={pinName}&mode={input|output|pwm}
 ```
@@ -222,7 +225,7 @@ Response:
 ```
 
 
-
+## Plugins management
 
 ### Iotronic Plugins list
 ```
@@ -340,6 +343,7 @@ Response:
 
 
 
+## Virtual networks management
 
 ### Show Iotronic virtual networks
 ```
@@ -460,6 +464,7 @@ Response:
 
 
 
+## Drivers management (sperimental)
 
 ### Iotronic drivers list
 ```
