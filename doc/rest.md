@@ -646,10 +646,16 @@ Success response json:
 }
 ```
 
-### MIRRORED: Mount driver
+### Mount mirrored driver
 ```
 http://IP:PORT/command/?command=driver&drivername={driver_name}&driveroperation=mount&board={board-id}&remote_driver=true&mirror_board={mirrored-board-id}
 ```
-
+Success response json:
+```
+{
+    "message": <IOTRONIC-MSG>,
+    "result": <IOTRONIC-RESULT-MSG>
+}
+```
 
 
