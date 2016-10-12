@@ -13,12 +13,12 @@ IoTronic (in the standalone version) has been tested to work on:
 
 ##Installation guides
 
-* [Installation guide for Ubuntu 16.04](doc/ubuntu1604.md)
+* [Installation guide for Ubuntu 16.04](doc/installation_ubuntu_16.04.md)
 
-* [Installation guide for Ubuntu 14.04](doc/ubuntu1404.md)
+* [Installation guide for Ubuntu 14.04](doc/installation_ubuntu_14.04.md)
 
-If you want to install IoTronic within an LXD container, you can find a guide [here](doc/lxd.md).
+If you want to install IoTronic within an LXD container, you can find a guide [here](doc/installation_lxd.md).
 
 ##REST API
 
-IoTronic provides a REST interface. You can find details about the API [here](doc/rest.md).
+IoTronic provides a REST interface. You can find details about the API [here](doc/rest_api.md).
