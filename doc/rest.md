@@ -1,5 +1,6 @@
 #REST API Specification
 
+
 ###List of the devices 
 ```
 http://IP:PORT/list/
@@ -20,7 +21,6 @@ Response:
 		...
 	]
 }
-
 ```
 
 
@@ -28,31 +28,30 @@ Response:
 ```
 http://IP:PORT/command/?command=reg-board&board={boardID}&board_label={label}&latitude={latitude}&longitude={longitude}&altitude={altitude}&net_enabled={net_enabled_flag}&sensorlist={sensors_list}
 ```
-
 Response:
 ```
 {
 	"result": <IOTRONIC-RESULT-MSG>
 }
 ```
+
 
 ### Update a board
 ```
 http://IP:PORT/command/?command=update-board&board={boardID}&board_label={label}&latitude={latitude}&longitude={longitude}&altitude={altitude}&net_enabled={net_enabled_flag}&sensorlist={sensors_list}
 ```
-
 Response:
 ```
 {
 	"result": <IOTRONIC-RESULT-MSG>
 }
 ```
+
 
 ### Unregister a board
 ```
 http://IP:PORT/command/?command=unreg-board&board={boardID}
 ```
-
 Response:
 ```
 {
@@ -60,11 +59,11 @@ Response:
 }
 ```
 
+
 ### Board Sensors List
 ```
 http://IP:PORT/sensorlist
 ```
-
 Response:
 ```
 {
@@ -91,7 +90,6 @@ Response:
 ```
 http://IP:PORT/command/?command=board-layout&board={boardID}
 ```
-
 Response:
 ```
 {
@@ -134,37 +132,33 @@ Response:
 ```
 http://IP:PORT/command/?command=board-info&board={boardID}
 ```
-
 Response:
 ```
+
 {
-	"message":
-	{
-		"info":
-		[
-			{
-				"label": label,
-				"altitude":altitude,
-				"longitude":longitude,
-				"latitude":latitude,
-				"net_enabled":1
-			}
-		],
-		"sensors":
-		[
-			{
-				"type":"temperature",
-				"model":"TinkerKit",
-				"id":1
-			},
-			{
-				"type":"brightness",
-				"model":"TinkerKit",
-				"id":2
-			}
-		]
-	},
-	"result": <IOTRONIC-RESULT-MSG>
+    "message":
+    {
+        "info":
+        [
+            {
+                "label": <BOARD-LABEL>,
+                "altitude": <BOARD-ALTITUDE>,
+                "longitude": <BOARD-LONGITUDE>,
+                "latitude": <BOARD-LATITUDE>,
+                "net_enabled": [ 0 | 1 ] 
+            }
+        ],
+        "sensors":
+        [
+            {
+                "type": <SENSOR-TYPE>,
+                "model": <SENSOR-MODEL>,
+                "id": <SENSOR-ID>
+            },
+            ...
+        ],    
+     },
+    "result": <IOTRONIC-RESULT-MSG>
 }
 ```
 
@@ -175,7 +169,6 @@ Response:
 ```
 http://IP:PORT/command/?board={boardID}&command={service_name}&op={"start"|"stop"}
 ```
-
 Response:
 ```
 {
@@ -185,7 +178,6 @@ Response:
     "status": [ “start” | “stop” ]
 }
 ```
-
 
 
 ###Set PIN mode
@@ -199,6 +191,7 @@ Response:
 	"result": [ <IOTRONIC-RESULT-MSG> | <IDEINO-ERR-MSG> ]
 }
 ```
+
 
 ### Digital or Analog (PWM) Write
 ```
@@ -214,6 +207,7 @@ Response:
 }
 ```
 
+
 ### Digital or Analog Read
 ```
 http://IP:PORT/command/?board={boardID}&command={analog|digital}&pin={pinName}
@@ -225,9 +219,6 @@ Response:
 	"result": [ <PIN-VALUE> | <IDEINO-ERR-MSG> ]
 }
 ```
-
-
-
 
 
 
