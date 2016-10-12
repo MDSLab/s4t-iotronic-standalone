@@ -68,52 +68,21 @@ http://IP:PORT/sensorlist
 Response:
 ```
 {
-	"message":
-	[
-		{
-			"id":1,
-			"type":"temperature",
-			"unit":"°C",
-			"fabric_name":"Thermistor",
-			"model":"TinkerKit"
-		},
-		{
-			"id":2,
-			"type":"brightness",
-			"unit":"lux",
-			"fabric_name":"LDR",
-			"model":"TinkerKit"
-		},
-		{
-			"id":3,
-			"type":"humidity",
-			"unit":"%",
-			"fabric_name":"HIH-4030",
-			"model":"Honeywell"
-		},
-		{
-			"id":4,
-			"type":"sound_detect",
-			"unit":"db",
-			"fabric_name":"HY-038",
-			"model":"Keyes"
-		},
-		{
-			"id":5,
-			"type":"gas",
-			"unit":"ppm",
-			"fabric_name":"MQ9",
-			"model":"Grove"
-		},
-		{
-			"id":6,
-			"type":"barometer",
-			"unit":"hPa",
-			"fabric_name":"mpl3115",
-			"model":"TinkerKit"
-		}
-	],
-	"result": <IOTRONIC-RESULT-MSG>
+    "message":
+    [
+        {
+            "id": <SENSOR-ID>,
+            "type": <SENSOR-TYPE>,
+            "unit": <METRIC-UNIT>,
+            "fabric_name": <SENSOR-FABRIC-NAME>,
+            "model": <SENSOR-MODEL>
+        },
+
+    	…
+
+   ],
+
+   "result": <IOTRONIC-RESULT-MSG>
 }
 ```
 
