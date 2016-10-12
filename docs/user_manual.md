@@ -1,4 +1,4 @@
-#REST API Specification
+#User Manual
 
 
 ###List of the devices 

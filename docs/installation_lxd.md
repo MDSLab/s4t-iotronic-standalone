@@ -1,4 +1,4 @@
-#Installation of IoTronic (standalone) within LXD containers
+#Stack4Things installation guide for LXD containers
 
 From a fresh Ubuntu 16.04 installation, first upgrade the system:
 
