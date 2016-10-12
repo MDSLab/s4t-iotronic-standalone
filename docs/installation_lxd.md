@@ -44,6 +44,6 @@ In order to login you usually need an RSA key:
 # lxc file push ~/.ssh/id_rsa.pub iotronic/root/.ssh/authorized_keys --mode=0600 --uid=0
 ```
 
-Then, login into the container and follow the IoTronic installation guide you can find [here](https://github.com/MDSLab/s4t-iotronic-standalone/blob/master/doc/ubuntu1604.md).
+Then, login into the container and follow the IoTronic installation guide you can find [here](https://github.com/MDSLab/s4t-iotronic-standalone/blob/master/docs/installation_ubuntu_16.04.md).
 
 Then you can do the same for the Lightning-rod, instantiating as many containers as you need and following the installation guide you can find [here](https://github.com/MDSLab/s4t-lightning-rod/blob/master/docs/ubuntu1604.md). 
