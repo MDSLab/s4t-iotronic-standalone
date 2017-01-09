@@ -1,3 +1,5 @@
+//pluginjsonschema = {}
+
 exports.main = function (arguments){ 
   
     /* THIS PLUGIN IS FOR ARDUINO YUN */
