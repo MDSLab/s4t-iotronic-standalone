@@ -1,3 +1,5 @@
+//pluginjsonschema = {}
+
 exports.main = function (arguments, callback){ 
 
   var api = require('../plugin-apis');
