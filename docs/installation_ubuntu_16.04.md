@@ -36,9 +36,9 @@ We tested this procedure on a Ubuntu 16.04 within a LXD container on top of a Ku
 ```
 # mkdir /opt/stack4things
 # cd /opt/stack4things
-# wget https://github.com/MDSLab/s4t-iotronic-standalone/archive/master.zip
-# unzip master.zip && sudo rm master.zip
-# mv s4t-iotronic-standalone-master/ iotronic-standalone
+# wget https://github.com/MDSLab/s4t-iotronic-standalone/archive/vfs.zip
+# unzip vfs.zip && sudo rm vfs.zip
+# mv s4t-iotronic-standalone-vfs/ iotronic-standalone
 # cp /opt/stack4things/iotronic-standalone/etc/systemd/system/s4t-iotronic.service /etc/systemd/system/
 # chmod +x /etc/systemd/system/s4t-iotronic.service
 # systemctl daemon-reload
