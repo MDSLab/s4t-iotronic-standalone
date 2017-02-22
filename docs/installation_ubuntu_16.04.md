@@ -28,7 +28,7 @@ npm install -g node-reverse-wstunnel requestify mysql nconf ip express uuid auto
 ####Configure npm NODE_PATH variable
 
 ```
-echo "export NODE_PATH=/usr/local/lib/node_modules" | sudo tee -a /etc/profile
+echo "export NODE_PATH=/usr/lib/node_modules" | sudo tee -a /etc/profile
 source /etc/profile > /dev/null
 echo $NODE_PATH
 ```
