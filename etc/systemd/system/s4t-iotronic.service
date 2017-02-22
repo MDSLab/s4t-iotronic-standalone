@@ -11,7 +11,7 @@ StandardInput=null
 StandardOutput=journal
 StandardError=journal
 WorkingDirectory=/opt/stack4things/iotronic-standalone
-Environment="NODE_PATH=/usr/local/lib/node_modules"
+Environment="NODE_PATH=/usr/lib/node_modules"
 ExecStart=/opt/stack4things/iotronic-standalone/bin/server
 Restart=on-abort
 
