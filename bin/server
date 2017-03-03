@@ -16,7 +16,7 @@ var wampR_url = nconf.get('config:wamp:url')+":"+nconf.get('config:wamp:port');/
 var wamp_realm = nconf.get('config:wamp:realm');
 var serverPort = nconf.get('config:server:port');
 
-console.log("Value::"+serverPort+"--"+wampR_url+"--"+wamp_realm);
+//console.log("Value::"+serverPort+"--"+wampR_url+"--"+wamp_realm);
 
 var server = new s4t.server;
 
