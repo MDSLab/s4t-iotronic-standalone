@@ -12,7 +12,7 @@ We tested this procedure on a Ubuntu 14.04 within a LXD container on top of a Ku
 
 ```
 # npm install -g npm
-# npm install -g node-reverse-wstunnel requestify mysql nconf ip express uuid autobahn log4js q
+# npm install -g node-reverse-wstunnel requestify mysql nconf ip express node-uuid autobahn log4js q
 ```
 
 ####Configure npm NODE_PATH variable
