@@ -22,7 +22,7 @@ npm -v
 ####Install dependencies using npm
 
 ```
-npm install -g node-reverse-wstunnel requestify mysql nconf ip express uuid autobahn log4js q
+npm install -g node-reverse-wstunnel requestify mysql nconf ip express node-uuid autobahn log4js q
 ```
 
 ####Configure npm NODE_PATH variable
