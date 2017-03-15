@@ -21,7 +21,8 @@ npm -v
 ####Install dependencies using npm
 
 ```
-npm install -g node-reverse-wstunnel requestify mysql nconf ip express node-uuid autobahn log4js q
+npm install -g node-reverse-wstunnel requestify mysql nconf ip express node-uuid autobahn log4js q fs-access mknod
+npm install -g https://github.com/PlayNetwork/node-statvfs/tarball/v3.0.0
 ```
 
 ####Configure npm NODE_PATH variable
@@ -45,9 +46,9 @@ apt install crossbar
 ```
 mkdir /opt/stack4things
 cd /opt/stack4things
-wget https://github.com/MDSLab/s4t-iotronic-standalone/archive/vfs.zip
-unzip vfs.zip && sudo rm vfs.zip
-mv s4t-iotronic-standalone-vfs/ iotronic-standalone
+wget https://github.com/MDSLab/s4t-iotronic-standalone/archive/api.zip
+unzip api.zip && sudo rm api.zip
+mv s4t-iotronic-standalone-api/ iotronic-standalone
 cp /opt/stack4things/iotronic-standalone/etc/systemd/system/s4t-iotronic.service /etc/systemd/system/
 chmod +x /etc/systemd/system/s4t-iotronic.service
 systemctl daemon-reload
