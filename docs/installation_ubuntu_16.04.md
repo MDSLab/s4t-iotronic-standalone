@@ -21,7 +21,7 @@ npm -v
 ####Install dependencies using npm
 
 ```
-npm install -g node-reverse-wstunnel requestify mysql nconf ip express node-uuid autobahn log4js q fs-access mknod
+npm install -g node-reverse-wstunnel requestify mysql nconf ip express node-uuid autobahn log4js q fs-access mknod body-parser
 npm install -g https://github.com/PlayNetwork/node-statvfs/tarball/v3.0.0
 ```
 
