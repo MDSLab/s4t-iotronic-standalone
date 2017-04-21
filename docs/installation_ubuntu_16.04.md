@@ -1,13 +1,13 @@
-#Stack4Things IoTronic (standalone version) installation guide for Ubuntu 16.04
+# Stack4Things IoTronic (standalone version) installation guide for Ubuntu 16.04
 
 We tested this procedure on a Ubuntu 16.04 within a LXD container on top of a Kubuntu 16.04 on 11th October 2016. Everything needs to be run as root.
 
-####Install dependencies via apt-get
+#### Install dependencies via apt-get
 
 ```
 apt -y install nodejs nodejs-legacy npm python-dev libyaml-dev libpython2.7-dev mysql-server nmap apache2 unzip socat bridge-utils python-pip python-httplib2
 ```
-####Install latest NodeJS (and npm) distribution:
+#### Install latest NodeJS (and npm) distribution:
 ```
 curl -sL https://deb.nodesource.com/setup_7.x | sudo -E bash -
 apt-get install -y nodejs
@@ -18,14 +18,14 @@ npm config set python `which python2.7`
 npm -v
 ```
 
-####Install dependencies using npm
+#### Install dependencies using npm
 
 ```
 npm install -g node-reverse-wstunnel requestify mysql nconf ip express node-uuid autobahn log4js q fs-access mknod body-parser
 npm install -g https://github.com/PlayNetwork/node-statvfs/tarball/v3.0.0
 ```
 
-####Configure npm NODE_PATH variable
+#### Configure npm NODE_PATH variable
 
 ```
 echo "export NODE_PATH=/usr/lib/node_modules" | sudo tee -a /etc/profile
@@ -33,7 +33,7 @@ source /etc/profile > /dev/null
 echo $NODE_PATH
 ```
 
-####Install Crossbar.io router
+#### Install Crossbar.io router
 
 ```
 apt-key adv --keyserver hkps.pool.sks-keyservers.net --recv D58C6920 && sh -c "echo 'deb http://package.crossbar.io/ubuntu xenial main' | sudo tee /etc/apt/sources.list.d/crossbar.list"
@@ -41,7 +41,7 @@ apt update
 apt install crossbar
 ```
 
-####Install IoTronic
+#### Install IoTronic
 
 ```
 mkdir /opt/stack4things
@@ -55,7 +55,7 @@ systemctl daemon-reload
 systemctl enable s4t-iotronic.service
 ```
 
-####Configure and start Crossbar.io router
+#### Configure and start Crossbar.io router
 
 ```
 mkdir /etc/crossbar
@@ -69,7 +69,7 @@ systemctl start crossbar
 ```
 Please, note that the config.example.json coming with the iotronic-standalone package sets the name of the WAMP realm to "s4t" and the Crossbar.io listening port to "8181". If you want to change such values, please consider that later on you will need to correctly change them in other configuration files. 
 
-####Configure and start Websocket reverse tunnel server
+#### Configure and start Websocket reverse tunnel server
 
 ```
 cp /opt/stack4things/iotronic-standalone/etc/systemd/system/node-reverse-wstunnel.service /etc/systemd/system/
@@ -79,7 +79,7 @@ systemctl enable node-reverse-wstunnel.service
 systemctl start node-reverse-wstunnel
 ```
 
-####Configure and start IoTronic
+#### Configure and start IoTronic
 
 First of all, you need to import the Iotronic database schema. During the installation of the MySQL package you should have been asked for a database root password. Please, substiture <DB_PASSWORD> with the one you chose. Also, please note that name of the database is set to "s4t-iotronic". If you want to change it, please consider that later on you will need to correctly change it in other configuration files.
 
@@ -96,20 +96,20 @@ Please, note that the settings.example.json coming with the iotronic-standalone 
 
 Specify the network interface that IoTronic is supposed to use (e.g., change <INTERFACE> with "eth0").
 ```
-# sed -i "s/\"interface\": \"\"/\"interface\":\"<INTERFACE>\"/g" /opt/stack4things/iotronic-standalone/lib/settings.json
+sed -i "s/\"interface\": \"\"/\"interface\":\"<INTERFACE>\"/g" /opt/stack4things/iotronic-standalone/lib/settings.json
 ```
 
 Specify the database password (use the same password you set while installing the MySQL package).
 ```
-# sed -i "s/\"password\": \"\"/\"password\":\"<DB_PASSWORD>\"/g" /opt/stack4things/iotronic-standalone/lib/settings.json
+sed -i "s/\"password\": \"\"/\"password\":\"<DB_PASSWORD>\"/g" /opt/stack4things/iotronic-standalone/lib/settings.json
 ```
 
 Now you are ready to start Iotronic.
 ```
-# systemctl start s4t-iotronic
+systemctl start s4t-iotronic
 ```
 
 You can check logs by typing:
 ```
-# tail -f /var/log/s4t-iotronic.log
+tail -f /var/log/s4t-iotronic.log
 ```
