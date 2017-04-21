@@ -1,8 +1,8 @@
 {
-  "name": "s4t-iotronic-standalone",
-  "version": "0.1.1",
-  "description": "s4t-node-cloud is the implementation, totally in nodejs, of a personal cloud to remote manage embedded devices Arduino YUN/Linino One and Raspberry Pi.",
-  "main": "index.js",
+  "name": "iotronic-standalone",
+  "version": "1.0.0",
+  "description": "IoTronic-standalone is the implementation of a personal Cloud to remote manage embedded devices (Arduino YUN/Linino One, Raspberry Pi 2/3, etc)",
+  "main": "lib/s4t_wamp_server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -17,7 +17,9 @@
     "log4js":">=0.6.29",
     "q":">=1.4.1",
     "requestify":">=0.1.17",
-    "mysql":">=2.10.0"
+    "mysql":">=2.10.0",
+    "node-uuid":">=1.4.7",
+    "util":">=0.10.3"
   },
   "repository": {
     "type": "git",
@@ -33,7 +35,33 @@
     "reverse",
     "WebSocket"
   ],
-  "author": "Andrea Rocco Lotronto <andrealotronto@gmail.com>",
+  "author": "Nicola Peditto <npeditto@unime.it>",
+  "contributors": [
+    {
+      "name": "Dario Bruneo",
+      "email": "dbruneo@unime.it"
+    },
+    {
+      "name": "Francesco Longo",
+      "email": "flongo@unime.it"
+    },
+    {
+      "name": "Giovanni Merlino",
+      "email": "gmerlino@unime.it"
+    },
+    {
+      "name": "Andrea Rocco Lotronto",
+      "email": "andrealotronto@gmail.com"
+    },
+    {
+      "name": "Fabio Verboso",
+      "email": "fverboso@unime.it"
+    },
+    {
+      "name": "Carmelo Romeo",
+      "email": "caromeo@unime.it"
+    }
+  ],
   "license": [
     {
       "type": "Apache-2.0",

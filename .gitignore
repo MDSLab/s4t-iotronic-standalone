@@ -8,3 +8,5 @@ server_cert.pem
 s4t_wamp_server_nr.js
 /lib/settings.json
 *.directory
+package.json.*
+*.tgz
