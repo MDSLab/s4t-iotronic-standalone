@@ -1,10 +1,10 @@
-#Stack4Things installation guide for LXD containers
+# Stack4Things installation guide for LXD containers
 
 From a fresh Ubuntu 16.04 installation, first upgrade the system:
 
 ```
-# apt update
-# apt upgrade
+apt update
+apt upgrade
 ```
 
 Then, install LXD following the instructions you can find [here] (https://www.stgraber.org/2016/03/15/lxd-2-0-installing-and-configuring-lxd-212/).
@@ -33,15 +33,15 @@ Of course, just change the names of the new profile and of the new bridge as you
 Now, launch a privileged container with nesting enabled for the IoTronic service:
 
 ```
-# lxc launch ubuntu:16.04 iotronic -p default -p mylxdbrprofile -c security.privileged=true -c security.nesting=true 
+lxc launch ubuntu:16.04 iotronic -p default -p mylxdbrprofile -c security.privileged=true -c security.nesting=true 
 ```
 
 In order to login you usually need an RSA key: 
 
 ```
-# ssh-keygen -t rsa
-# lxc exec iotronic - mkdir /root/.ssh
-# lxc file push ~/.ssh/id_rsa.pub iotronic/root/.ssh/authorized_keys --mode=0600 --uid=0
+ssh-keygen -t rsa
+lxc exec iotronic - mkdir /root/.ssh
+lxc file push ~/.ssh/id_rsa.pub iotronic/root/.ssh/authorized_keys --mode=0600 --uid=0
 ```
 
 Then, login into the container and follow the IoTronic installation guide you can find [here](https://github.com/MDSLab/s4t-iotronic-standalone/blob/master/docs/installation_ubuntu_16.04.md).
