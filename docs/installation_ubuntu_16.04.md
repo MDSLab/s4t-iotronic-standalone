@@ -39,7 +39,11 @@ echo $NODE_PATH
 npm install -g https://github.com/PlayNetwork/node-statvfs/tarball/v3.0.0
 ```
 
-## Install from NPM
+## Install IoTronic-standalone
+
+You can choose to install IoTronic via NPM or from source-code via Git.
+
+#### Install via NPM
 ```
 npm install -g --unsafe iotronic-standalone
 ```
@@ -51,77 +55,80 @@ during the installation the procedure asks the following information:
 
 
 
-## Install from source-code
+#### Install from source-code
 
-#### Install dependencies using npm
+* ##### Install dependencies using npm
 ```
 npm install -g node-reverse-wstunnel requestify mysql nconf ip express node-uuid autobahn log4js q fs-access mknod body-parser
 npm install -g https://github.com/PlayNetwork/node-statvfs/tarball/v3.0.0
 ```
 
-#### Install IoTronic
+* ##### Setup IoTronic environment
 ```
-mkdir /opt/stack4things
-cd /opt/stack4things
-wget https://github.com/MDSLab/s4t-iotronic-standalone/archive/api.zip
-unzip api.zip && sudo rm api.zip
-mv s4t-iotronic-standalone-api/ iotronic-standalone
-cp /opt/stack4things/iotronic-standalone/etc/systemd/system/s4t-iotronic.service /etc/systemd/system/
+mkdir /var/lib/iotronic/
+cd /var/lib/iotronic/
+
+git clone git://github.com/MDSLab/s4t-iotronic-standalone.git
+mv s4t-iotronic-standalone/ iotronic-standalone
+
+cp /var/lib/iotronic/iotronic-standalone/etc/systemd/system/s4t-iotronic.service /etc/systemd/system/
 chmod +x /etc/systemd/system/s4t-iotronic.service
 systemctl daemon-reload
 systemctl enable s4t-iotronic.service
+
+mkdir /var/lib/iotronic/drivers/
+mkdir /var/lib/iotronic/plugins/
+mkdir /var/lib/iotronic/schemas/
+
 ```
 
-#### Configure and start Crossbar.io router
+* ##### Configure Crossbar.io router
 ```
 mkdir /etc/crossbar
-cp /opt/stack4things/iotronic-standalone/etc/crossbar/config.example.json /etc/crossbar/config.json
-cp /opt/stack4things/iotronic-standalone/etc/systemd/system/crossbar.service /etc/systemd/system/
+cp /var/lib/iotronic/iotronic-standalone/etc/crossbar/config.example.json /etc/crossbar/config.json
+cp /var/lib/iotronic/iotronic-standalone/etc/systemd/system/crossbar.service /etc/systemd/system/
 chmod +x /etc/systemd/system/crossbar.service
 /opt/crossbar/bin/crossbar check --cbdir /etc/crossbar
 systemctl daemon-reload
 systemctl enable crossbar.service
-systemctl start crossbar
 ```
 Please, note that the config.example.json coming with the iotronic-standalone package sets the name of the WAMP realm to "s4t" and the Crossbar.io listening port to "8181". If you want to change such values, please consider that later on you will need to correctly change them in other configuration files.
 
-#### Configure and start Websocket reverse tunnel server
+* ##### Configure Websocket reverse tunnel (WSTT )server
 ```
-cp /opt/stack4things/iotronic-standalone/etc/systemd/system/node-reverse-wstunnel.service /etc/systemd/system/
+cp /var/lib/iotronic/iotronic-standalone/etc/systemd/system/node-reverse-wstunnel.service /etc/systemd/system/
 chmod +x /etc/systemd/system/node-reverse-wstunnel.service
 systemctl daemon-reload
 systemctl enable node-reverse-wstunnel.service
-systemctl start node-reverse-wstunnel
 ```
 
-#### Configure and start IoTronic
+* ##### Configure IoTronic
 First of all, you need to import the Iotronic database schema. During the installation of the MySQL package you should have been asked for a database root password. Please, substiture <DB_PASSWORD> with the one you chose. Also, please note that name of the database is set to "s4t-iotronic". If you want to change it, please consider that later on you will need to correctly change it in other configuration files.
 ```
 mysql -u root -p<DB_PASSWORD> < /opt/stack4things/iotronic-standalone/utils/s4t-db.sql
-mkdir /opt/stack4things/iotronic-standalone/drivers/
 ```
 
 Then, copy the example of IoTronic configuration file coming with the package in the correct path. 
 ```
-cp /opt/stack4things/iotronic-standalone/lib/settings.example.json /opt/stack4things/iotronic-standalone/lib/settings.json
+cp /var/lib/iotronic/iotronic-standalone/lib/settings.example.json /var/lib/iotronic/settings.json
 ``` 
 Please, note that the settings.example.json coming with the iotronic-standalone package sets the IoTronic listening port to "8888", the database name to "s4t-iotronic" (the database server is supposed to be running locally), the WAMP realm to "s4t" (the Crossbar.io WAMP router is supposed to be running locally on port 8181). If you want to change such values, please consider that later on you will need to correctly change them in other configuration files. 
 
 Specify the network interface that IoTronic is supposed to use (e.g., change <INTERFACE> with "eth0").
 ```
-sed -i "s/\"interface\": \"\"/\"interface\":\"<INTERFACE>\"/g" /opt/stack4things/iotronic-standalone/lib/settings.json
+sed -i "s/\"interface\": \"\"/\"interface\":\"<INTERFACE>\"/g" /var/lib/iotronic/settings.json
 ```
 
 Specify the database password (use the same password you set while installing the MySQL package).
 ```
-sed -i "s/\"password\": \"\"/\"password\":\"<DB_PASSWORD>\"/g" /opt/stack4things/iotronic-standalone/lib/settings.json
+sed -i "s/\"password\": \"\"/\"password\":\"<DB_PASSWORD>\"/g" /var/lib/iotronic/settings.json
 ```
 
 
 
 ## Start Lightning-rod
 
-#### Enable services
+##### Start services
 ```
 systemctl start crossbar
 systemctl start node-reverse-wstunnel
