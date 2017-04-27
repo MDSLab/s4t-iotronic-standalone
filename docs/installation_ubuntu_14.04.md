@@ -34,7 +34,7 @@ source /etc/profile > /dev/null
 echo $NODE_PATH
 ```
 
-##### Install dependencies using npm
+##### Install external NPM dependencies
 ```
 npm install -g https://github.com/PlayNetwork/node-statvfs/tarball/v3.0.0
 ```
@@ -48,7 +48,7 @@ npm install -g --unsafe iotronic-standalone
 ```
 during the installation the procedure asks the following information:
 
-* Enter network interface (e.g. eth0, enp3s0)
+* Enter network interface: e.g. "eth0", "enp3s0", etc.
 
 * Enter MySQL password: in order to access to "s4t-iotronic" database.
 
