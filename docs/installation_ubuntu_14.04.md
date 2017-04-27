@@ -1,38 +1,64 @@
 # Stack4Things IoTronic (standalone version) installation guide for Ubuntu 14.04
 
-We tested this procedure on a Ubuntu 14.04 within a LXD container on top of a Kubuntu 16.04 on 11th October 2016. Everything needs to be run as root.
+We tested this procedure on a Ubuntu 14.04 (within a LXD container also). Everything needs to be run as root.
 
-#### Install dependencies via apt-get
+## Install requirements
 
+##### Install dependencies via apt-get
 ```
-apt -y install nodejs nodejs-legacy npm python-dev libyaml-dev libpython2.7-dev mysql-server nmap apache2 unzip socat bridge-utils python-pip python-httplib2
-```
-
-#### Install dependencies using npm:
-
-```
-npm install -g npm
-npm install -g node-reverse-wstunnel requestify mysql nconf ip express node-uuid autobahn log4js q fs-access mknod body-parser
-```
-
-#### Configure npm NODE_PATH variable
-
-```
-echo "export NODE_PATH=/usr/local/lib/node_modules" | sudo tee -a /etc/profile
-source /etc/profile > /dev/null
-echo $NODE_PATH
+apt -y install python-dev libyaml-dev libpython2.7-dev mysql-server nmap apache2 unzip socat bridge-utils python-pip python-httplib2
 ```
 
 #### Install Crossbar.io router
-
 ```
 apt-key adv --keyserver hkps.pool.sks-keyservers.net --recv D58C6920 && sh -c "echo 'deb http://package.crossbar.io/ubuntu trusty main' | sudo tee /etc/apt/sources.list.d/crossbar.list"
 apt update
 apt install crossbar
 ```
 
-#### Install IoTronic
+##### Install latest NodeJS (and npm) distribution:
+```
+curl -sL https://deb.nodesource.com/setup_7.x | sudo -E bash -
+apt-get install -y nodejs
+node -v
 
+npm install -g npm
+npm config set python `which python2.7`
+npm -v
+```
+
+##### Configure npm NODE_PATH variable
+```
+echo "export NODE_PATH=/usr/lib/node_modules" | sudo tee -a /etc/profile
+source /etc/profile > /dev/null
+echo $NODE_PATH
+```
+
+##### Install dependencies using npm
+```
+npm install -g https://github.com/PlayNetwork/node-statvfs/tarball/v3.0.0
+```
+
+## Install from NPM
+```
+npm install -g --unsafe iotronic-standalone
+```
+during the installation the procedure asks the following information:
+
+* Enter network interface (e.g. eth0, enp3s0)
+
+* Enter MySQL password: in order to access to "s4t-iotronic" database.
+
+
+
+## Install from source-code
+
+##### Install dependencies using npm:
+```
+npm install -g node-reverse-wstunnel requestify mysql nconf ip express node-uuid autobahn log4js q fs-access mknod body-parser
+```
+
+##### Install IoTronic
 ```
 mkdir /opt/stack4things
 cd /opt/stack4things
@@ -44,8 +70,7 @@ chmod +x /etc/init.d/s4t-iotronic
 sed -i '/^ *#/b; s%exit 0%/etc/init.d/crossbar start\n/etc/init.d/s4t-iotronic start\nexit 0%g' /etc/rc.local
 ```
 
-#### Configure and start Crossbar.io router
-
+##### Configure and start Crossbar.io router
 ```
 mkdir /etc/crossbar
 cp /opt/stack4things/iotronic-standalone/etc/crossbar/config.example.json /etc/crossbar/config.json
@@ -56,7 +81,7 @@ chmod +x /etc/init.d/crossbar
 ```
 Please, note that the config.example.json coming with the iotronic-standalone package sets the name of the WAMP realm to "s4t" and the Crossbar.io listening port to "8181". If you want to change such values, please consider that later on you will need to correctly change them in other configuration files. 
 
-#### Configure and start IoTronic
+##### Configure and start IoTronic
 
 First of all, you need to import the Iotronic database schema. During the installation of the MySQL package you should have been asked for a database root password. Please, substiture <DB_PASSWORD> with the one you chose. Also, please note that name of the database is set to "s4t-iotronic". If you want to change it, please consider that later on you will need to correctly change it in other configuration files.
 
@@ -81,12 +106,17 @@ Specify the database password (use the same password you set while installing th
 sed -i "s/\"password\": \"\"/\"password\":\"<DB_PASSWORD>\"/g" /opt/stack4things/iotronic-standalone/lib/settings.json
 ```
 
-Now you are ready to start Iotronic.
+## Start Lightning-rod
+
+#### Enable services
+```
+/etc/init.d/crossbar start
+```
+Now you are ready to start Iotronic:
 ```
 /etc/init.d/s4t-iotronic start
 ```
-
 You can check logs by typing:
 ```
-tail -f /var/log/s4t-iotronic.log
+tail -f /var/log/iotronic/s4t-iotronic.log
 ```

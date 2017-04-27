@@ -10,9 +10,9 @@ Group=root
 StandardInput=null
 StandardOutput=journal
 StandardError=journal
-WorkingDirectory=/opt/stack4things/iotronic-standalone
+WorkingDirectory=/usr/lib/node_modules/iotronic-standalone
 Environment="NODE_PATH=/usr/lib/node_modules"
-ExecStart=/opt/stack4things/iotronic-standalone/bin/server
+ExecStart=/usr/lib/node_modules/iotronic-standalone/bin/server
 Restart=on-abort
 
 [Install]

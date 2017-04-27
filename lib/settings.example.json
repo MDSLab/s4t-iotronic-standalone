@@ -11,7 +11,7 @@
                                 "db_name": "s4t-iotronic"
                         },
                         "log": {
-			    "logfile": "/var/log/s4t-iotronic.log",
+			    "logfile": "/var/log/iotronic/s4t-iotronic.log",
 			    "loglevel": "info"
 			}
 

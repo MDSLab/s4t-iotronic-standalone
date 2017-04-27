@@ -1,0 +1,94 @@
+#!/bin/sh       
+
+echo "Installing..."
+
+DISTRO=`cat /etc/*release | grep DISTRIB_RELEASE | cut -d "=" -f2`
+
+echo "--> Server Distribution: " $DISTRO
+
+if [ "$DISTRO" = "14.04" ]; then
+
+        # Configure init.d
+        echo " - init.d configuration..."
+        cp /usr/lib/node_modules/iotronic-standalone/etc/init.d/s4t-iotronic /etc/init.d/
+        chmod +x /etc/init.d/s4t-iotronic
+
+        # Configure Crossbar.io
+        echo " - Crossbar.io configuration..."
+        mkdir -p /etc/crossbar
+        cp /usr/lib/node_modules/iotronic-standalone/etc/crossbar/config.example.json /etc/crossbar/config.json
+        cp /usr/lib/node_modules/iotronic-standalone/etc/init.d/crossbar /etc/init.d/
+        chmod +x /etc/init.d/crossbar
+        sed -i '/^ *#/b; s%exit 0%/etc/init.d/crossbar start\n/etc/init.d/s4t-iotronic start\nexit 0%g' /etc/rc.local
+
+
+elif [ "$DISTRO" = "16.04" ]; then
+
+        # Configure systemctl
+        echo " - systemd configuration..."
+        cp /usr/lib/node_modules/iotronic-standalone/etc/systemd/system/s4t-iotronic.service /etc/systemd/system/
+        chmod +x /etc/systemd/system/s4t-iotronic.service
+        systemctl daemon-reload
+        systemctl enable s4t-iotronic.service
+
+        # Configure Crossbar.io
+        echo " - Crossbar.io configuration..."
+        mkdir -p /etc/crossbar
+        cp /usr/lib/node_modules/iotronic-standalone/etc/crossbar/config.example.json /etc/crossbar/config.json
+        cp /usr/lib/node_modules/iotronic-standalone/etc/systemd/system/crossbar.service /etc/systemd/system/
+        chmod +x /etc/systemd/system/crossbar.service
+
+        # Configure WSTT
+        echo " - WSTT configuration..."
+        cp /usr/lib/node_modules/iotronic-standalone/etc/systemd/system/node-reverse-wstunnel.service /etc/systemd/system/
+        chmod +x /etc/systemd/system/node-reverse-wstunnel.service
+        systemctl daemon-reload
+        systemctl enable node-reverse-wstunnel.service
+
+fi
+
+
+
+
+
+# Configure IoTronic Home?
+rm_check=
+echo -n "Do you want to keep IoTronic home (/var/lib/iotronic) ? (yes/no) "
+read rm_check
+
+if [ "$rm_check" = "no" ]; then
+
+    mkdir /var/lib/iotronic/
+    mkdir -p /var/lib/iotronic/plugins/
+    mkdir -p /var/lib/iotronic/schemas/
+    mkdir -p /var/lib/iotronic/drivers/
+    cd /var/lib/iotronic/
+
+    cp /usr/lib/node_modules/iotronic-standalone/lib/settings.example.json /var/lib/iotronic/settings.json
+    
+    NIC=
+    echo -n "Enter network interface: "
+    read NIC
+    echo "-->" $NIC
+    sed -i "s/\"interface\": \"\"/\"interface\":\"$NIC\"/g" /var/lib/iotronic/settings.json
+    
+    MYSQL_PW=
+    echo -n "Enter MySQL password: "
+    read MYSQL_PW
+    echo "-->" $MYSQL_PW
+    sed -i "s/\"password\": \"\"/\"password\":\"$MYSQL_PW\"/g" /var/lib/iotronic/settings.json
+
+    mkdir -p /var/log/iotronic/
+    touch /var/log/iotronic/s4t-iotronic.log
+
+    echo -n "MySQL configuring..."
+    /usr/bin/mysql -u root -p$MYSQL_PW < /usr/lib/node_modules/iotronic-standalone/utils/s4t-db.sql
+
+else
+
+    echo "--> IoTronic home is save!"
+
+fi
+
+
+echo "Bye!"
