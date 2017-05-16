@@ -45,6 +45,9 @@ You can choose to install IoTronic via NPM or from source-code via Git.
 #### Install via NPM
 ```
 npm install -g --unsafe iotronic-standalone
+
+echo "export IOTRONIC_HOME=/var/lib/iotronic" >> /etc/profile
+source /etc/profile
 ```
 during the installation the procedure asks the following information:
 
