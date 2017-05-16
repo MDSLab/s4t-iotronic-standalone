@@ -77,6 +77,8 @@ mkdir /var/lib/iotronic/drivers/
 mkdir /var/lib/iotronic/plugins/
 mkdir /var/lib/iotronic/schemas/
 
+echo "export IOTRONIC_HOME=/var/lib/iotronic" >> /etc/profile
+source /etc/profile
 ```
 
 * ##### Configure Crossbar.io router
