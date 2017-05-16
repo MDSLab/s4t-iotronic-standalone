@@ -93,7 +93,7 @@ Please, note that the config.example.json coming with the iotronic-standalone pa
 * ##### Configure IoTronic
 First of all, you need to import the Iotronic database schema. During the installation of the MySQL package you should have been asked for a database root password. Please, substiture <DB_PASSWORD> with the one you chose. Also, please note that name of the database is set to "s4t-iotronic". If you want to change it, please consider that later on you will need to correctly change it in other configuration files.
 ```
-mysql -u root -p<DB_PASSWORD> < /opt/stack4things/iotronic-standalone/utils/s4t-db.sql
+mysql -u root -p<DB_PASSWORD> < /var/lib/iotronic/iotronic-standalone/utils/s4t-db.sql
 ```
 
 Then, copy the example of IoTronic configuration file coming with the package in the correct path. 
@@ -104,12 +104,12 @@ Please, note that the settings.example.json coming with the iotronic-standalone 
 
 Specify the network interface that IoTronic is supposed to use (e.g., change <INTERFACE> with "eth0").
 ```
-sed -i "s/\"interface\": \"\"/\"interface\":\"<INTERFACE>\"/g" /opt/stack4things/iotronic-standalone/lib/settings.json
+sed -i "s/\"interface\": \"\"/\"interface\":\"<INTERFACE>\"/g" /var/lib/iotronic/settings.json
 ```
 
 Specify the database password (use the same password you set while installing the MySQL package).
 ```
-sed -i "s/\"password\": \"\"/\"password\":\"<DB_PASSWORD>\"/g" /opt/stack4things/iotronic-standalone/lib/settings.json
+sed -i "s/\"password\": \"\"/\"password\":\"<DB_PASSWORD>\"/g" /var/lib/iotronic/settings.json
 ```
 
 ## Start Lightning-rod
