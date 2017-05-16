@@ -1,6 +1,6 @@
 {
   "name": "iotronic-standalone",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "IoTronic-standalone is the implementation of a personal Cloud to remote manage embedded devices (Arduino YUN/Linino One, Raspberry Pi 2/3, etc)",
   "main": "lib/s4t_wamp_server.js",
   "scripts": {
