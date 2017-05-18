@@ -86,6 +86,7 @@ echo "export IOTRONIC_HOME=/var/lib/iotronic" >> /etc/profile
 source /etc/profile
 ```
 
+## Configure IoTronic
 * ##### Configure Crossbar.io router
 ```
 mkdir /etc/crossbar
@@ -130,7 +131,7 @@ sed -i "s/\"password\": \"\"/\"password\":\"<DB_PASSWORD>\"/g" /var/lib/iotronic
 
 
 
-## Start Lightning-rod
+## Start IoTronic-standalone
 
 ##### Start services
 ```
