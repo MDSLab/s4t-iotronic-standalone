@@ -52,43 +52,85 @@ fi
 
 
 # Configure IoTronic Home?
-rm_check=
-echo -n "Do you want to keep IoTronic home (/var/lib/iotronic) ? (yes/no) "
-read rm_check
 
-if [ "$rm_check" = "no" ]; then
+if [ -d /var/lib/iotronic ]
+then
+      rm_check=
+      
+      while ([ "$rm_check" != "no" ] && [ "$rm_check" != "yes" ]); do 
+      
+      
+	  echo -n "Do you want to keep IoTronic home (/var/lib/iotronic) ? (yes/no) "
+	  read rm_check
 
-    mkdir /var/lib/iotronic/
-    mkdir -p /var/lib/iotronic/plugins/
-    mkdir -p /var/lib/iotronic/schemas/
-    mkdir -p /var/lib/iotronic/drivers/
-    cd /var/lib/iotronic/
+	  if [ "$rm_check" = "no" ]; then
 
-    cp /usr/lib/node_modules/iotronic-standalone/lib/settings.example.json /var/lib/iotronic/settings.json
-    
-    NIC=
-    echo -n "Enter network interface: "
-    read NIC
-    echo "-->" $NIC
-    sed -i "s/\"interface\": \"\"/\"interface\":\"$NIC\"/g" /var/lib/iotronic/settings.json
-    
-    MYSQL_PW=
-    echo -n "Enter MySQL password: "
-    read MYSQL_PW
-    echo "-->" $MYSQL_PW
-    sed -i "s/\"password\": \"\"/\"password\":\"$MYSQL_PW\"/g" /var/lib/iotronic/settings.json
+	      mkdir /var/lib/iotronic/
+	      mkdir -p /var/lib/iotronic/plugins/
+	      mkdir -p /var/lib/iotronic/schemas/
+	      mkdir -p /var/lib/iotronic/drivers/
+	      cd /var/lib/iotronic/
 
-    mkdir -p /var/log/iotronic/
-    touch /var/log/iotronic/s4t-iotronic.log
+	      cp /usr/lib/node_modules/iotronic-standalone/lib/settings.example.json /var/lib/iotronic/settings.json
+	      
+	      NIC=
+	      echo -n "Enter network interface: "
+	      read NIC
+	      echo "-->" $NIC
+	      sed -i "s/\"interface\": \"\"/\"interface\":\"$NIC\"/g" /var/lib/iotronic/settings.json
+	      
+	      MYSQL_PW=
+	      echo -n "Enter MySQL password: "
+	      read MYSQL_PW
+	      echo "-->" $MYSQL_PW
+	      sed -i "s/\"password\": \"\"/\"password\":\"$MYSQL_PW\"/g" /var/lib/iotronic/settings.json
 
-    echo -n "MySQL configuring..."
-    /usr/bin/mysql -u root -p$MYSQL_PW < /usr/lib/node_modules/iotronic-standalone/utils/s4t-db.sql
+	      mkdir -p /var/log/iotronic/
+	      touch /var/log/iotronic/s4t-iotronic.log
 
+	      echo -n "MySQL configuring..."
+	      /usr/bin/mysql -u root -p$MYSQL_PW < /usr/lib/node_modules/iotronic-standalone/utils/s4t-db.sql
+
+	  elif [ "$rm_check" = "yes" ]; then
+
+	      echo "--> IoTronic home is save!"
+		
+	  else
+	      echo "--> WRONG choice!"
+	  fi
+      done
+      
 else
 
-    echo "--> IoTronic home is save!"
+      mkdir /var/lib/iotronic/
+      mkdir -p /var/lib/iotronic/plugins/
+      mkdir -p /var/lib/iotronic/schemas/
+      mkdir -p /var/lib/iotronic/drivers/
+      cd /var/lib/iotronic/
 
+      cp /usr/lib/node_modules/iotronic-standalone/lib/settings.example.json /var/lib/iotronic/settings.json
+      
+      NIC=
+      echo -n "Enter network interface: "
+      read NIC
+      echo "-->" $NIC
+      sed -i "s/\"interface\": \"\"/\"interface\":\"$NIC\"/g" /var/lib/iotronic/settings.json
+      
+      MYSQL_PW=
+      echo -n "Enter MySQL password: "
+      read MYSQL_PW
+      echo "-->" $MYSQL_PW
+      sed -i "s/\"password\": \"\"/\"password\":\"$MYSQL_PW\"/g" /var/lib/iotronic/settings.json
+
+      mkdir -p /var/log/iotronic/
+      touch /var/log/iotronic/s4t-iotronic.log
+
+      echo -n "MySQL configuring..."
+      /usr/bin/mysql -u root -p$MYSQL_PW < /usr/lib/node_modules/iotronic-standalone/utils/s4t-db.sql
+	   
 fi
+	
+
 
 
 echo "Bye!"

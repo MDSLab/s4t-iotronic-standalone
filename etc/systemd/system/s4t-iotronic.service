@@ -12,6 +12,7 @@ StandardOutput=journal
 StandardError=journal
 WorkingDirectory=/usr/lib/node_modules/iotronic-standalone
 Environment="NODE_PATH=/usr/lib/node_modules"
+Environment="IOTRONIC_HOME=/var/lib/iotronic"
 ExecStart=/usr/lib/node_modules/iotronic-standalone/bin/server
 Restart=on-abort
 
