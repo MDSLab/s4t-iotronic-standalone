@@ -86,7 +86,6 @@ echo "export IOTRONIC_HOME=/var/lib/iotronic" >> /etc/profile
 source /etc/profile
 ```
 
-## Configure IoTronic
 * ##### Configure Crossbar.io router
 ```
 mkdir /etc/crossbar
@@ -107,7 +106,7 @@ systemctl daemon-reload
 systemctl enable node-reverse-wstunnel.service
 ```
 
-* ##### Configure IoTronic
+* ##### Configure IoTronic-standalone
 First of all, you need to import the Iotronic database schema. During the installation of the MySQL package you should have been asked for a database root password. Please, substiture <DB_PASSWORD> with the one you chose. Also, please note that name of the database is set to "s4t-iotronic". If you want to change it, please consider that later on you will need to correctly change it in other configuration files.
 ```
 mysql -u root -p<DB_PASSWORD> < /opt/stack4things/iotronic-standalone/utils/s4t-db.sql
