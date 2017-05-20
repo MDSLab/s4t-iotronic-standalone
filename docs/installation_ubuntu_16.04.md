@@ -49,6 +49,8 @@ npm install -g --unsafe iotronic-standalone
 
 echo "export IOTRONIC_HOME=/var/lib/iotronic" >> /etc/profile
 source /etc/profile
+
+npm install -g node-reverse-wstunnel
 ```
 during the installation the procedure asks the following information:
 
