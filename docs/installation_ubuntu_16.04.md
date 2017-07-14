@@ -6,9 +6,8 @@ We tested this procedure on a Ubuntu 16.04 (within a LXD container also). Everyt
 
 ##### Install dependencies via apt-get
 ```
-apt -y install python-dev libyaml-dev libpython2.7-dev mysql-server nmap apache2 unzip socat bridge-utils python-pip python-httplib2
+apt -y install python-dev libyaml-dev libpython2.7-dev mysql-server nmap apache2 unzip socat bridge-utils python-pip python-httplib2 libssl-dev
 
-apt-get install build-essential autoconf libtool pkg-config python-opengl python-imaging python-pyrex python-pyside.qtopengl idle-python2.7 qt4-dev-tools qt4-designer libqtgui4 libqtcore4 libqt4-xml libqt4-test libqt4-script libqt4-network libqt4-dbus python-qt4 python-qt4-gl libgle3 libssl-dev
 ```
 
 ##### Install Crossbar.io router
@@ -152,10 +151,15 @@ sed -i "s/\"password\": \"\"/\"password\":\"<DB_PASSWORD>\"/g" /var/lib/iotronic
 ```
 systemctl start crossbar
 systemctl start node-reverse-wstunnel
+
+systemctl status crossbar
+systemctl status node-reverse-wstunnel
 ```
 Now you are ready to start Iotronic:
 ```
 systemctl start s4t-iotronic
+
+systemctl status s4t-iotronic
 ```
 You can check logs by typing:
 ```
