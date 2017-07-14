@@ -7,13 +7,13 @@ We tested this procedure on a Ubuntu 16.04 (within a LXD container also). Everyt
 ##### Install dependencies via apt-get
 ```
 apt -y install python-dev libyaml-dev libpython2.7-dev mysql-server nmap apache2 unzip socat bridge-utils python-pip python-httplib2
+
+apt-get install build-essential autoconf libtool pkg-config python-opengl python-imaging python-pyrex python-pyside.qtopengl idle-python2.7 qt4-dev-tools qt4-designer libqtgui4 libqtcore4 libqt4-xml libqt4-test libqt4-script libqt4-network libqt4-dbus python-qt4 python-qt4-gl libgle3 libssl-dev
 ```
 
 ##### Install Crossbar.io router
 ```
-apt-key adv --keyserver hkps.pool.sks-keyservers.net --recv D58C6920 && sh -c "echo 'deb http://package.crossbar.io/ubuntu xenial main' | sudo tee /etc/apt/sources.list.d/crossbar.list"
-apt update
-apt install crossbar
+pip install crossbar
 ```
 
 ##### Install latest NodeJS (and npm) distribution:
@@ -34,11 +34,6 @@ source /etc/profile > /dev/null
 echo $NODE_PATH
 ```
 
-##### Install external NPM dependencie
-```
-npm install -g https://github.com/PlayNetwork/node-statvfs/tarball/v3.0.0
-```
-
 ## Install IoTronic-standalone
 
 You can choose to install IoTronic via NPM or from source-code via Git.
@@ -51,6 +46,7 @@ echo "export IOTRONIC_HOME=/var/lib/iotronic" >> /etc/profile
 source /etc/profile
 
 npm install -g node-reverse-wstunnel
+
 ```
 during the installation the procedure asks the following information:
 
@@ -59,12 +55,30 @@ during the installation the procedure asks the following information:
 * Enter MySQL password: in order to access to "s4t-iotronic" database.
 
 
+* ##### Fix Log4js dependency
+```
+cd /usr/lib/node_modules/iotronic-standalone
+npm remove log4js
+npm install log4js@1.1.1
+```
+
+* ##### Configure Crossbar.io router
+```
+sed -i "s/\/opt\/crossbar/\/usr\/local/g" /etc/systemd/system/crossbar.service
+crossbar check --cbdir /etc/crossbar
+systemctl daemon-reload
+```
+
+
 
 #### Install from source-code
 
 * ##### Install dependencies using npm
 ```
-npm install -g node-reverse-wstunnel requestify mysql nconf ip express node-uuid autobahn log4js q fs-access mknod body-parser
+npm install -g log4js@1.1.1
+
+npm install -g requestify mysql nconf ip express node-uuid autobahn q body-parser
+
 ```
 
 * ##### Setup IoTronic environment
