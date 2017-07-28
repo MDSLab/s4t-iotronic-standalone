@@ -131,6 +131,19 @@ else
 fi
 	
 
+# Set Environment variables
+if grep -Fq "IOTRONIC_HOME" /etc/profile
+then
+    # if found
+    echo "IOTRONIC_HOME env var already set."
+else
+    # if not found
+    echo "Setting IOTRONIC_HOME env var."
+    echo "export IOTRONIC_HOME=/var/lib/iotronic" >> /etc/profile
+    source /etc/profile
+fi
+
+
 
 
 echo "Bye!"

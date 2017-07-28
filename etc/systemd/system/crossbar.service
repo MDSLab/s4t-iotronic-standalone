@@ -9,7 +9,7 @@ Group=root
 StandardInput=null
 StandardOutput=journal
 StandardError=journal
-ExecStart=/opt/crossbar/bin/crossbar start --cbdir=/etc/crossbar
+ExecStart=/usr/local/bin/crossbar start --cbdir=/etc/crossbar
 Restart=on-abort
 
 [Install]

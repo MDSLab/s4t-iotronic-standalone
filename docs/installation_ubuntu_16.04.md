@@ -7,7 +7,6 @@ We tested this procedure on a Ubuntu 16.04 (within a LXD container also). Everyt
 ##### Install dependencies via apt-get
 ```
 apt -y install python-dev libyaml-dev libpython2.7-dev mysql-server nmap apache2 unzip socat bridge-utils python-pip python-httplib2 libssl-dev
-
 ```
 
 ##### Install Crossbar.io router
@@ -24,10 +23,7 @@ node -v
 npm install -g npm
 npm config set python `which python2.7`
 npm -v
-```
 
-##### Configure npm NODE_PATH variable
-```
 echo "export NODE_PATH=/usr/lib/node_modules" | sudo tee -a /etc/profile
 source /etc/profile > /dev/null
 echo $NODE_PATH
@@ -41,9 +37,6 @@ You can choose to install IoTronic via NPM or from source-code via Git.
 ```
 npm install -g --unsafe iotronic-standalone
 
-echo "export IOTRONIC_HOME=/var/lib/iotronic" >> /etc/profile
-source /etc/profile
-
 npm install -g node-reverse-wstunnel
 
 ```
@@ -54,20 +47,6 @@ during the installation the procedure asks the following information:
 * Enter MySQL password: in order to access to "s4t-iotronic" database.
 
 
-* ##### Fix Log4js dependency
-```
-cd /usr/lib/node_modules/iotronic-standalone
-npm remove log4js
-npm install log4js@1.1.1
-```
-
-* ##### Configure Crossbar.io router
-```
-sed -i "s/\/opt\/crossbar/\/usr\/local/g" /etc/systemd/system/crossbar.service
-crossbar check --cbdir /etc/crossbar
-systemctl daemon-reload
-```
-
 
 
 #### Install from source-code
@@ -76,8 +55,7 @@ systemctl daemon-reload
 ```
 npm install -g log4js@1.1.1
 
-npm install -g requestify mysql nconf ip express node-uuid autobahn q body-parser
-
+npm install -g requestify mysql nconf ip express node-uuid autobahn q body-parser ps-node
 ```
 
 * ##### Setup IoTronic environment
@@ -107,7 +85,7 @@ mkdir /etc/crossbar
 cp /var/lib/iotronic/iotronic-standalone/etc/crossbar/config.example.json /etc/crossbar/config.json
 cp /var/lib/iotronic/iotronic-standalone/etc/systemd/system/crossbar.service /etc/systemd/system/
 chmod +x /etc/systemd/system/crossbar.service
-/opt/crossbar/bin/crossbar check --cbdir /etc/crossbar
+crossbar check --cbdir /etc/crossbar
 systemctl daemon-reload
 systemctl enable crossbar.service
 ```

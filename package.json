@@ -18,12 +18,13 @@
     "autobahn": ">=0.9.9",
     "express": ">=4.13.3",
     "body-parser":">=1.16.1",
-    "log4js":">=0.6.29",
+    "log4js":"1.1.1",
     "q":">=1.4.1",
     "requestify":">=0.1.17",
     "mysql":">=2.10.0",
     "node-uuid":">=1.4.7",
-    "util":">=0.10.3"
+    "util":">=0.10.3",
+    "ps-node":"<=0.1.6"
   },
   "repository": {
     "type": "git",
