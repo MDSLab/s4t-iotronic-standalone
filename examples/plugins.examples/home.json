@@ -1,0 +1,21 @@
+{
+  "m_authid" : "22c5cfa7-9dea-4dd9-9f9d-eedf296852ae",
+  "autostart": "false",
+  "timer" : "5000",
+  "ckan_enabled" : "true",
+  "board_pool":[
+    {
+      "name": "leonardo-af",
+      "url": "http://172.17.2.142/all"
+    },
+    {
+      "name":"leonardo-80",
+      "url": "http://172.17.3.238/all"
+    },
+    {
+      "name":"leonardo-e4",
+      "url": "http://172.17.5.79/all"
+    }
+
+  ]
+}
