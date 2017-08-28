@@ -11,9 +11,15 @@
                                 "db_name": "s4t-iotronic"
                         },
                         "log": {
-			    "logfile": "/var/log/iotronic/s4t-iotronic.log",
-			    "loglevel": "info"
-			}
+                                "logfile": "/var/log/iotronic/s4t-iotronic.log",
+                                "loglevel": "info"
+                        },
+                        "admin_email":{
+                                "address":"",
+                                "password":""
+
+                        },
+                        "check_board_rate":"5"
 
                 },
                 "wamp":
