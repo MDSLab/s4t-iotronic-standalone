@@ -76,7 +76,7 @@ systemctl daemon-reload
 ```
 npm install -g log4js@1.1.1
 
-npm install -g requestify mysql nconf ip express node-uuid autobahn q body-parser
+npm install -g requestify mysql nconf ip express node-uuid autobahn q body-parser bcrypt
 
 ```
 
