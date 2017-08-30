@@ -55,7 +55,9 @@ during the installation the procedure asks the following information:
 ```
 npm install -g log4js@1.1.1
 
-npm install -g requestify mysql nconf ip express node-uuid autobahn q body-parser ps-node nodemailer nodemailer-smtp-transport bcrypt
+npm install -g requestify mysql nconf ip express node-uuid autobahn q body-parser ps-node nodemailer nodemailer-smtp-transport 
+
+npm install -g --unsafe bcrypt
 ```
 
 * ##### Setup IoTronic environment
