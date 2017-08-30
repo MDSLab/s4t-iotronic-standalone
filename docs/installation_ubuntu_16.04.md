@@ -38,7 +38,6 @@ You can choose to install IoTronic via NPM or from source-code via Git.
 npm install -g --unsafe iotronic-standalone
 
 npm install -g node-reverse-wstunnel
-
 ```
 during the installation the procedure asks the following information:
 
