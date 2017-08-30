@@ -56,18 +56,20 @@ npm install -g log4js@1.1.1
 
 npm install -g requestify mysql nconf ip express node-uuid autobahn q body-parser ps-node nodemailer nodemailer-smtp-transport 
 
+npm install -g node-reverse-wstunnel
+
 npm install -g --unsafe bcrypt
 ```
 
 * ##### Setup IoTronic environment
 ```
 mkdir /var/lib/iotronic/
-cd /var/lib/iotronic/
+cd /usr/lib/node_modules/
 
 git clone git://github.com/MDSLab/s4t-iotronic-standalone.git
 mv s4t-iotronic-standalone/ iotronic-standalone
 
-cp /var/lib/iotronic/iotronic-standalone/etc/systemd/system/s4t-iotronic.service /etc/systemd/system/
+cp /usr/lib/node_modules/iotronic-standalone/etc/systemd/system/s4t-iotronic.service /etc/systemd/system/
 chmod +x /etc/systemd/system/s4t-iotronic.service
 systemctl daemon-reload
 systemctl enable s4t-iotronic.service
@@ -83,8 +85,8 @@ source /etc/profile
 * ##### Configure Crossbar.io router
 ```
 mkdir /etc/crossbar
-cp /var/lib/iotronic/iotronic-standalone/etc/crossbar/config.example.json /etc/crossbar/config.json
-cp /var/lib/iotronic/iotronic-standalone/etc/systemd/system/crossbar.service /etc/systemd/system/
+cp /usr/lib/node_modules/iotronic-standalone/etc/crossbar/config.example.json /etc/crossbar/config.json
+cp /usr/lib/node_modules/iotronic-standalone/etc/systemd/system/crossbar.service /etc/systemd/system/
 chmod +x /etc/systemd/system/crossbar.service
 crossbar check --cbdir /etc/crossbar
 systemctl daemon-reload
@@ -94,7 +96,7 @@ Please, note that the config.example.json coming with the iotronic-standalone pa
 
 * ##### Configure Websocket reverse tunnel (WSTT) server
 ```
-cp /var/lib/iotronic/iotronic-standalone/etc/systemd/system/node-reverse-wstunnel.service /etc/systemd/system/
+cp /usr/lib/node_modules/iotronic-standalone/etc/systemd/system/node-reverse-wstunnel.service /etc/systemd/system/
 chmod +x /etc/systemd/system/node-reverse-wstunnel.service
 systemctl daemon-reload
 systemctl enable node-reverse-wstunnel.service
@@ -103,12 +105,12 @@ systemctl enable node-reverse-wstunnel.service
 * ##### Configure IoTronic-standalone
 First of all, you need to import the Iotronic database schema. During the installation of the MySQL package you should have been asked for a database root password. Please note that name of the database is set to "s4t-iotronic". If you want to change it, please consider that later on you will need to correctly change it in other configuration files.
 ```
-mysql -u root -p < /var/lib/iotronic/iotronic-standalone/utils/s4t-db.sql
+mysql -u root -p < /usr/lib/node_modules/iotronic-standalone/utils/s4t-db.sql
 ```
 
 Then, copy the example of IoTronic configuration file coming with the package in the correct path. 
 ```
-cp /var/lib/iotronic/iotronic-standalone/lib/settings.example.json /var/lib/iotronic/settings.json
+cp /usr/lib/node_modules/iotronic-standalone/lib/settings.example.json /var/lib/iotronic/settings.json
 ``` 
 Please, note that the settings.example.json coming with the iotronic-standalone package sets the IoTronic listening port to "8888", the database name to "s4t-iotronic" (the database server is supposed to be running locally), the WAMP realm to "s4t" (the Crossbar.io WAMP router is supposed to be running locally on port 8181). If you want to change such values, please consider that later on you will need to correctly change them in other configuration files. 
 
