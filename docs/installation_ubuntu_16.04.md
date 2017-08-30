@@ -6,7 +6,7 @@ We tested this procedure on a Ubuntu 16.04 (within a LXD container also). Everyt
 
 ##### Install dependencies via apt-get
 ```
-apt -y install python-dev libyaml-dev libpython2.7-dev mysql-server nmap apache2 unzip socat bridge-utils python-pip python-httplib2 libssl-dev
+apt -y install python-dev python-setuptools libyaml-dev libpython2.7-dev mysql-server nmap apache2 unzip socat bridge-utils python-pip python-httplib2 libssl-dev libffi-dev
 ```
 
 ##### Install Crossbar.io router
@@ -55,7 +55,7 @@ during the installation the procedure asks the following information:
 ```
 npm install -g log4js@1.1.1
 
-npm install -g requestify mysql nconf ip express node-uuid autobahn q body-parser ps-node bcrypt
+npm install -g requestify mysql nconf ip express node-uuid autobahn q body-parser ps-node nodemailer nodemailer-smtp-transport bcrypt
 ```
 
 * ##### Setup IoTronic environment

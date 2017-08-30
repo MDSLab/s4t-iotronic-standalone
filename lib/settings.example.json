@@ -14,12 +14,15 @@
                                 "logfile": "/var/log/iotronic/s4t-iotronic.log",
                                 "loglevel": "info"
                         },
-                        "admin_email":{
-                                "address":"",
-                                "password":""
-
-                        },
-                        "check_board_rate":"5"
+                        "notifier":{
+                                "email": {
+                                        "address": "",
+                                        "password": ""
+                                },
+                                "check_board_rate":"600",
+                                "enable_notify":"true",
+                                "retry":1
+                        }
 
                 },
                 "wamp":
