@@ -27,7 +27,8 @@
     "ps-node":"<=0.1.6",
     "bcrypt":"<=1.0.3",
     "nodemailer":"<=4.1.0", 
-    "nodemailer-smtp-transport":"<=2.7.4"
+    "nodemailer-smtp-transport":"<=2.7.4",
+    "jsonwebtoken":"<=8.0.1"
   },
   "repository": {
     "type": "git",

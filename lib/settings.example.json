@@ -4,6 +4,17 @@
                 {
                         "interface": "",
                         "port":"8888",
+                        "https":{
+                                "enable":"false",
+                                "port":"8443",
+                                "key":"",
+                                "cert":""
+                        },
+                        "auth":{
+                                "encryptKey":"",
+                                "backend":"",
+                                "expire_time":"600"
+                        },
                         "db":{
                                 "host":"localhost",
                                 "user":"root",
@@ -28,7 +39,6 @@
                         "url": "ws://localhost",
                         "port": "8181",
                         "realm": "s4t",
-                        "topic_command":"board.command",
                         "topic_connection": "board.connection"
                 },
                 "socat":
