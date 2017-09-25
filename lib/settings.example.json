@@ -12,6 +12,7 @@
                         },
                         "auth":{
                                 "encryptKey":"",
+                                "adminToken":"",
                                 "backend":"",
                                 "expire_time":"600"
                         },
