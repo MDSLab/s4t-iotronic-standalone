@@ -54,7 +54,7 @@ during the installation the procedure asks the following information:
 ```
 npm install -g log4js@1.1.1
 
-npm install -g requestify mysql nconf ip express node-uuid autobahn q body-parser ps-node nodemailer nodemailer-smtp-transport 
+npm install -g --unsafe requestify mysql nconf ip express node-uuid autobahn q body-parser ps-node nodemailer nodemailer-smtp-transport jsonwebtoken
 
 npm install -g node-reverse-wstunnel
 
@@ -114,16 +114,63 @@ cp /usr/lib/node_modules/iotronic-standalone/lib/settings.example.json /var/lib/
 ``` 
 Please, note that the settings.example.json coming with the iotronic-standalone package sets the IoTronic listening port to "8888", the database name to "s4t-iotronic" (the database server is supposed to be running locally), the WAMP realm to "s4t" (the Crossbar.io WAMP router is supposed to be running locally on port 8181). If you want to change such values, please consider that later on you will need to correctly change them in other configuration files. 
 
-Specify the network interface that IoTronic is supposed to use (e.g., change <INTERFACE> with "eth0").
+Specify the network interface that IoTronic is supposed to use (e.g., change <INTERFACE> with "eth0") and the listening port for the REST the API:
 ```
-sed -i "s/\"interface\": \"\"/\"interface\":\"<INTERFACE>\"/g" /var/lib/iotronic/settings.json
+"server":
+{
+        "interface":"<INTERFACE>",
+        "port":"<HTTP-API-PORT>",
+        ...
+}
 ```
 
-Specify the database password (use the same password you set while installing the MySQL package).
+Specify the database password (use the same password you set while installing the MySQL package):
 ```
-sed -i "s/\"password\": \"\"/\"password\":\"<DB_PASSWORD>\"/g" /var/lib/iotronic/settings.json
+"db":{
+        "host":"localhost",
+        "user":"root",
+        "password":"<MYSQL-PASSWORD>",
+        "db_name": "new-s4t-iotronic"
+}
 ```
 
+Set security parameters:
+ - open /var/lib/iotronic/settings.json:
+```
+"https":{
+        "enable":"[ true  | false ]",
+        "port":"<HTTPS-API-PORT>",
+        "key":"<PATH-PRIVATE-KEY>",
+        "cert":"<PATH-PUBLIC-KEY>"
+}
+```
+
+Set authentication parameters:
+ - create SuperAdmin token:
+```
+node /var/lib/iotronic/createAdminToken.js <PASSWORD>
+```
+ - open /var/lib/iotronic/settings.json:
+```
+"auth":{
+        "encryptKey":"<ENC-KEY>",
+        "adminToken":"<GENERATED-BEFORE>",
+        "backend":"iotronic",
+        "expire_time":600
+}
+```
+Set Notify Manager parameters:
+ - open /var/lib/iotronic/settings.json:
+```
+"notifier":{
+        "email": {
+                "address": "<SENDER-EMAIL>",
+                "password": "<SENDER-PASSWORD-EMAIL>"
+        },
+        "enable_notify":"[ true | false ]",
+        "retry":<ATTEMPTS-NUMBER>
+}
+```
 
 
 ## Start IoTronic-standalone
@@ -147,4 +194,16 @@ systemctl status s4t-iotronic
 You can check logs by typing:
 ```
 tail -f /var/log/iotronic/s4t-iotronic.log
+```
+
+##### Register Admin user
+
+From API you are able to register the Admin user by means of SuperAdmin authorization token:
+```
+curl -X POST \
+  http://<IOTRONIC-IP>:8888/v1/users/ \
+  -H 'cache-control: no-cache' \
+  -H 'content-type: application/x-www-form-urlencoded' \
+  -H 'x-auth-token: <SUPER-ADMIN-TOKEN>' \
+  -d 'username=admin&password=<ADMIN-PASSWORD>&email=<ADMIN-EMAIL>&f_name=<NAME>&l_name=<SURNAME>'
 ```

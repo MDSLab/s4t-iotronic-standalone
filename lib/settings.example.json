@@ -6,7 +6,7 @@
                         "port":"8888",
                         "https":{
                                 "enable":"false",
-                                "port":"8443",
+                                "port":"",
                                 "key":"",
                                 "cert":""
                         },
@@ -20,7 +20,7 @@
                                 "host":"localhost",
                                 "user":"root",
                                 "password": "",
-                                "db_name": "s4t-iotronic"
+                                "db_name": "new-s4t-iotronic"
                         },
                         "log": {
                                 "logfile": "/var/log/iotronic/s4t-iotronic.log",
@@ -31,8 +31,10 @@
                                         "address": "",
                                         "password": ""
                                 },
-                                "enable_notify":"true"
+                                "enable_notify":"false",
+                                "retry":1
                         }
+
 
                 },
                 "wamp":
