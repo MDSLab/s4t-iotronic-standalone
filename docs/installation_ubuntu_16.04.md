@@ -2,6 +2,12 @@
 
 We tested this procedure on a Ubuntu 16.04 (within a LXD container also). Everything needs to be run as root.
 
+[![npm version](https://badge.fury.io/js/iotronic-standalone.svg)](https://badge.fury.io/js/iotronic-standalone)
+
+[![NPM](https://nodei.co/npm/iotronic-standalone.png)](https://nodei.co/npm/iotronic-standalone/)
+
+[![NPM](https://nodei.co/npm-dl/iotronic-standalone.png)](https://nodei.co/npm/iotronic-standalone/)
+
 ## Install requirements
 
 ##### Install dependencies via apt-get
@@ -52,13 +58,7 @@ during the installation the procedure asks the following information:
 
 * ##### Install dependencies using npm
 ```
-npm install -g log4js@1.1.1
-
-npm install -g --unsafe requestify mysql nconf ip express node-uuid autobahn q body-parser ps-node nodemailer nodemailer-smtp-transport jsonwebtoken
-
-npm install -g node-reverse-wstunnel
-
-npm install -g --unsafe bcrypt
+npm install -g --unsafe log4js@1.1.1 node-reverse-wstunnel bcrypt requestify mysql nconf ip express node-uuid autobahn q body-parser ps-node nodemailer nodemailer-smtp-transport jsonwebtoken
 ```
 
 * ##### Setup IoTronic environment
@@ -88,7 +88,6 @@ mkdir /etc/crossbar
 cp /usr/lib/node_modules/iotronic-standalone/etc/crossbar/config.example.json /etc/crossbar/config.json
 cp /usr/lib/node_modules/iotronic-standalone/etc/systemd/system/crossbar.service /etc/systemd/system/
 chmod +x /etc/systemd/system/crossbar.service
-crossbar check --cbdir /etc/crossbar
 systemctl daemon-reload
 systemctl enable crossbar.service
 ```
@@ -114,7 +113,8 @@ cp /usr/lib/node_modules/iotronic-standalone/lib/settings.example.json /var/lib/
 ``` 
 Please, note that the settings.example.json coming with the iotronic-standalone package sets the IoTronic listening port to "8888", the database name to "s4t-iotronic" (the database server is supposed to be running locally), the WAMP realm to "s4t" (the Crossbar.io WAMP router is supposed to be running locally on port 8181). If you want to change such values, please consider that later on you will need to correctly change them in other configuration files. 
 
-Specify the network interface that IoTronic is supposed to use (e.g., change <INTERFACE> with "eth0") and the listening port for the REST the API:
+Open /var/lib/iotronic/settings.json:
+- specify the network interface that IoTronic is supposed to use (e.g., change <INTERFACE> with "eth0") and the listening port for the REST the API:
 ```
 "server":
 {
@@ -124,7 +124,7 @@ Specify the network interface that IoTronic is supposed to use (e.g., change <IN
 }
 ```
 
-Specify the database password (use the same password you set while installing the MySQL package):
+ - specify the database password (use the same password you set while installing the MySQL package):
 ```
 "db":{
         "host":"localhost",
@@ -134,8 +134,7 @@ Specify the database password (use the same password you set while installing th
 }
 ```
 
-Set security parameters:
- - open /var/lib/iotronic/settings.json:
+ - set API security parameters:
 ```
 "https":{
         "enable":"[ true  | false ]",
@@ -145,22 +144,7 @@ Set security parameters:
 }
 ```
 
-Set authentication parameters:
- - create SuperAdmin token:
-```
-node /var/lib/iotronic/createAdminToken.js <PASSWORD>
-```
- - open /var/lib/iotronic/settings.json:
-```
-"auth":{
-        "encryptKey":"<ENC-KEY>",
-        "adminToken":"<GENERATED-BEFORE>",
-        "backend":"iotronic",
-        "expire_time":600
-}
-```
-Set Notify Manager parameters:
- - open /var/lib/iotronic/settings.json:
+ - set Notify Manager parameters:
 ```
 "notifier":{
         "email": {
@@ -171,6 +155,27 @@ Set Notify Manager parameters:
         "retry":<ATTEMPTS-NUMBER>
 }
 ```
+
+Set authentication parameters:
+ - create SuperAdmin token ("adminToken" to set below in the settings.json):
+```
+node /usr/lib/node_modules/iotronic-standalone/utils/createAdminToken.js <PASSWORD>
+```
+ - open /var/lib/iotronic/settings.json:
+```
+"auth":{
+        "encryptKey":"<ENC-KEY>",
+        "adminToken":"<GENERATED-BEFORE>",
+        "backend":"iotronic",
+        "expire_time":600
+}
+```
+The "encryptKey" field is a user-defined keyword/password used to encrypt/decrypt the users passwords during authentication procedures.
+
+The "adminToken" field was generated in the previous step and it is considered a token used ONLY by Admin to call the APIs without the need to get a temporary token to attach to each request as well the common users.
+
+
+
 
 
 ## Start IoTronic-standalone
@@ -200,10 +205,17 @@ tail -f /var/log/iotronic/s4t-iotronic.log
 
 From API you are able to register the Admin user by means of SuperAdmin authorization token:
 ```
+REQUEST:
 curl -X POST \
   http://<IOTRONIC-IP>:8888/v1/users/ \
   -H 'cache-control: no-cache' \
   -H 'content-type: application/x-www-form-urlencoded' \
   -H 'x-auth-token: <SUPER-ADMIN-TOKEN>' \
   -d 'username=admin&password=<ADMIN-PASSWORD>&email=<ADMIN-EMAIL>&f_name=<NAME>&l_name=<SURNAME>'
+
+RESPONSE:
+{
+    "message":"IoTronic user 'admin' (id = <ADMIN-USER-ID>) successfully created!",
+    "result":"SUCCESS"
+}
 ```
