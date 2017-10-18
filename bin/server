@@ -21,4 +21,6 @@ var serverPort = nconf.get('config:server:port');
 
 var server = new s4t.server;
 
+process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0"
+
 server.start(serverPort,wampR_url,wamp_realm);
