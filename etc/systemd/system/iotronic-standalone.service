@@ -1,7 +1,7 @@
 [Unit]
-Description=Stack4Things IoTronic
-Wants=node-reverse-wstunnel.service
-After=node-reverse-wstunnel.service network.target
+Description=Stack4Things IoTronic Standalone
+Wants=wstun.service
+After=wstun.service network.target
 
 [Service]
 Type=simple

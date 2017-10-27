@@ -29,10 +29,14 @@
                         "notifier":{
                                 "email": {
                                         "address": "",
-                                        "password": ""
+                                        "password": "",
+                                        "smtp":{
+                                                "smtp_server": "",
+                                                "smtp_port": "",
+                                                "smtp_secure": ""
+                                        }
                                 },
-                                "enable_notify":"false",
-                                "retry":1
+                                "enable_notify":"false"
                         }
 
 
