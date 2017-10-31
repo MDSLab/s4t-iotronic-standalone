@@ -38,12 +38,12 @@ elif [ "$DISTRO" = "16.04" ]; then
         cp /usr/lib/node_modules/iotronic-standalone/etc/systemd/system/crossbar.service /etc/systemd/system/
         chmod +x /etc/systemd/system/crossbar.service
 
-        # Configure WSTT
-        echo " - WSTT configuration..."
-        cp /usr/lib/node_modules/iotronic-standalone/etc/systemd/system/node-reverse-wstunnel.service /etc/systemd/system/
-        chmod +x /etc/systemd/system/node-reverse-wstunnel.service
+        # Configure WSTUN
+        echo " - WSTUN configuration..."
+        cp /usr/lib/node_modules/iotronic-standalone/etc/systemd/system/wstun.service /etc/systemd/system/
+        chmod +x /etc/systemd/system/wstun.service
         systemctl daemon-reload
-        systemctl enable node-reverse-wstunnel.service
+        systemctl enable wstun.service
 
 fi
 

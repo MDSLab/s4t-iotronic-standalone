@@ -2,12 +2,6 @@
 
 We tested this procedure on a Ubuntu 16.04 (within a LXD container also). Everything needs to be run as root.
 
-[![npm version](https://badge.fury.io/js/iotronic-standalone.svg)](https://badge.fury.io/js/iotronic-standalone)
-
-[![NPM](https://nodei.co/npm/iotronic-standalone.png)](https://nodei.co/npm/iotronic-standalone/)
-
-[![NPM](https://nodei.co/npm-dl/iotronic-standalone.png)](https://nodei.co/npm/iotronic-standalone/)
-
 ## Install requirements
 
 ##### Install dependencies via apt-get
@@ -43,7 +37,7 @@ You can choose to install IoTronic via NPM or from source-code via Git.
 ```
 npm install -g --unsafe iotronic-standalone
 
-npm install -g node-reverse-wstunnel
+npm install -g @mdslab/wstun
 ```
 during the installation the procedure asks the following information:
 
@@ -58,7 +52,7 @@ during the installation the procedure asks the following information:
 
 * ##### Install dependencies using npm
 ```
-npm install -g --unsafe log4js@1.1.1 node-reverse-wstunnel bcrypt requestify mysql nconf ip express node-uuid autobahn q body-parser ps-node nodemailer nodemailer-smtp-transport jsonwebtoken
+npm install -g --unsafe log4js@1.1.1 @mdslab/wstun bcrypt requestify mysql nconf ip express node-uuid autobahn q body-parser ps-node nodemailer nodemailer-smtp-transport jsonwebtoken
 ```
 
 * ##### Setup IoTronic environment
@@ -93,12 +87,12 @@ systemctl enable crossbar.service
 ```
 Please, note that the config.example.json coming with the iotronic-standalone package sets the name of the WAMP realm to "s4t" and the Crossbar.io listening port to "8181". If you want to change such values, please consider that later on you will need to correctly change them in other configuration files.
 
-* ##### Configure Websocket reverse tunnel (WSTT) server
+* ##### Configure Websocket reverse tunnel (WSTUN) server
 ```
-cp /usr/lib/node_modules/iotronic-standalone/etc/systemd/system/node-reverse-wstunnel.service /etc/systemd/system/
-chmod +x /etc/systemd/system/node-reverse-wstunnel.service
+cp /usr/lib/node_modules/iotronic-standalone/etc/systemd/system/wstun.service /etc/systemd/system/
+chmod +x /etc/systemd/system/wstun.service
 systemctl daemon-reload
-systemctl enable node-reverse-wstunnel.service
+systemctl enable wstun.service
 ```
 
 * ##### Configure IoTronic-standalone
@@ -185,10 +179,10 @@ The "adminToken" field was generated in the previous step and it is considered a
 systemctl enable crossbar
 systemctl start crossbar
 
-systemctl start node-reverse-wstunnel
+systemctl start wstun
 
 systemctl status crossbar
-systemctl status node-reverse-wstunnel
+systemctl status wstun
 ```
 Now you are ready to start Iotronic:
 ```

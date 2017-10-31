@@ -49,7 +49,7 @@ npm install -g --unsafe iotronic-standalone
 echo "export IOTRONIC_HOME=/var/lib/iotronic" >> /etc/profile
 source /etc/profile
 
-npm install -g node-reverse-wstunnel
+npm install -g @mdslab/wstun
 ```
 during the installation the procedure asks the following information:
 
@@ -63,7 +63,7 @@ during the installation the procedure asks the following information:
 
 * ##### Install dependencies using npm:
 ```
-npm install -g node-reverse-wstunnel requestify mysql nconf ip express node-uuid autobahn log4js q fs-access mknod body-parser
+npm install -g @mdslab/wstun requestify mysql nconf ip express node-uuid autobahn log4js q fs-access mknod body-parser
 ```
 
 * ##### Setup IoTronic environment
