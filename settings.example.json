@@ -26,6 +26,7 @@
                                 "logfile": "/var/log/iotronic/s4t-iotronic.log",
                                 "loglevel": "info"
                         },
+                        "docs": false,
                         "notifier":{
                                 "email": {
                                         "address": "",
@@ -56,5 +57,6 @@
                                 "port":"10000"
                         }
                 }
+
         }
 }
