@@ -24,8 +24,8 @@ npm install -g npm
 npm config set python `which python2.7`
 npm -v
 
-echo "export NODE_PATH=/usr/lib/node_modules" | sudo tee -a /etc/profile
-source /etc/profile > /dev/null
+echo "export NODE_PATH=/usr/lib/node_modules" | sudo tee -a /etc/environment
+source /etc/environment > /dev/null
 echo $NODE_PATH
 ```
 
@@ -37,7 +37,7 @@ You can choose to install IoTronic via NPM or from source-code via Git.
 ```
 npm install -g --unsafe iotronic-standalone
 
-npm install -g @mdslab/wstun
+npm install -g --unsafe @mdslab/wstun
 ```
 during the installation the procedure asks the following information:
 
@@ -52,7 +52,7 @@ during the installation the procedure asks the following information:
 
 * ##### Install dependencies using npm
 ```
-npm install -g --unsafe log4js@1.1.1 @mdslab/wstun bcrypt requestify mysql nconf ip express node-uuid autobahn q body-parser ps-node nodemailer nodemailer-smtp-transport jsonwebtoken
+npm install -g --unsafe log4js@1.1.1 @mdslab/wstun optimist bcrypt requestify mysql nconf ip express node-uuid autobahn q body-parser ps-node nodemailer nodemailer-smtp-transport jsonwebtoken
 ```
 
 * ##### Setup IoTronic environment
@@ -103,7 +103,7 @@ mysql -u root -p < /usr/lib/node_modules/iotronic-standalone/utils/s4t-db.sql
 
 Then, copy the example of IoTronic configuration file coming with the package in the correct path. 
 ```
-cp /usr/lib/node_modules/iotronic-standalone/lib/settings.example.json /var/lib/iotronic/settings.json
+cp /usr/lib/node_modules/iotronic-standalone/settings.example.json /var/lib/iotronic/settings.json
 ``` 
 Please, note that the settings.example.json coming with the iotronic-standalone package sets the IoTronic listening port to "8888", the database name to "s4t-iotronic" (the database server is supposed to be running locally), the WAMP realm to "s4t" (the Crossbar.io WAMP router is supposed to be running locally on port 8181). If you want to change such values, please consider that later on you will need to correctly change them in other configuration files. 
 
@@ -195,7 +195,7 @@ You can check logs by typing:
 tail -f /var/log/iotronic/s4t-iotronic.log
 ```
 
-##### Register Admin user
+##### Register Admin user and project
 
 From API you are able to register the Admin user by means of SuperAdmin authorization token:
 ```
@@ -209,7 +209,21 @@ curl -X POST \
 
 RESPONSE:
 {
-    "message":"IoTronic user 'admin' (id = <ADMIN-USER-ID>) successfully created!",
+    "message":"IoTronic user 'admin' successfully created!",
     "result":"SUCCESS"
+}
+
+REQUEST:
+curl -X POST \
+  http://<IOTRONIC-IP>:8888/v1/projects/ \
+  -H 'cache-control: no-cache' \
+  -H 'content-type: application/x-www-form-urlencoded' \
+  -H 'x-auth-token:<SUPER-ADMIN-TOKEN>' \
+  -d 'name=Admin&description=Admin%20Project'
+
+RESPONSE:
+{
+    "message": "IoTronic project 'Admin' successfully created!",
+    "result": "SUCCESS"
 }
 ```
