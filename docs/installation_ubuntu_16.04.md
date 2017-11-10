@@ -63,10 +63,10 @@ cd /usr/lib/node_modules/
 git clone git://github.com/MDSLab/s4t-iotronic-standalone.git
 mv s4t-iotronic-standalone/ iotronic-standalone
 
-cp /usr/lib/node_modules/iotronic-standalone/etc/systemd/system/s4t-iotronic.service /etc/systemd/system/
-chmod +x /etc/systemd/system/s4t-iotronic.service
+cp /usr/lib/node_modules/iotronic-standalone/etc/systemd/system/iotronic-standalone.service /etc/systemd/system/
+chmod +x /etc/systemd/system/iotronic-standalone.service
 systemctl daemon-reload
-systemctl enable s4t-iotronic.service
+systemctl enable iotronic-standalone.service
 
 mkdir /var/lib/iotronic/drivers/
 mkdir /var/lib/iotronic/plugins/
@@ -186,9 +186,9 @@ systemctl status wstun
 ```
 Now you are ready to start Iotronic:
 ```
-systemctl start s4t-iotronic
+systemctl start iotronic-standalone.service
 
-systemctl status s4t-iotronic
+systemctl status iotronic-standalone.service
 ```
 You can check logs by typing:
 ```
