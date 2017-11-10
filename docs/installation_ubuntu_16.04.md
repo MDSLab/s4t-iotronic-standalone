@@ -72,8 +72,8 @@ mkdir /var/lib/iotronic/drivers/
 mkdir /var/lib/iotronic/plugins/
 mkdir /var/lib/iotronic/schemas/
 
-echo "export IOTRONIC_HOME=/var/lib/iotronic" >> /etc/profile
-source /etc/profile
+echo "export IOTRONIC_HOME=/var/lib/iotronic" >> /etc/environment
+source /etc/environment
 ```
 
 * ##### Configure Crossbar.io router
@@ -176,9 +176,7 @@ The "adminToken" field was generated in the previous step and it is considered a
 
 ##### Start services
 ```
-systemctl enable crossbar
 systemctl start crossbar
-
 systemctl start wstun
 
 systemctl status crossbar
