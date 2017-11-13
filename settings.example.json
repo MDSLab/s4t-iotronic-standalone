@@ -26,7 +26,11 @@
                                 "logfile": "/var/log/iotronic/s4t-iotronic.log",
                                 "loglevel": "info"
                         },
-                        "docs": false,
+                        "docs": {
+                                "enable": false,
+                                "path": ""
+
+                        },
                         "notifier":{
                                 "email": {
                                         "address": "",
