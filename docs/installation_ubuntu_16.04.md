@@ -52,7 +52,7 @@ during the installation the procedure asks the following information:
 
 * ##### Install dependencies using npm
 ```
-npm install -g --unsafe log4js@1.1.1 @mdslab/wstun optimist bcrypt requestify mysql nconf ip express node-uuid autobahn q body-parser ps-node nodemailer nodemailer-smtp-transport jsonwebtoken
+npm install -g --unsafe log4js@1.1.1 @mdslab/wstun optimist cors replace bcrypt requestify mysql nconf ip express node-uuid autobahn q body-parser ps-node nodemailer nodemailer-smtp-transport jsonwebtoken
 ```
 
 * ##### Setup IoTronic environment
