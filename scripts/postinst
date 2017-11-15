@@ -26,10 +26,10 @@ elif [ "$DISTRO" = "16.04" ]; then
 
         # Configure systemctl
         echo " - systemd configuration..."
-        cp /usr/lib/node_modules/iotronic-standalone/etc/systemd/system/s4t-iotronic.service /etc/systemd/system/
-        chmod +x /etc/systemd/system/s4t-iotronic.service
+        cp /usr/lib/node_modules/iotronic-standalone/etc/systemd/system/iotronic-standalone.service /etc/systemd/system/
+        chmod +x /etc/systemd/system/iotronic-standalone.service
         systemctl daemon-reload
-        systemctl enable s4t-iotronic.service
+        systemctl enable iotronic-standalone.service
 
         # Configure Crossbar.io
         echo " - Crossbar.io configuration..."
@@ -37,6 +37,8 @@ elif [ "$DISTRO" = "16.04" ]; then
         cp /usr/lib/node_modules/iotronic-standalone/etc/crossbar/config.example.json /etc/crossbar/config.json
         cp /usr/lib/node_modules/iotronic-standalone/etc/systemd/system/crossbar.service /etc/systemd/system/
         chmod +x /etc/systemd/system/crossbar.service
+        systemctl daemon-reload
+        systemctl enable crossbar.service
 
         # Configure WSTUN
         echo " - WSTUN configuration..."
@@ -67,26 +69,18 @@ then
 
 	      mkdir /var/lib/iotronic/
 	      mkdir -p /var/lib/iotronic/plugins/
-	      mkdir -p /var/lib/iotronic/schemas/
 	      mkdir -p /var/lib/iotronic/drivers/
 	      cd /var/lib/iotronic/
 
 	      cp /usr/lib/node_modules/iotronic-standalone/lib/settings.example.json /var/lib/iotronic/settings.json
-	      
-	      NIC=
-	      echo -n "Enter network interface: "
-	      read NIC
-	      echo "-->" $NIC
-	      sed -i "s/\"interface\": \"\"/\"interface\":\"$NIC\"/g" /var/lib/iotronic/settings.json
-	      
+
+	      mkdir -p /var/log/iotronic/
+	      touch /var/log/iotronic/s4t-iotronic.log
+
 	      MYSQL_PW=
 	      echo -n "Enter MySQL password: "
 	      read MYSQL_PW
 	      echo "-->" $MYSQL_PW
-	      sed -i "s/\"password\": \"\"/\"password\":\"$MYSQL_PW\"/g" /var/lib/iotronic/settings.json
-
-	      mkdir -p /var/log/iotronic/
-	      touch /var/log/iotronic/s4t-iotronic.log
 
 	      echo -n "MySQL configuring..."
 	      /usr/bin/mysql -u root -p$MYSQL_PW < /usr/lib/node_modules/iotronic-standalone/utils/s4t-db.sql
@@ -104,26 +98,19 @@ else
 
       mkdir /var/lib/iotronic/
       mkdir -p /var/lib/iotronic/plugins/
-      mkdir -p /var/lib/iotronic/schemas/
       mkdir -p /var/lib/iotronic/drivers/
       cd /var/lib/iotronic/
 
       cp /usr/lib/node_modules/iotronic-standalone/lib/settings.example.json /var/lib/iotronic/settings.json
-      
-      NIC=
-      echo -n "Enter network interface: "
-      read NIC
-      echo "-->" $NIC
-      sed -i "s/\"interface\": \"\"/\"interface\":\"$NIC\"/g" /var/lib/iotronic/settings.json
-      
+
+      mkdir -p /var/log/iotronic/
+      touch /var/log/iotronic/s4t-iotronic.log
+
       MYSQL_PW=
       echo -n "Enter MySQL password: "
       read MYSQL_PW
       echo "-->" $MYSQL_PW
       sed -i "s/\"password\": \"\"/\"password\":\"$MYSQL_PW\"/g" /var/lib/iotronic/settings.json
-
-      mkdir -p /var/log/iotronic/
-      touch /var/log/iotronic/s4t-iotronic.log
 
       echo -n "MySQL configuring..."
       /usr/bin/mysql -u root -p$MYSQL_PW < /usr/lib/node_modules/iotronic-standalone/utils/s4t-db.sql
@@ -135,12 +122,12 @@ fi
 if grep -Fq "IOTRONIC_HOME" /etc/profile
 then
     # if found
-    echo "IOTRONIC_HOME env var already set."
+    echo "IOTRONIC_HOME environment variable already set."
 else
     # if not found
-    echo "Setting IOTRONIC_HOME env var."
-    echo "export IOTRONIC_HOME=/var/lib/iotronic" >> /etc/profile
-    source /etc/profile
+    echo "Setting IOTRONIC_HOME environment variable..."
+    echo "export IOTRONIC_HOME=/var/lib/iotronic" >> /etc/environment
+    source /etc/environment
 fi
 
 
