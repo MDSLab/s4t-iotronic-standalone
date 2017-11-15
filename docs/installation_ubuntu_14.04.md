@@ -80,7 +80,6 @@ sed -i '/^ *#/b; s%exit 0%/etc/init.d/crossbar start\n/etc/init.d/s4t-iotronic s
 
 mkdir /var/lib/iotronic/drivers/
 mkdir /var/lib/iotronic/plugins/
-mkdir /var/lib/iotronic/schemas/
 
 echo "export IOTRONIC_HOME=/var/lib/iotronic" >> /etc/profile
 source /etc/profile

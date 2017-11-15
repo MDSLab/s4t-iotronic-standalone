@@ -11,7 +11,7 @@
     "uninstall": "./scripts/postuninst"
   },
   "dependencies":{
-    "wstun": ">=1.0.0",
+    "@mdslab/wstun": ">=1.0.0",
     "nconf": ">=0.8.2",
     "ip": ">=1.1.0",
     "node-uuid":"<=1.4.7",
@@ -22,10 +22,11 @@
     "q":">=1.4.1",
     "requestify":">=0.1.17",
     "mysql":">=2.10.0",
-    "node-uuid":">=1.4.7",
     "util":">=0.10.3",
     "ps-node":"<=0.1.6",
     "bcrypt":"<=1.0.3",
+    "optimist":"<=0.6.1",
+    "cors":"<=2.8.4",
     "nodemailer":"<=4.1.0", 
     "nodemailer-smtp-transport":"<=2.7.4"
   },

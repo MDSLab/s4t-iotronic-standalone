@@ -29,7 +29,6 @@ nconf.file ({file: IotronicHome + '/settings.json'});
 
 var wampR_url = nconf.get('config:wamp:url')+":"+nconf.get('config:wamp:port');
 var wamp_realm = nconf.get('config:wamp:realm');
-var serverPort = nconf.get('config:server:port');
 
 var server = new iotronic.server;
-server.start(serverPort, wampR_url, wamp_realm);
+server.start(wampR_url, wamp_realm);

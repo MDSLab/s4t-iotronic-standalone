@@ -22,9 +22,9 @@ var fs = require('fs');
 nconf = require('nconf');
 
 var optimist = require('optimist').usage("IoTronic API documentation generator.")
-    .string("iotronic").alias('t', "iotronic").describe('t', 'IoTronic suorce code path.')
+    .string("iotronic").alias('i', "iotronic").describe('i', 'IoTronic suorce code path.')
     .boolean("embedded").alias('e', "embedded").describe('e', 'true | false to spawn API webpage documentation.')
-    .string("port").alias('p', "port").describe('p', '[only with --embedded=true] Listening port.')
+    .string("port").alias('p', "port").describe('p', '[only with --embedded=true] Listening port.');
 
 var argv = optimist.argv;
 
@@ -43,23 +43,6 @@ var argv = optimist.argv;
  *         description: "API return messagge"
  */
 
-var getIP = function (interface, version) {
-
-    var ip = null;
-
-    var networkInterfaces = require('os').networkInterfaces();
-
-    for (var ifName in networkInterfaces) {
-        if (ifName == interface) {
-            var ifDetails = networkInterfaces[ifName];
-            for (var i = 0; ifDetails[i].family == version; i++) {
-                ip = ifDetails[i].address;
-            }
-        }
-    }
-
-    return ip;
-};
 
 var genApiDocumentation  = function (){
 
@@ -74,7 +57,7 @@ var genApiDocumentation  = function (){
             version: '2.0.0',
             description: 'IoTronic-standalone API by Stack4Things.'
         },
-        host: IPLocal+':8443',
+        host: IoTronic_IP+':8443',
         basePath: '/',
         licence:{
             name: 'Apache v2',
@@ -134,33 +117,6 @@ var genApiDocumentation  = function (){
             } else {
 
                 console.log("[API-DOCS] - iotronic-swagger.json successfully created!");
-
-                // MOD INDEX.HTML webpage
-                var replace = require("replace");
-
-                replace({
-                    //regex: 'url: "http://petstore.swagger.io/v2/swagger.json"',
-                    //replacement: 'url: "'+url_swagger+'",\n\tvalidatorUrl: null',
-                    regex: 'url: *',
-                    replacement: 'url: "'+url_swagger+'"',
-                    paths: [docs_path+"/index.html"],
-                    recursive: true,
-                    silent: true,
-                });
-
-                console.log("[API-DOCS] - iotronic-swagger.json file available here: " +  docs_path);
-
-                /*
-                fs.readFile(docs_path+"/index.html", 'utf8', function (err,data) {
-
-                    if (err) {
-                        return console.log(err);
-                    }
-
-                    console.log("[API-DOCS] - iotronic-swagger.json file available here: " +  docs_path);
-
-                });
-                */
 
             }
 
@@ -235,13 +191,13 @@ var exposeApiDocumentation  = function (swaggerSpec){
             cert: s4t_cert
         };
 
-        https.createServer(credentials, rest).listen(https_port, function(){});
+        https.createServer(credentials, rest).listen(port, function(){});
 
     }else{
 
         //HTTP
         var http = require('http');
-        http.createServer(rest).listen(http_port, function(){});
+        http.createServer(rest).listen(port, function(){});
 
     }
 
@@ -251,9 +207,9 @@ var exposeApiDocumentation  = function (swaggerSpec){
 };
 
 
-if (argv.t != undefined && argv.e != undefined){
+if (argv.i != undefined && argv.e != undefined){
 
-    IOTRONIC_CODE = argv.t;
+    IOTRONIC_CODE = argv.i;
     embedded = argv.e;
     port = argv.p;
 
@@ -269,7 +225,7 @@ if (argv.t != undefined && argv.e != undefined){
 
             IOTRONIC_CFG = process.env.IOTRONIC_HOME + "/settings.json";
             nconf.file({file: IOTRONIC_CFG});
-            iface = nconf.get('config:server:interface');
+            IoTronic_IP = nconf.get('config:server:public_ip');
             https_enable = nconf.get('config:server:https:enable');
             https_key = nconf.get('config:server:https:key');
             https_cert = nconf.get('config:server:https:cert');
@@ -280,18 +236,14 @@ if (argv.t != undefined && argv.e != undefined){
             process.exit();
         }
 
-        IPLocal = getIP(iface, 'IPv4');
-        http_port = port;
-        https_port = port;
-
         swaggerJSONfile = docs_path + "/iotronic-swagger.json";
 
         if (https_enable == "true"){
-            url_swagger = "https://" + IPLocal + ":" + https_port + "/v1/iotronic-swagger.json";
-            link_docs = "https://" + IPLocal + ":" + https_port + "/v1/iotronic-api-docs/";
+            url_swagger = "https://" + IoTronic_IP + ":" + port + "/v1/iotronic-swagger.json";
+            link_docs = "https://" + IoTronic_IP + ":" + port + "/v1/iotronic-api-docs/";
         }else{
-            url_swagger = "http://" + IPLocal + ":" + http_port + "/v1/iotronic-swagger.json";
-            link_docs = "http://" + IPLocal + ":" + restPort + "/v1/iotronic-api-docs/";
+            url_swagger = "http://" + IoTronic_IP + ":" + port + "/v1/iotronic-swagger.json";
+            link_docs = "http://" + IoTronic_IP + ":" + port + "/v1/iotronic-api-docs/";
         }
 
         genApiDocumentation();

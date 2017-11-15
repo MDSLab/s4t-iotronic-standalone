@@ -3,7 +3,8 @@
                 "server":
                 {
                         "interface": "",
-                        "port":"8888",
+                        "public_ip": "",
+                        "http_port":"8888",
                         "https":{
                                 "enable":"false",
                                 "port":"",
@@ -27,7 +28,7 @@
                                 "loglevel": "info"
                         },
                         "docs": {
-                                "enable": false,
+                                "enable": true,
                                 "path": ""
 
                         },

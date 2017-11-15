@@ -70,7 +70,6 @@ systemctl enable iotronic-standalone.service
 
 mkdir /var/lib/iotronic/drivers/
 mkdir /var/lib/iotronic/plugins/
-mkdir /var/lib/iotronic/schemas/
 
 echo "export IOTRONIC_HOME=/var/lib/iotronic" >> /etc/environment
 source /etc/environment
@@ -108,12 +107,19 @@ cp /usr/lib/node_modules/iotronic-standalone/settings.example.json /var/lib/iotr
 Please, note that the settings.example.json coming with the iotronic-standalone package sets the IoTronic listening port to "8888", the database name to "s4t-iotronic" (the database server is supposed to be running locally), the WAMP realm to "s4t" (the Crossbar.io WAMP router is supposed to be running locally on port 8181). If you want to change such values, please consider that later on you will need to correctly change them in other configuration files. 
 
 Open /var/lib/iotronic/settings.json:
-- specify the network interface that IoTronic is supposed to use (e.g., change <INTERFACE> with "eth0") and the listening port for the REST the API:
+- specify the NIC (e.g., change <INTERFACE> with "eth0") or the public IP and the port that IoTronic supposed to use to expose its REST interface; if you would like to use HTTPS to expose them you have to specify the "https" section.
 ```
 "server":
 {
         "interface":"<INTERFACE>",
-        "port":"<HTTP-API-PORT>",
+        "public_ip": "<IOTRONIC-PUBLIC-IP>",
+        "http_port":"<HTTP-API-PORT>",
+        "https":{
+                "enable":"[ true  | false ]",
+                "port":"<HTTPS-API-PORT>",
+                "key":"<PATH-PRIVATE-KEY>",
+                "cert":"<PATH-PUBLIC-KEY>"
+        }
         ...
 }
 ```
@@ -125,16 +131,6 @@ Open /var/lib/iotronic/settings.json:
         "user":"root",
         "password":"<MYSQL-PASSWORD>",
         "db_name": "new-s4t-iotronic"
-}
-```
-
- - set API security parameters:
-```
-"https":{
-        "enable":"[ true  | false ]",
-        "port":"<HTTPS-API-PORT>",
-        "key":"<PATH-PRIVATE-KEY>",
-        "cert":"<PATH-PUBLIC-KEY>"
 }
 ```
 
@@ -224,4 +220,56 @@ RESPONSE:
     "message": "IoTronic project 'Admin' successfully created!",
     "result": "SUCCESS"
 }
+```
+
+
+
+## API documentation management
+IoTronic releases its APIs documentation by means of Swagger framework. In particular we used ["swagger-jsdoc"](https://www.npmjs.com/package/swagger-jsdoc)  and ["swagger-ui"](https://swagger.io/swagger-ui/) respectively to describe each RESTful API in the source code and publish the produced documentation.
+
+To use swagger-ui we need to clone the git repository from [here](https://github.com/swagger-api/swagger-ui)
+ and move the "dist" folder where you prefer and specify it inside the "settings.json" configuration file
+ as showed below:
+
+```
+"docs": {
+        "enable": true,
+        "path": "<SWAGGER-DIST-PATH>"
+
+}
+```
+
+You have to edit the "index.html" in <SWAGGER-DIST-PATH> as described in the [official guide](https://swagger.io/docs/swagger-tools/#download-33):
+```
+window.swaggerUi = new SwaggerUi({
+ url: <URL-API-DOCS>,
+…
+});
+```
+
+[Link to Official guide](https://swagger.io/docs/swagger-tools/#download-33)
+
+#### Embedded API management
+Enabling the above flag ("enable":true) IoTronic will generate end expose the API documentation.
+
+The docs will be available at:
+```
+<URL-API-DOCS> = http(s)://<IOTRONIC-IP>:<HTTP(S)-API-PORT>/v1/iotronic-api-docs/
+```
+
+#### Standalone API management
+We also provided a NodeJS script ([iotronic-docs-gen.js](docs/iotronic-docs-gen.js)) to do that without using directly IoTronic (we need toset "enable" to false). This script will generate the documentation and will publish it by means of "swagger-ui".
+
+Script usage:
+```
+node iotronic-docs-gen.js --iotronic="<IOTRONIC_SOURCE_CODE_PATH>" -e [true|false] -p <API_DOCS_PORT>
+```
+options:
+ - -i, --iotronic  IoTronic suorce code path. (e.g. "/usr/lib/node_modules/iotronic-standalone/")
+ - -e, --embedded  true | false to spawn API webpage documentation; if "false" the "iotronic-swagger.json" will be created in the <SWAGGER-DIST-PATH> folder specified in the "settings.json" file in the "docs" section.
+ - -p, --port      [only with --embedded=true] Listening port. (this port has to be different from the ports used by IoTronic "http(s)_port")
+
+The docs will be available at:
+```
+<URL-API-DOCS> = http(s)://<IOTRONIC-IP>:<API_DOCS_PORT>/v1/iotronic-api-docs/
 ```
