@@ -24,7 +24,8 @@ nconf = require('nconf');
 var optimist = require('optimist').usage("IoTronic API documentation generator.")
     .string("iotronic").alias('i', "iotronic").describe('i', 'IoTronic suorce code path.')
     .boolean("embedded").alias('e', "embedded").describe('e', 'true | false to spawn API webpage documentation.')
-    .string("port").alias('p', "port").describe('p', '[only with --embedded=true] Listening port.');
+    .string("port").alias('p', "port").describe('p', '[only with --embedded=true] Listening port.')
+    .string("web").alias('w', "web").describe('w', 'Web server path.');
 
 var argv = optimist.argv;
 
@@ -108,6 +109,11 @@ var genApiDocumentation  = function (){
 
     }else{
 
+        if (argv.w == undefined)
+            swaggerJSONfile = docs_path + "/iotronic-swagger.json";
+        else
+            swaggerJSONfile = argv.w + "/iotronic-swagger.json";
+
         fs.writeFile(swaggerJSONfile, JSON.stringify(swaggerSpec), function (err) {
 
             if (err) {
@@ -142,8 +148,7 @@ var exposeApiDocumentation  = function (swaggerSpec){
     // serve swagger
     rest.get('/v1/iotronic-swagger.json', function(req, res) {
         res.setHeader('Content-Type', 'application/json');
-        res.send(swaggerSpec);
-        //res.sendFile(swaggerJSONfile);
+        res.status(200).send(swaggerSpec);
     });
 
     rest.get('/', function (req, res) {
@@ -156,16 +161,16 @@ var exposeApiDocumentation  = function (swaggerSpec){
 
     // swagger-ui web-api VERSION
     rest.get('/v1/iotronic-api-docs', function(req, res) {
-        res.sendFile(docs_path+"/index.html");
+        res.status(200).sendFile(docs_path+"/index.html");
     });
     rest.get('/v1/iotronic-api-docs/swagger-ui.css', function(req, res) {
-        res.sendFile(docs_path+"/swagger-ui.css");
+        res.status(200).sendFile(docs_path+"/swagger-ui.css");
     });
     rest.get('/v1/iotronic-api-docs/swagger-ui-bundle.js', function(req, res) {
-        res.sendFile(docs_path+"/swagger-ui-bundle.js");
+        res.status(200).sendFile(docs_path+"/swagger-ui-bundle.js");
     });
     rest.get('/v1/iotronic-api-docs/swagger-ui-standalone-preset.js', function(req, res) {
-        res.sendFile(docs_path+"/swagger-ui-standalone-preset.js");
+        res.status(200).sendFile(docs_path+"/swagger-ui-standalone-preset.js");
     });
 
     // Configuring REST server
@@ -236,8 +241,6 @@ if (argv.i != undefined && argv.e != undefined){
             process.exit();
         }
 
-        swaggerJSONfile = docs_path + "/iotronic-swagger.json";
-
         if (https_enable == "true"){
             url_swagger = "https://" + IoTronic_IP + ":" + port + "/v1/iotronic-swagger.json";
             link_docs = "https://" + IoTronic_IP + ":" + port + "/v1/iotronic-api-docs/";
@@ -249,8 +252,6 @@ if (argv.i != undefined && argv.e != undefined){
         genApiDocumentation();
 
     }
-
-
 
 
 } else {
