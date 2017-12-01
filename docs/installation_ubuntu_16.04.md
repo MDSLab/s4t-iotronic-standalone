@@ -154,18 +154,19 @@ node /usr/lib/node_modules/iotronic-standalone/utils/createAdminToken.js <PASSWO
  - open /var/lib/iotronic/settings.json:
 ```
 "auth":{
-        "encryptKey":"<ENC-KEY>",
-        "adminToken":"<GENERATED-BEFORE>",
-        "backend":"iotronic",
-        "expire_time":600
+        "encryptKey": "<ENC-KEY>",
+        "adminToken": "<GENERATED-BEFORE>",
+        "backend": "iotronic",
+        "expire_time": 60
 }
 ```
 The "encryptKey" field is a user-defined keyword/password used to encrypt/decrypt the users passwords during authentication procedures.
 
 The "adminToken" field was generated in the previous step and it is considered a token used ONLY by Admin to call the APIs without the need to get a temporary token to attach to each request as well the common users.
 
-
-
+The "expire_time" field is expressed in seconds (e.g.: 60) or as string describing a [timespan](https://github.com/zeit/ms) (e.g.: "30m", "2 days", "10h", "7d").
+If you decide to express this field in seconds you MUST specify it as integer (e.g. 60 -> 1 minute)
+NOT as a string (e.g. "60" -> 60 milliseconds).
 
 
 ## Start IoTronic-standalone
