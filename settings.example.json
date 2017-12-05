@@ -15,13 +15,13 @@
                                 "encryptKey":"",
                                 "adminToken":"",
                                 "backend":"iotronic",
-                                "expire_time":"600"
+                                "expire_time": "30m"
                         },
                         "db":{
                                 "host":"localhost",
                                 "user":"root",
                                 "password": "",
-                                "db_name": "new-s4t-iotronic"
+                                "db_name": "s4t-iotronic"
                         },
                         "log": {
                                 "logfile": "/var/log/iotronic/s4t-iotronic.log",
@@ -42,7 +42,8 @@
                                                 "smtp_secure": ""
                                         }
                                 },
-                                "enable_notify":"false"
+                                "enable_notify":"false",
+                                "retry":1
                         }
 
 

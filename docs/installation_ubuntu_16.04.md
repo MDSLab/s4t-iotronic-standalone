@@ -52,7 +52,7 @@ during the installation the procedure asks the following information:
 
 * ##### Install dependencies using npm
 ```
-npm install -g --unsafe log4js@1.1.1 @mdslab/wstun optimist cors replace bcrypt requestify mysql nconf ip express node-uuid autobahn q body-parser ps-node nodemailer nodemailer-smtp-transport jsonwebtoken
+npm install -g --unsafe log4js@1.1.1 @mdslab/wstun optimist cors bcrypt requestify mysql nconf ip express node-uuid autobahn q body-parser ps-node nodemailer nodemailer-smtp-transport jsonwebtoken
 ```
 
 * ##### Setup IoTronic environment
@@ -63,13 +63,15 @@ cd /usr/lib/node_modules/
 git clone git://github.com/MDSLab/s4t-iotronic-standalone.git
 mv s4t-iotronic-standalone/ iotronic-standalone
 
-cp /usr/lib/node_modules/iotronic-standalone/etc/systemd/system/iotronic-standalone.service /etc/systemd/system/
+cp /usr/lib/node_modules/@mdslab/iotronic-standalone/etc/systemd/system/iotronic-standalone.service /etc/systemd/system/
 chmod +x /etc/systemd/system/iotronic-standalone.service
 systemctl daemon-reload
 systemctl enable iotronic-standalone.service
 
 mkdir /var/lib/iotronic/drivers/
 mkdir /var/lib/iotronic/plugins/
+
+cp /usr/lib/node_modules/@mdslab/iotronic-standalone/settings.example.json /var/lib/iotronic/settings.json
 
 echo "export IOTRONIC_HOME=/var/lib/iotronic" >> /etc/environment
 source /etc/environment
@@ -78,8 +80,8 @@ source /etc/environment
 * ##### Configure Crossbar.io router
 ```
 mkdir /etc/crossbar
-cp /usr/lib/node_modules/iotronic-standalone/etc/crossbar/config.example.json /etc/crossbar/config.json
-cp /usr/lib/node_modules/iotronic-standalone/etc/systemd/system/crossbar.service /etc/systemd/system/
+cp /usr/lib/node_modules/@mdslab/iotronic-standalone/etc/crossbar/config.example.json /etc/crossbar/config.json
+cp /usr/lib/node_modules/@mdslab/iotronic-standalone/etc/systemd/system/crossbar.service /etc/systemd/system/
 chmod +x /etc/systemd/system/crossbar.service
 systemctl daemon-reload
 systemctl enable crossbar.service
@@ -88,26 +90,25 @@ Please, note that the config.example.json coming with the iotronic-standalone pa
 
 * ##### Configure Websocket reverse tunnel (WSTUN) server
 ```
-cp /usr/lib/node_modules/iotronic-standalone/etc/systemd/system/wstun.service /etc/systemd/system/
+cp /usr/lib/node_modules/@mdslab/iotronic-standalone/etc/systemd/system/wstun.service /etc/systemd/system/
 chmod +x /etc/systemd/system/wstun.service
 systemctl daemon-reload
 systemctl enable wstun.service
 ```
 
-* ##### Configure IoTronic-standalone
-First of all, you need to import the Iotronic database schema. During the installation of the MySQL package you should have been asked for a database root password. Please note that name of the database is set to "s4t-iotronic". If you want to change it, please consider that later on you will need to correctly change it in other configuration files.
+* ##### Import IoTronic-standalone database
+You need to import the IoTronic database schema. During the installation of the MySQL package you should have been asked for a database root password. Please note that name of the database is set to "s4t-iotronic". If you want to change it, please consider that later on you will need to correctly change it in other configuration files.
 ```
-mysql -u root -p < /usr/lib/node_modules/iotronic-standalone/utils/s4t-db.sql
+mysql -u root -p < /usr/lib/node_modules/@mdslab/iotronic-standalone/utils/s4t-db.sql
 ```
 
-Then, copy the example of IoTronic configuration file coming with the package in the correct path. 
-```
-cp /usr/lib/node_modules/iotronic-standalone/settings.example.json /var/lib/iotronic/settings.json
-``` 
+## Configure IoTronic-standalone
+
 Please, note that the settings.example.json coming with the iotronic-standalone package sets the IoTronic listening port to "8888", the database name to "s4t-iotronic" (the database server is supposed to be running locally), the WAMP realm to "s4t" (the Crossbar.io WAMP router is supposed to be running locally on port 8181). If you want to change such values, please consider that later on you will need to correctly change them in other configuration files. 
 
 Open /var/lib/iotronic/settings.json:
-- specify the NIC (e.g., change <INTERFACE> with "eth0") or the public IP and the port that IoTronic supposed to use to expose its REST interface; if you would like to use HTTPS to expose them you have to specify the "https" section.
+- specify the NIC (e.g., change <INTERFACE> with "eth0") or the public IP and the port that IoTronic supposed to use to expose its REST interface;
+if you would like to use HTTPS to expose them you have to specify the "https" section.
 ```
 "server":
 {
@@ -149,7 +150,7 @@ Open /var/lib/iotronic/settings.json:
 Set authentication parameters:
  - create SuperAdmin token ("adminToken" to set below in the settings.json):
 ```
-node /usr/lib/node_modules/iotronic-standalone/utils/createAdminToken.js <PASSWORD>
+node /usr/lib/node_modules/@mdslab/iotronic-standalone/utils/createAdminToken.js <PASSWORD>
 ```
  - open /var/lib/iotronic/settings.json:
 ```
@@ -266,7 +267,7 @@ Script usage:
 node iotronic-docs-gen.js --iotronic="<IOTRONIC_SOURCE_CODE_PATH>" -e [true|false] -p <API_DOCS_PORT>
 ```
 options:
- - -i, --iotronic  IoTronic suorce code path. (e.g. "/usr/lib/node_modules/iotronic-standalone/")
+ - -i, --iotronic  IoTronic suorce code path. (e.g. "/usr/lib/node_modules/@mdslab/iotronic-standalone/")
  - -e, --embedded  true | false to spawn API webpage documentation; if "false" the "iotronic-swagger.json" will be created in the <SWAGGER-DIST-PATH> folder specified in the "settings.json" file in the "docs" section.
  - -p, --port      [only with --embedded=true] Listening port. (this port has to be different from the ports used by IoTronic "http(s)_port")
 

@@ -10,14 +10,14 @@ if [ "$DISTRO" = "14.04" ]; then
 
         # Configure init.d
         echo " - init.d configuration..."
-        cp /usr/lib/node_modules/iotronic-standalone/etc/init.d/s4t-iotronic /etc/init.d/
+        cp /usr/lib/node_modules/@mdslab/iotronic-standalone/etc/init.d/s4t-iotronic /etc/init.d/
         chmod +x /etc/init.d/s4t-iotronic
 
         # Configure Crossbar.io
         echo " - Crossbar.io configuration..."
         mkdir -p /etc/crossbar
-        cp /usr/lib/node_modules/iotronic-standalone/etc/crossbar/config.example.json /etc/crossbar/config.json
-        cp /usr/lib/node_modules/iotronic-standalone/etc/init.d/crossbar /etc/init.d/
+        cp /usr/lib/node_modules/@mdslab/iotronic-standalone/etc/crossbar/config.example.json /etc/crossbar/config.json
+        cp /usr/lib/node_modules/@mdslab/iotronic-standalone/etc/init.d/crossbar /etc/init.d/
         chmod +x /etc/init.d/crossbar
         sed -i '/^ *#/b; s%exit 0%/etc/init.d/crossbar start\n/etc/init.d/s4t-iotronic start\nexit 0%g' /etc/rc.local
 
@@ -26,7 +26,7 @@ elif [ "$DISTRO" = "16.04" ]; then
 
         # Configure systemctl
         echo " - systemd configuration..."
-        cp /usr/lib/node_modules/iotronic-standalone/etc/systemd/system/iotronic-standalone.service /etc/systemd/system/
+        cp /usr/lib/node_modules/@mdslab/iotronic-standalone/etc/systemd/system/iotronic-standalone.service /etc/systemd/system/
         chmod +x /etc/systemd/system/iotronic-standalone.service
         systemctl daemon-reload
         systemctl enable iotronic-standalone.service
@@ -34,15 +34,16 @@ elif [ "$DISTRO" = "16.04" ]; then
         # Configure Crossbar.io
         echo " - Crossbar.io configuration..."
         mkdir -p /etc/crossbar
-        cp /usr/lib/node_modules/iotronic-standalone/etc/crossbar/config.example.json /etc/crossbar/config.json
-        cp /usr/lib/node_modules/iotronic-standalone/etc/systemd/system/crossbar.service /etc/systemd/system/
+        cp /usr/lib/node_modules/@mdslab/iotronic-standalone/etc/crossbar/config.example.json /etc/crossbar/config.json
+        cp /usr/lib/node_modules/@mdslab/iotronic-standalone/etc/systemd/system/crossbar.service /etc/systemd/system/
         chmod +x /etc/systemd/system/crossbar.service
         systemctl daemon-reload
         systemctl enable crossbar.service
 
         # Configure WSTUN
         echo " - WSTUN configuration..."
-        cp /usr/lib/node_modules/iotronic-standalone/etc/systemd/system/wstun.service /etc/systemd/system/
+        cp /usr/lib/node_modules/@mdslab/iotronic-standalone/etc/systemd/system/wstun.service /etc/systemd/system/
+
         chmod +x /etc/systemd/system/wstun.service
         systemctl daemon-reload
         systemctl enable wstun.service
@@ -69,10 +70,10 @@ then
 
 	      mkdir /var/lib/iotronic/
 	      mkdir -p /var/lib/iotronic/plugins/
-	      mkdir -p /var/lib/iotronic/drivers/
+	      mkdir -p /var/lib/iotronic/drivers/mountpoints/
 	      cd /var/lib/iotronic/
 
-	      cp /usr/lib/node_modules/iotronic-standalone/lib/settings.example.json /var/lib/iotronic/settings.json
+	      cp /usr/lib/node_modules/@mdslab/iotronic-standalone/settings.example.json /var/lib/iotronic/settings.json
 
 	      mkdir -p /var/log/iotronic/
 	      touch /var/log/iotronic/s4t-iotronic.log
@@ -83,25 +84,25 @@ then
 	      echo "-->" $MYSQL_PW
 
 	      echo -n "MySQL configuring..."
-	      /usr/bin/mysql -u root -p$MYSQL_PW < /usr/lib/node_modules/iotronic-standalone/utils/s4t-db.sql
+	      /usr/bin/mysql -u root -p$MYSQL_PW < /usr/lib/node_modules/@mdslab/iotronic-standalone/utils/s4t-db.sql
 
 	  elif [ "$rm_check" = "yes" ]; then
 
 	      echo "--> IoTronic home is save!"
-		
+
 	  else
 	      echo "--> WRONG choice!"
 	  fi
       done
-      
+
 else
 
       mkdir /var/lib/iotronic/
       mkdir -p /var/lib/iotronic/plugins/
-      mkdir -p /var/lib/iotronic/drivers/
+      mkdir -p /var/lib/iotronic/drivers/mountpoints/
       cd /var/lib/iotronic/
 
-      cp /usr/lib/node_modules/iotronic-standalone/lib/settings.example.json /var/lib/iotronic/settings.json
+      cp /usr/lib/node_modules/@mdslab/iotronic-standalone/settings.example.json /var/lib/iotronic/settings.json
 
       mkdir -p /var/log/iotronic/
       touch /var/log/iotronic/s4t-iotronic.log
@@ -113,7 +114,7 @@ else
       sed -i "s/\"password\": \"\"/\"password\":\"$MYSQL_PW\"/g" /var/lib/iotronic/settings.json
 
       echo -n "MySQL configuring..."
-      /usr/bin/mysql -u root -p$MYSQL_PW < /usr/lib/node_modules/iotronic-standalone/utils/s4t-db.sql
+      /usr/bin/mysql -u root -p$MYSQL_PW < /usr/lib/node_modules/@mdslab/iotronic-standalone/utils/s4t-db.sql
 	   
 fi
 	

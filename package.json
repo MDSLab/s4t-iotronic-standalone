@@ -1,17 +1,14 @@
 {
   "name": "@mdslab/iotronic-standalone",
-  "version": "2.0.0",
+  "version": "2.0.0-rc.1",
   "description": "IoTronic-standalone is the implementation of a personal Cloud to remote manage embedded devices (Arduino YUN/Linino One, Raspberry Pi 2/3, etc)",
   "main": "lib/iotronic_standalone.js",
   "scripts": {
+    "postinstall": "./scripts/postinst",
+    "uninstall": "./scripts/postuninst",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "scripts": {
-    "postinstall": "./scripts/postinst",
-    "uninstall": "./scripts/postuninst"
-  },
   "dependencies":{
-    "@mdslab/wstun": ">=1.0.0",
     "nconf": ">=0.8.2",
     "ip": ">=1.1.0",
     "node-uuid":"<=1.4.7",
@@ -27,8 +24,10 @@
     "bcrypt":"<=1.0.3",
     "optimist":"<=0.6.1",
     "cors":"<=2.8.4",
-    "nodemailer":"<=4.1.0", 
-    "nodemailer-smtp-transport":"<=2.7.4"
+    "nodemailer":"<=4.1.0",
+    "nodemailer-smtp-transport":"<=2.7.4",
+    "jsonwebtoken": "<=8.1.0",
+    "swagger-jsdoc":"<=1.9.7"
   },
   "repository": {
     "type": "git",
@@ -39,7 +38,7 @@
     "IoT",
     "Arduino",
     "Raspberry",
-    "WAMP",	
+    "WAMP",
     "tunnel",
     "reverse",
     "WebSocket"
