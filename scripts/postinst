@@ -128,7 +128,7 @@ else
     # if not found
     echo "Setting IOTRONIC_HOME environment variable..."
     echo "export IOTRONIC_HOME=/var/lib/iotronic" >> /etc/environment
-    source /etc/environment
+    . /etc/environment
 fi
 
 

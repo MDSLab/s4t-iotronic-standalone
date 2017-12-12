@@ -131,7 +131,7 @@ if you would like to use HTTPS to expose them you have to specify the "https" se
         "host":"localhost",
         "user":"root",
         "password":"<MYSQL-PASSWORD>",
-        "db_name": "new-s4t-iotronic"
+        "db_name": "s4t-iotronic"
 }
 ```
 
