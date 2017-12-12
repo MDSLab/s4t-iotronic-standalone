@@ -52,7 +52,7 @@ during the installation the procedure asks the following information:
 
 * ##### Install dependencies using npm
 ```
-npm install -g --unsafe log4js@1.1.1 @mdslab/wstun optimist cors bcrypt requestify mysql nconf ip express node-uuid autobahn q body-parser ps-node nodemailer nodemailer-smtp-transport jsonwebtoken
+npm install -g --unsafe log4js@1.1.1 @mdslab/wstun swagger-jsdoc optimist cors bcrypt requestify mysql nconf ip express node-uuid autobahn q body-parser ps-node nodemailer nodemailer-smtp-transport jsonwebtoken
 ```
 
 * ##### Setup IoTronic environment
@@ -244,9 +244,13 @@ To use swagger-ui we need to clone the git repository from [here](https://github
 You have to edit the "index.html" in <SWAGGER-DIST-PATH> as described in the [official guide](https://swagger.io/docs/swagger-tools/#download-33):
 ```
 window.swaggerUi = new SwaggerUi({
- url: <URL-API-DOCS>,
+ url: <URL-SWAGGER-JSON>,
 …
 });
+```
+where
+```
+<URL-SWAGGER-JSON> = http(s)://<IOTRONIC-IP>:<HTTP(S)-API-PORT>/v1/iotronic-swagger.json
 ```
 
 [Link to Official guide](https://swagger.io/docs/swagger-tools/#download-33)
