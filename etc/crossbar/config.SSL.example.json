@@ -31,14 +31,10 @@
                "type": "websocket",
                 "endpoint": {
                   "type": "tcp",
-                  "port": 8143,
+                  "port": 8181,
                   "tls": {
-                    "key": "/opt/stack4things/iotronic-standalone/ssl/iotronic.key",
-                    "certificate": "/opt/stack4things/iotronic-standalone/ssl/iotronic.crt",
-                    "ca_certificates": [
-                      "/opt/stack4things/iotronic-standalone/ssl/s4t_ca.crt"
-                    ],
-                    "ciphers": "ECDH+AESGCM:DH+AESGCM:ECDH+AES256:DH+AES256:ECDH+AES128:DH+AES:ECDH+3DES:DH+3DES:RSA+AES:RSA+3DES:!ADH:!AECDH:!MD5:!DSS"
+                    "key": "iotronic-key.pem",
+                    "certificate": "iotronic-cert.pem"
                   }
 
                 },

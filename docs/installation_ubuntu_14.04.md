@@ -88,7 +88,17 @@ source /etc/profile
 * ##### Configure Crossbar.io router
 ```
 mkdir /etc/crossbar
-cp /var/lib/iotronic/iotronic-standalone/etc/crossbar/config.example.json /etc/crossbar/config.json
+
+[for HTTP]
+cp /usr/lib/node_modules/@mdslab/iotronic-standalone/etc/crossbar/config.example.json /etc/crossbar/config.json
+
+[for HTTPS]
+cp /usr/lib/node_modules/@mdslab/iotronic-standalone/etc/crossbar/config.SSL.example.json /etc/crossbar/config.json
+vim /etc/crossbar/config.json
+
+    "key": "<PRIVATE-KEY.PEM>",
+    "certificate": "<PUBLIC-CERT.PEM>"
+
 cp /var/lib/iotronic/iotronic-standalone/etc/init.d/crossbar /etc/init.d/
 chmod +x /etc/init.d/crossbar
 /opt/crossbar/bin/crossbar check --cbdir /etc/crossbar

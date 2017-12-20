@@ -80,7 +80,17 @@ source /etc/environment
 * ##### Configure Crossbar.io router
 ```
 mkdir /etc/crossbar
+
+[for HTTP]
 cp /usr/lib/node_modules/@mdslab/iotronic-standalone/etc/crossbar/config.example.json /etc/crossbar/config.json
+
+[for HTTPS]
+cp /usr/lib/node_modules/@mdslab/iotronic-standalone/etc/crossbar/config.SSL.example.json /etc/crossbar/config.json
+vim /etc/crossbar/config.json
+
+    "key": "<PRIVATE-KEY.PEM>",
+    "certificate": "<PUBLIC-CERT.PEM>"
+
 cp /usr/lib/node_modules/@mdslab/iotronic-standalone/etc/systemd/system/crossbar.service /etc/systemd/system/
 chmod +x /etc/systemd/system/crossbar.service
 systemctl daemon-reload
