@@ -34,7 +34,8 @@
                   "port": 8181,
                   "tls": {
                     "key": "iotronic-key.pem",
-                    "certificate": "iotronic-cert.pem"
+                    "certificate": "iotronic-cert.pem",
+                    "chain_certificates": ["iotronic-chain.pem"]
                   }
 
                 },
