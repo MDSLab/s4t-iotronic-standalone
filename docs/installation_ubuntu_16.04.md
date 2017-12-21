@@ -35,7 +35,7 @@ You can choose to install IoTronic via NPM or from source-code via Git.
 
 #### Install via NPM
 ```
-npm install -g --unsafe iotronic-standalone
+npm install -g --unsafe @mdslab/iotronic-standalone
 
 npm install -g --unsafe @mdslab/wstun
 ```
@@ -52,13 +52,15 @@ during the installation the procedure asks the following information:
 
 * ##### Install dependencies using npm
 ```
-npm install -g --unsafe log4js@1.1.1 @mdslab/wstun swagger-jsdoc optimist cors bcrypt requestify mysql nconf ip express node-uuid autobahn q body-parser ps-node nodemailer nodemailer-smtp-transport jsonwebtoken
+npm install -g --unsafe log4js@1.1.1 requestify mysql nconf ip express node-uuid autobahn q body-parser ps-node nodemailer nodemailer-smtp-transport swagger-jsdoc cors bcrypt optimist jsonwebtoken
+
+npm install -g --unsafe @mdslab/wstun
 ```
 
 * ##### Setup IoTronic environment
 ```
 mkdir /var/lib/iotronic/
-cd /usr/lib/node_modules/
+cd /usr/lib/node_modules/@mdslab/
 
 git clone git://github.com/MDSLab/s4t-iotronic-standalone.git
 mv s4t-iotronic-standalone/ iotronic-standalone
@@ -77,27 +79,6 @@ echo "export IOTRONIC_HOME=/var/lib/iotronic" >> /etc/environment
 source /etc/environment
 ```
 
-* ##### Configure Crossbar.io router
-```
-mkdir /etc/crossbar
-
-[for HTTP]
-cp /usr/lib/node_modules/@mdslab/iotronic-standalone/etc/crossbar/config.example.json /etc/crossbar/config.json
-
-[for HTTPS]
-cp /usr/lib/node_modules/@mdslab/iotronic-standalone/etc/crossbar/config.SSL.example.json /etc/crossbar/config.json
-vim /etc/crossbar/config.json
-
-    "key": "<PRIVATE-KEY.PEM>",
-    "certificate": "<PUBLIC-CERT.PEM>"
-
-cp /usr/lib/node_modules/@mdslab/iotronic-standalone/etc/systemd/system/crossbar.service /etc/systemd/system/
-chmod +x /etc/systemd/system/crossbar.service
-systemctl daemon-reload
-systemctl enable crossbar.service
-```
-Please, note that the config.example.json coming with the iotronic-standalone package sets the name of the WAMP realm to "s4t" and the Crossbar.io listening port to "8181". If you want to change such values, please consider that later on you will need to correctly change them in other configuration files.
-
 * ##### Configure Websocket reverse tunnel (WSTUN) server
 ```
 cp /usr/lib/node_modules/@mdslab/iotronic-standalone/etc/systemd/system/wstun.service /etc/systemd/system/
@@ -111,6 +92,31 @@ You need to import the IoTronic database schema. During the installation of the 
 ```
 mysql -u root -p < /usr/lib/node_modules/@mdslab/iotronic-standalone/utils/s4t-db.sql
 ```
+
+
+## Configure Crossbar.io router
+```
+mkdir /etc/crossbar
+
+[for HTTP]
+cp /usr/lib/node_modules/@mdslab/iotronic-standalone/etc/crossbar/config.example.json /etc/crossbar/config.json
+
+[for HTTPS]
+cp /usr/lib/node_modules/@mdslab/iotronic-standalone/etc/crossbar/config.SSL.example.json /etc/crossbar/config.json
+vim /etc/crossbar/config.json
+
+    "key": "<PRIVATE-KEY.PEM>",
+    "certificate": "<PUBLIC-CERT.PEM>",
+    "chain_certificates": [<CHAIN-CERT.PEM>]
+
+cp /usr/lib/node_modules/@mdslab/iotronic-standalone/etc/systemd/system/crossbar.service /etc/systemd/system/
+chmod +x /etc/systemd/system/crossbar.service
+systemctl daemon-reload
+systemctl enable crossbar.service
+```
+Please, note that the config[.SSL].example.json coming with the iotronic-standalone package sets the name of the WAMP realm to "s4t" and the Crossbar.io listening port to "8181". If you want to change such values, please consider that later on you will need to correctly change them in other configuration files.
+
+
 
 ## Configure IoTronic-standalone
 
@@ -207,7 +213,7 @@ From API you are able to register the Admin user by means of SuperAdmin authoriz
 ```
 REQUEST:
 curl -X POST \
-  http://<IOTRONIC-IP>:8888/v1/users/ \
+  http(s)://<IOTRONIC-IP>:<PORT>/v1/users/ \
   -H 'cache-control: no-cache' \
   -H 'content-type: application/x-www-form-urlencoded' \
   -H 'x-auth-token: <SUPER-ADMIN-TOKEN>' \
@@ -221,7 +227,7 @@ RESPONSE:
 
 REQUEST:
 curl -X POST \
-  http://<IOTRONIC-IP>:8888/v1/projects/ \
+  http(s)://<IOTRONIC-IP>:<PORT>/v1/projects/ \
   -H 'cache-control: no-cache' \
   -H 'content-type: application/x-www-form-urlencoded' \
   -H 'x-auth-token:<SUPER-ADMIN-TOKEN>' \
@@ -278,7 +284,7 @@ We also provided a NodeJS script ([iotronic-docs-gen.js](docs/iotronic-docs-gen.
 
 Script usage:
 ```
-node iotronic-docs-gen.js --iotronic="<IOTRONIC_SOURCE_CODE_PATH>" -e [true|false] -p <API_DOCS_PORT>
+node iotronic-docs-gen.js --iotronic="<IOTRONIC_SOURCE_CODE_PATH>" -e [true|false] [ -p <API_DOCS_PORT> ]
 ```
 options:
  - -i, --iotronic  IoTronic suorce code path. (e.g. "/usr/lib/node_modules/@mdslab/iotronic-standalone/")

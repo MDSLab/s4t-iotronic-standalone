@@ -1,16 +1,16 @@
 #! /bin/bash
 #./bin/server > /var/log/s4t-iotronic.log &
 
-#/usr/local/lib/node_modules/wstun/bin/wstun.js -r -s 8080 &> /var/log/wstun &
+#/usr/lib/node_modules/@mdslab/wstun/bin/wstun.js -r -s 8080 &> /var/log/wstun &
 
 #export PATH=/bin:/sbin:/usr/bin:/usr/sbin:/opt/usr/bin
-#export NODE_PATH=/usr/local/lib/node_modules:$NODE_PATH
+#export NODE_PATH=/usr/lib/node_modules:$NODE_PATH
 
 NAME=s4t-iotronic
 
 
-FOLDER=$NODE_PATH/iotronic-standalone
-DAEMON=$NODE_PATH/iotronic-standalone/bin/server
+FOLDER=$NODE_PATH/@mdslab/iotronic-standalone
+DAEMON=$NODE_PATH/@mdslab/iotronic-standalone/bin/server
 
 DESC=s4t-iotronic
 LOGFILE="/var/log/iotronic/s4t-iotronic.log"
@@ -18,8 +18,8 @@ PIDFILE="/var/run/s4t-iotronic.pid"
 
 
 
-FOLDER2=$NODE_PATH/iotronic-standalone/node_modules/wstun
-DAEMON2=$NODE_PATH/iotronic-standalone/node_modules/wstun/bin/wstun.js
+FOLDER2=$NODE_PATH/@mdslab/wstun
+DAEMON2=$NODE_PATH/@mdslab/wstun/bin/wstun.js
 DAEMON2_OPTS='-r -s 8080'
 DESC2=wstun
 LOGFILE2="/var/log/iotronic/wstun.log"
@@ -32,8 +32,8 @@ set -e
 
 . /lib/lsb/init-functions
 
-MYPID=`ps www | grep $NODE_PATH/iotronic-standalone/bin/server | grep -v grep | awk {'print $1'}`
-MYPID2=`ps www | grep $NODE_PATH/iotronic-standalone/node_modules/wstun/bin/wstun.js | grep -v grep | awk {'print $1'}`
+MYPID=`ps www | grep $NODE_PATH/@mdslab/iotronic-standalone/bin/server | grep -v grep | awk {'print $1'}`
+MYPID2=`ps www | grep $NODE_PATH/@mdslab/wstun/bin/wstun.js | grep -v grep | awk {'print $1'}`
 
 
 case "$1" in

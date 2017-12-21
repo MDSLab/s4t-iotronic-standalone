@@ -9,17 +9,22 @@ echo "--> Server Distribution: " $DISTRO
 if [ "$DISTRO" = "14.04" ]; then
 
         # Configure init.d
-        echo " - init.d configuration..."
+        echo " - IoTronic init.d configuration..."
         cp /usr/lib/node_modules/@mdslab/iotronic-standalone/etc/init.d/s4t-iotronic /etc/init.d/
         chmod +x /etc/init.d/s4t-iotronic
 
         # Configure Crossbar.io
-        echo " - Crossbar.io configuration..."
+        echo " - Crossbar.io init.d configuration..."
         mkdir -p /etc/crossbar
         cp /usr/lib/node_modules/@mdslab/iotronic-standalone/etc/crossbar/config.example.json /etc/crossbar/config.json
         cp /usr/lib/node_modules/@mdslab/iotronic-standalone/etc/init.d/crossbar /etc/init.d/
         chmod +x /etc/init.d/crossbar
         sed -i '/^ *#/b; s%exit 0%/etc/init.d/crossbar start\n/etc/init.d/s4t-iotronic start\nexit 0%g' /etc/rc.local
+
+        # Configure WSTUN
+        echo " - WSTUN init.d configuration..."
+        cp /usr/lib/node_modules/@mdslab/iotronic-standalone/etc/init.d/wstun /etc/init.d/
+        chmod +x /etc/init.d/wstun
 
 
 elif [ "$DISTRO" = "16.04" ]; then
