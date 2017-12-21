@@ -6,7 +6,7 @@ We tested this procedure on a Ubuntu 14.04 (within a LXD container also). Everyt
 
 ##### Install dependencies via apt-get
 ```
-apt -y install python-dev libyaml-dev libpython2.7-dev mysql-server nmap apache2 unzip socat bridge-utils python-pip python-httplib2
+apt -y install python-dev python-setuptools libyaml-dev libpython2.7-dev mysql-server nmap apache2 unzip socat bridge-utils python-pip python-httplib2 libssl-dev libffi-dev
 ```
 
 #### Install Crossbar.io router
@@ -30,8 +30,8 @@ npm install -g npm
 npm config set python `which python2.7`
 npm -v
 
-echo "export NODE_PATH=/usr/lib/node_modules" | sudo tee -a /etc/profile
-source /etc/profile > /dev/null
+echo "NODE_PATH=/usr/lib/node_modules" | tee -a /etc/environment
+source /etc/environment > /dev/null
 echo $NODE_PATH
 ```
 
@@ -43,22 +43,16 @@ You can choose to install IoTronic via NPM or from source-code via Git.
 ```
 npm install -g --unsafe @mdslab/iotronic-standalone
 
-echo "export IOTRONIC_HOME=/var/lib/iotronic" >> /etc/profile
-source /etc/profile
-
 npm install -g @mdslab/wstun
 ```
 during the installation the procedure asks the following information:
 
-* Enter network interface: e.g. "eth0", "enp3s0", etc.
-
 * Enter MySQL password: in order to access to "s4t-iotronic" database.
-
 
 
 #### Install from source-code
 
-* ##### Install dependencies using npm:
+* ##### Install dependencies using npm
 ```
 npm install -g --unsafe log4js@1.1.1 requestify mysql nconf ip express node-uuid autobahn q body-parser ps-node nodemailer nodemailer-smtp-transport swagger-jsdoc cors bcrypt optimist jsonwebtoken
 
@@ -75,13 +69,21 @@ mv s4t-iotronic-standalone/ iotronic-standalone
 
 cp /usr/lib/node_modules/@mdslab/iotronic-standalone/etc/init.d/s4t-iotronic /etc/init.d/
 chmod +x /etc/init.d/s4t-iotronic
-sed -i '/^ *#/b; s%exit 0%/etc/init.d/crossbar start\n/etc/init.d/s4t-iotronic start\nexit 0%g' /etc/rc.local
+sed -i '/^ *#/b; s%exit 0%/etc/init.d/s4t-iotronic start\nexit 0%g' /etc/rc.local
 
 mkdir /var/lib/iotronic/drivers/
 mkdir /var/lib/iotronic/plugins/
 
-echo "export IOTRONIC_HOME=/var/lib/iotronic" >> /etc/profile
-source /etc/profile
+echo "IOTRONIC_HOME=/var/lib/iotronic" >> /etc/environment
+source /etc/environment
+echo $IOTRONIC_HOME
+```
+
+* ##### Setup Crossbar.io environment
+```
+cp /usr/lib/node_modules/@mdslab/iotronic-standalone/etc/init.d/crossbar /etc/init.d/
+chmod +x /etc/init.d/crossbar
+sed -i '/^ *#/b; s%exit 0%/etc/init.d/crossbar start\nexit 0%g' /etc/rc.local
 ```
 
 
@@ -89,6 +91,7 @@ source /etc/profile
 ```
 cp /usr/lib/node_modules/@mdslab/iotronic-standalone/etc/init.d/wstun /etc/init.d/
 chmod +x /etc/init.d/wstun
+sed -i '/^ *#/b; s%exit 0%/etc/init.d/wstun start\nexit 0%g' /etc/rc.local
 ```
 
 * ##### Import IoTronic-standalone database
@@ -96,6 +99,7 @@ You need to import the IoTronic database schema. During the installation of the 
 ```
 mysql -u root -p < /usr/lib/node_modules/@mdslab/iotronic-standalone/utils/s4t-db.sql
 ```
+
 
 ## Configure Crossbar.io router
 ```
@@ -112,11 +116,7 @@ vim /etc/crossbar/config.json
     "certificate": "<PUBLIC-CERT.PEM>",
     "chain_certificates": [<CHAIN-CERT.PEM>]
 
-cp /var/lib/iotronic/iotronic-standalone/etc/init.d/crossbar /etc/init.d/
-chmod +x /etc/init.d/crossbar
-sed -i '/^ *#/b; s%exit 0%/etc/init.d/crossbar start\n/etc/init.d/s4t-iotronic start\nexit 0%g' /etc/rc.local
-
-/opt/crossbar/bin/crossbar check --cbdir /etc/crossbar
+crossbar check --cbdir /etc/crossbar
 ```
 
 Please, note that the config[.SSL].example.json coming with the iotronic-standalone package sets the name of the WAMP realm to "s4t" and the Crossbar.io listening port to "8181". If you want to change such values, please consider that later on you will need to correctly change them in other configuration files.

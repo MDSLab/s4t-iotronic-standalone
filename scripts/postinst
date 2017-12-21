@@ -12,19 +12,40 @@ if [ "$DISTRO" = "14.04" ]; then
         echo " - IoTronic init.d configuration..."
         cp /usr/lib/node_modules/@mdslab/iotronic-standalone/etc/init.d/s4t-iotronic /etc/init.d/
         chmod +x /etc/init.d/s4t-iotronic
+        if grep -Fq "s4t-iotronic" /etc/rc.local
+        then
+            # if found
+            echo " --- IoTronic boot already enabled!"
+        else
+            # if not found
+            sed -i '/^ *#/b; s%exit 0%/etc/init.d/s4t-iotronic start\nexit 0%g' /etc/rc.local
+        fi
 
         # Configure Crossbar.io
         echo " - Crossbar.io init.d configuration..."
-        mkdir -p /etc/crossbar
-        cp /usr/lib/node_modules/@mdslab/iotronic-standalone/etc/crossbar/config.example.json /etc/crossbar/config.json
         cp /usr/lib/node_modules/@mdslab/iotronic-standalone/etc/init.d/crossbar /etc/init.d/
         chmod +x /etc/init.d/crossbar
-        sed -i '/^ *#/b; s%exit 0%/etc/init.d/crossbar start\n/etc/init.d/s4t-iotronic start\nexit 0%g' /etc/rc.local
+        if grep -Fq "crossbar" /etc/rc.local
+        then
+            # if found
+            echo " --- Crossbar boot already enabled!"
+        else
+            # if not found
+            sed -i '/^ *#/b; s%exit 0%/etc/init.d/crossbar start\nexit 0%g' /etc/rc.local
+        fi
 
         # Configure WSTUN
         echo " - WSTUN init.d configuration..."
         cp /usr/lib/node_modules/@mdslab/iotronic-standalone/etc/init.d/wstun /etc/init.d/
         chmod +x /etc/init.d/wstun
+        if grep -Fq "wstun" /etc/rc.local
+        then
+            # if found
+            echo " --- WSTUN boot already enabled!"
+        else
+            # if not found
+            sed -i '/^ *#/b; s%exit 0%/etc/init.d/wstun start\nexit 0%g' /etc/rc.local
+        fi
 
 
 elif [ "$DISTRO" = "16.04" ]; then
@@ -39,7 +60,6 @@ elif [ "$DISTRO" = "16.04" ]; then
         # Configure Crossbar.io
         echo " - Crossbar.io configuration..."
         mkdir -p /etc/crossbar
-        cp /usr/lib/node_modules/@mdslab/iotronic-standalone/etc/crossbar/config.example.json /etc/crossbar/config.json
         cp /usr/lib/node_modules/@mdslab/iotronic-standalone/etc/systemd/system/crossbar.service /etc/systemd/system/
         chmod +x /etc/systemd/system/crossbar.service
         systemctl daemon-reload
@@ -125,14 +145,14 @@ fi
 	
 
 # Set Environment variables
-if grep -Fq "IOTRONIC_HOME" /etc/profile
+if grep -Fq "IOTRONIC_HOME" /etc/environment
 then
     # if found
     echo "IOTRONIC_HOME environment variable already set."
 else
     # if not found
     echo "Setting IOTRONIC_HOME environment variable..."
-    echo "export IOTRONIC_HOME=/var/lib/iotronic" >> /etc/environment
+    echo "IOTRONIC_HOME=/var/lib/iotronic" >> /etc/environment
     . /etc/environment
 fi
 

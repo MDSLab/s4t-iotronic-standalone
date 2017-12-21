@@ -24,7 +24,7 @@ npm install -g npm
 npm config set python `which python2.7`
 npm -v
 
-echo "export NODE_PATH=/usr/lib/node_modules" | sudo tee -a /etc/environment
+echo "NODE_PATH=/usr/lib/node_modules" | tee -a /etc/environment
 source /etc/environment > /dev/null
 echo $NODE_PATH
 ```
@@ -40,8 +40,6 @@ npm install -g --unsafe @mdslab/iotronic-standalone
 npm install -g --unsafe @mdslab/wstun
 ```
 during the installation the procedure asks the following information:
-
-* Enter network interface: e.g. "eth0", "enp3s0", etc.
 
 * Enter MySQL password: in order to access to "s4t-iotronic" database.
 
@@ -75,9 +73,19 @@ mkdir /var/lib/iotronic/plugins/
 
 cp /usr/lib/node_modules/@mdslab/iotronic-standalone/settings.example.json /var/lib/iotronic/settings.json
 
-echo "export IOTRONIC_HOME=/var/lib/iotronic" >> /etc/environment
+echo "IOTRONIC_HOME=/var/lib/iotronic" >> /etc/environment
 source /etc/environment
+echo $IOTRONIC_HOME
 ```
+
+* ##### Setup Crossbar.io environment
+```
+cp /usr/lib/node_modules/@mdslab/iotronic-standalone/etc/systemd/system/crossbar.service /etc/systemd/system/
+chmod +x /etc/systemd/system/crossbar.service
+systemctl daemon-reload
+systemctl enable crossbar.service
+```
+
 
 * ##### Configure Websocket reverse tunnel (WSTUN) server
 ```
@@ -98,6 +106,7 @@ mysql -u root -p < /usr/lib/node_modules/@mdslab/iotronic-standalone/utils/s4t-d
 ```
 mkdir /etc/crossbar
 
+
 [for HTTP]
 cp /usr/lib/node_modules/@mdslab/iotronic-standalone/etc/crossbar/config.example.json /etc/crossbar/config.json
 
@@ -109,10 +118,7 @@ vim /etc/crossbar/config.json
     "certificate": "<PUBLIC-CERT.PEM>",
     "chain_certificates": [<CHAIN-CERT.PEM>]
 
-cp /usr/lib/node_modules/@mdslab/iotronic-standalone/etc/systemd/system/crossbar.service /etc/systemd/system/
-chmod +x /etc/systemd/system/crossbar.service
-systemctl daemon-reload
-systemctl enable crossbar.service
+crossbar check --cbdir /etc/crossbar
 ```
 Please, note that the config[.SSL].example.json coming with the iotronic-standalone package sets the name of the WAMP realm to "s4t" and the Crossbar.io listening port to "8181". If you want to change such values, please consider that later on you will need to correctly change them in other configuration files.
 
