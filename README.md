@@ -1,7 +1,8 @@
 # Stack4Things IoTronic (standalone version)
 
-
+<!-- * 
 [![npm version](https://badge.fury.io/js/%40mdslab%2Fiotronic-standalone.svg)](https://badge.fury.io/js/%40mdslab%2Fiotronic-standalone)
+-->
 
 Stack4Things is an Internet of Things framework developed by the Mobile and Distributed Systems Lab (MDSLab) at the University of Messina, Italy. Stack4Things is an open source project that helps you in managing IoT device fleets without caring about their physical location, their network configuration, their underlying technology. It is a Cloud-oriented horizontal solution (integrated with OpenStack) providing IoT object virtualization, customization, and orchestration. Stack4Things provides you with an out-of-the-box experience on several of the most popular embedded and mobile systems.
 
