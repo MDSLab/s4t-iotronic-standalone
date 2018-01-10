@@ -253,7 +253,7 @@ To use swagger-ui we need to clone the git repository from [here](https://github
 
 ```
 "docs": {
-        "enable": true,
+        "enable": [ true | false ],
         "path": "<SWAGGER-DIST-PATH>"
 
 }
@@ -268,7 +268,7 @@ window.swaggerUi = new SwaggerUi({
 ```
 where
 ```
-<URL-SWAGGER-JSON> = http(s)://<IOTRONIC-IP>:<HTTP(S)-API-PORT>/v1/iotronic-swagger.json
+<URL-SWAGGER-JSON> = http(s)://<IOTRONIC-IP>:<HTTP(S)-API-PORT>/<SWAGGER-JSON-LOCATION>/iotronic-swagger.json
 ```
 
 [Link to Official guide](https://swagger.io/docs/swagger-tools/#download-33)
@@ -280,9 +280,13 @@ The docs will be available at:
 ```
 <URL-API-DOCS> = http(s)://<IOTRONIC-IP>:<HTTP(S)-API-PORT>/v1/iotronic-api-docs/
 ```
+and the location of the Swagger JSON file will be:
+```
+<URL-SWAGGER-JSON> = http(s)://<IOTRONIC-IP>:<HTTP(S)-API-PORT>/v1/iotronic-swagger.json
+```
 
 #### Standalone API management
-We also provided a NodeJS script ([iotronic-docs-gen.js](docs/iotronic-docs-gen.js)) to do that without using directly IoTronic (we need toset "enable" to false). This script will generate the documentation and will publish it by means of "swagger-ui".
+We also provided a NodeJS script ([iotronic-docs-gen.js](docs/iotronic-docs-gen.js)) to do that without using directly IoTronic (we need to set "enable" to false). This script will generate the documentation and will publish it by means of "swagger-ui".
 
 Script usage:
 ```
@@ -295,5 +299,9 @@ options:
 
 The docs will be available at:
 ```
-<URL-API-DOCS> = http(s)://<IOTRONIC-IP>:<API_DOCS_PORT>/v1/iotronic-api-docs/
+<URL-API-DOCS> = http(s)://<IOTRONIC-IP>:<API_DOCS_PORT>/iotronic-api-docs/
+```
+and the location of the Swagger JSON file will be:
+```
+<URL-SWAGGER-JSON> = http(s)://<IOTRONIC-IP>:<HTTP(S)-API-PORT>/iotronic-api-docs/iotronic-swagger.json
 ```
