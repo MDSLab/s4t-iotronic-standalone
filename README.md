@@ -17,7 +17,7 @@ IoTronic (in the standalone version) has been tested to work on:
 ## Installation guides
 
 * [Installation guide for Ubuntu 16.04](docs/installation_ubuntu_16.04.md)
-
+* [Installation guide for Ubuntu 14.04](docs/installation_ubuntu_14.04.md)
 <!-- * [Installation guide for Ubuntu 14.04](docs/installation_ubuntu_14.04.md) -->
 
 If you want to install IoTronic within an LXD container, you can find a guide [here](docs/installation_lxd.md).
