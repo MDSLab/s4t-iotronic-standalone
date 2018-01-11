@@ -309,3 +309,7 @@ and the location of the Swagger JSON file will be:
 ```
 <URL-SWAGGER-JSON> = http(s)://<IOTRONIC-IP>:<HTTP(S)-API-PORT>/iotronic-api-docs/iotronic-swagger.json
 ```
+
+
+## Administration dashboard
+In order to install the admin dashboard follow this [guide](https://github.com/MDSLab/s4t-iotronic-webinterface).
