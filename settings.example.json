@@ -42,8 +42,7 @@
                                                 "smtp_secure": ""
                                         }
                                 },
-                                "enable_notify":"false",
-                                "retry":1
+                                "enable_notify":"false"
                         }
 
 
