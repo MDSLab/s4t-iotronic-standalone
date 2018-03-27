@@ -14,9 +14,9 @@ apt -y install python-dev python-setuptools libyaml-dev libpython2.7-dev mysql-s
 pip install crossbar
 ```
 
-##### Install latest NodeJS (and npm) distribution:
+##### Install latest LTS NodeJS (and npm) distribution:
 ```
-curl -sL https://deb.nodesource.com/setup_7.x | sudo -E bash -
+curl -sL https://deb.nodesource.com/setup_8.x | sudo -E bash -
 apt-get install -y nodejs
 node -v
 
@@ -103,23 +103,25 @@ mysql -u root -p < /usr/lib/node_modules/@mdslab/iotronic-standalone/utils/s4t-d
 
 
 ## Configure Crossbar.io router
+Configure Crossbar with SSL:
 ```
-mkdir /etc/crossbar
-
-
-[for HTTP]
-cp /usr/lib/node_modules/@mdslab/iotronic-standalone/etc/crossbar/config.example.json /etc/crossbar/config.json
-
-[for HTTPS]
 cp /usr/lib/node_modules/@mdslab/iotronic-standalone/etc/crossbar/config.SSL.example.json /etc/crossbar/config.json
 vim /etc/crossbar/config.json
 
     "key": "<PRIVATE-KEY.PEM>",
     "certificate": "<PUBLIC-CERT.PEM>",
     "chain_certificates": [<CHAIN-CERT.PEM>]
+```
 
+or without SSL:
+```
+cp /usr/lib/node_modules/@mdslab/iotronic-standalone/etc/crossbar/config.example.json /etc/crossbar/config.json
+```
+at the end check the configuration:
+```
 crossbar check --cbdir /etc/crossbar
 ```
+
 Please, note that the config[.SSL].example.json coming with the iotronic-standalone package sets the name of the WAMP realm to "s4t" and the Crossbar.io listening port to "8181". If you want to change such values, please consider that later on you will need to correctly change them in other configuration files.
 
 
@@ -165,7 +167,6 @@ if you would like to use HTTPS to expose them you have to specify the "https" se
                 "password": "<SENDER-PASSWORD-EMAIL>"
         },
         "enable_notify":"[ true | false ]",
-        "retry":<ATTEMPTS-NUMBER>
 }
 ```
 
@@ -290,7 +291,7 @@ and the location of the Swagger JSON file will be:
 ```
 
 #### Standalone API management
-We also provided a NodeJS script ([iotronic-docs-gen.js](docs/iotronic-docs-gen.js)) to do that without using directly IoTronic (we need to set "enable" to false). This script will generate the documentation and will publish it by means of "swagger-ui".
+We also provided a NodeJS script ([iotronic-docs-gen.js](iotronic-docs-gen.js)) to do that without using directly IoTronic (we need to set "enable" to false). This script will generate the documentation and will publish it by means of "swagger-ui".
 
 Script usage:
 ```

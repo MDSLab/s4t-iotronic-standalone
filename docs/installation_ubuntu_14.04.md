@@ -286,7 +286,7 @@ and the location of the Swagger JSON file will be:
 ```
 
 #### Standalone API management
-We also provided a NodeJS script ([iotronic-docs-gen.js](docs/iotronic-docs-gen.js)) to do that without using directly IoTronic (we need to set "enable" to false). This script will generate the documentation and will publish it by means of "swagger-ui".
+We also provided a NodeJS script ([iotronic-docs-gen.js](iotronic-docs-gen.js)) to do that without using directly IoTronic (we need to set "enable" to false). This script will generate the documentation and will publish it by means of "swagger-ui".
 
 Script usage:
 ```

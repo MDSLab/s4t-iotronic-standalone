@@ -15,4 +15,4 @@ exports.main = function (arguments){
       
     }, 3000); 
   
-}
+};
