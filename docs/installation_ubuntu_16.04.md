@@ -35,9 +35,9 @@ You can choose to install IoTronic via NPM or from source-code via Git.
 
 #### Install via NPM
 ```
-npm install -g --unsafe @mdslab/iotronic-standalone
-
 npm install -g --unsafe @mdslab/wstun
+
+npm install -g --unsafe @mdslab/iotronic-standalone
 ```
 during the installation the procedure asks the following information:
 

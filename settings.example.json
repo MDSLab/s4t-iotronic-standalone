@@ -19,6 +19,7 @@
                         },
                         "db":{
                                 "host":"localhost",
+                                "port":"3306",
                                 "user":"root",
                                 "password": "",
                                 "db_name": "s4t-iotronic"
@@ -51,6 +52,7 @@
                 {
                         "url": "ws://localhost",
                         "port": "8181",
+                        "ssl": "false",
                         "realm": "s4t",
                         "topic_connection": "board.connection"
                 },
