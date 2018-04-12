@@ -28,6 +28,7 @@
     },
     "board": {
       "code": "<BOARD-ID>",
+      "label":"",
       "status": "<BOARD-STATUS>",
       "position": {
         "altitude": "",
