@@ -29,7 +29,7 @@
                                 "loglevel": "info"
                         },
                         "docs": {
-                                "enable": true,
+                                "enable": false,
                                 "path": ""
 
                         },
@@ -58,7 +58,7 @@
                 },
                 "socat":
                 {
-                        "ip":"10.0.0.0",
+                        "ip":"20.0.0.0",
                         "server":
                         {
                                 "port":"10000"
