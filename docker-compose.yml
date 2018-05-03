@@ -1,0 +1,35 @@
+version: '3.1'
+
+services:
+  db:
+    image: mysql
+    restart: always
+    volumes:
+      - ./utils/s4t-db.sql:/docker-entrypoint-initdb.d/s4t-db.sql
+    environment:
+      MYSQL_ROOT_PASSWORD: secret-pw
+
+  iotronic:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: always
+    depends_on:
+      - crossbar
+      - db
+    ports:
+      - 8888:8888
+  
+  crossbar:
+    build:
+      context: .
+      dockerfile: Dockerfile.crossbar 
+    ports: 
+      - 8181:8181
+    depends_on:
+      - db
+      
+#  lr:
+#    image: s4t-lr
+#    depends_on: 
+#      - iotronic

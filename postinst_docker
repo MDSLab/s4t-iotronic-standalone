@@ -1,0 +1,126 @@
+#!/bin/sh       
+
+echo "Installing..."
+
+DISTRO=`cat /etc/*release | grep DISTRIB_RELEASE | cut -d "=" -f2`
+
+echo "--> Server Distribution: " $DISTRO
+
+if [ "$DISTRO" = "14.04" ]; then
+
+        # Configure init.d
+        echo " - IoTronic init.d configuration..."
+        cp /usr/lib/node_modules/@mdslab/iotronic-standalone/etc/init.d/s4t-iotronic /etc/init.d/
+        chmod +x /etc/init.d/s4t-iotronic
+        if grep -Fq "s4t-iotronic" /etc/rc.local
+        then
+            # if found
+            echo " --- IoTronic boot already enabled!"
+        else
+            # if not found
+            sed -i '/^ *#/b; s%exit 0%/etc/init.d/s4t-iotronic start\nexit 0%g' /etc/rc.local
+        fi
+
+        # Configure Crossbar.io
+        echo " - Crossbar.io init.d configuration..."
+        cp /usr/lib/node_modules/@mdslab/iotronic-standalone/etc/init.d/crossbar /etc/init.d/
+        chmod +x /etc/init.d/crossbar
+        if grep -Fq "crossbar" /etc/rc.local
+        then
+            # if found
+            echo " --- Crossbar boot already enabled!"
+        else
+            # if not found
+            sed -i '/^ *#/b; s%exit 0%/etc/init.d/crossbar start\nexit 0%g' /etc/rc.local
+        fi
+
+        # Configure WSTUN
+        echo " - WSTUN init.d configuration..."
+        cp /usr/lib/node_modules/@mdslab/iotronic-standalone/etc/init.d/wstun /etc/init.d/
+        chmod +x /etc/init.d/wstun
+        if grep -Fq "wstun" /etc/rc.local
+        then
+            # if found
+            echo " --- WSTUN boot already enabled!"
+        else
+            # if not found
+            sed -i '/^ *#/b; s%exit 0%/etc/init.d/wstun start\nexit 0%g' /etc/rc.local
+        fi
+
+
+elif [ "$DISTRO" = "16.04" ]; then
+
+        # Configure systemctl
+        echo " - systemd configuration..."
+        cp /usr/lib/node_modules/@mdslab/iotronic-standalone/etc/systemd/system/iotronic-standalone.service /etc/systemd/system/
+        chmod +x /etc/systemd/system/iotronic-standalone.service
+        systemctl daemon-reload
+        systemctl enable iotronic-standalone.service
+
+        # Configure Crossbar.io
+        echo " - Crossbar.io configuration..."
+        mkdir -p /etc/crossbar
+        cp /usr/lib/node_modules/@mdslab/iotronic-standalone/etc/systemd/system/crossbar.service /etc/systemd/system/
+        chmod +x /etc/systemd/system/crossbar.service
+        systemctl daemon-reload
+        systemctl enable crossbar.service
+
+        # Configure WSTUN
+        echo " - WSTUN configuration..."
+        cp /usr/lib/node_modules/@mdslab/iotronic-standalone/etc/systemd/system/wstun.service /etc/systemd/system/
+
+        chmod +x /etc/systemd/system/wstun.service
+        systemctl daemon-reload
+        systemctl enable wstun.service
+
+fi
+
+
+
+
+
+# Configure IoTronic Home?
+
+if [ -d /var/lib/iotronic ]
+then
+      echo "--> Found iotronic configuration!"
+else
+
+      mkdir /var/lib/iotronic/
+      mkdir -p /var/lib/iotronic/plugins/
+      mkdir -p /var/lib/iotronic/drivers/mountpoints/
+      cd /var/lib/iotronic/
+
+      cp /usr/lib/node_modules/@mdslab/iotronic-standalone/settings.example.json /var/lib/iotronic/settings.json
+
+      mkdir -p /var/log/iotronic/
+      touch /var/log/iotronic/s4t-iotronic.log
+
+      MYSQL_PW=
+      echo -n "Enter MySQL password: "
+      read MYSQL_PW
+      echo "-->" $MYSQL_PW
+      sed -i "s/\"password\": \"\"/\"password\":\"$MYSQL_PW\"/g" /var/lib/iotronic/settings.json
+
+      echo -n "MySQL configuring..."
+      /usr/bin/mysql -u root -p$MYSQL_PW < /usr/lib/node_modules/@mdslab/iotronic-standalone/utils/s4t-db.sql
+	   
+fi
+	
+
+# Set Environment variables
+if grep -Fq "IOTRONIC_HOME" /etc/environment
+then
+    # if found
+    echo "IOTRONIC_HOME environment variable already set."
+else
+    # if not found
+    echo "Setting IOTRONIC_HOME environment variable..."
+    echo "IOTRONIC_HOME=/var/lib/iotronic" >> /etc/environment
+    . /etc/environment
+fi
+
+
+
+
+echo "Bye!"

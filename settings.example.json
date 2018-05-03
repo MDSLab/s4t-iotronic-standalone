@@ -2,8 +2,8 @@
         "config":{
                 "server":
                 {
-                        "interface": "",
-                        "public_ip": "",
+                        "interface": "eth0",
+                        "public_ip": "127.0.1.1",
                         "http_port":"8888",
                         "https":{
                                 "enable":"false",
@@ -18,9 +18,9 @@
                                 "expire_time": "30m"
                         },
                         "db":{
-                                "host":"localhost",
+                                "host":"db",
                                 "user":"root",
-                                "password": "",
+                                "password": "secret-pw",
                                 "db_name": "s4t-iotronic"
                         },
                         "log": {
@@ -28,7 +28,7 @@
                                 "loglevel": "info"
                         },
                         "docs": {
-                                "enable": true,
+                                "enable": false,
                                 "path": ""
 
                         },
@@ -49,7 +49,7 @@
                 },
                 "wamp":
                 {
-                        "url": "ws://localhost",
+                        "url": "ws://crossbar",
                         "port": "8181",
                         "realm": "s4t",
                         "topic_connection": "board.connection"
@@ -61,6 +61,12 @@
                         {
                                 "port":"10000"
                         }
+                },
+                "wstun":
+                {
+                        "ssl": false,
+                        "key": "/path/to/key",
+                        "crt": "/path/to/crt"
                 }
 
         }

@@ -1,0 +1,7 @@
+FROM crossbario/crossbar
+
+COPY etc/crossbar/config.example.json /node/.crossbar/config.json
+
+EXPOSE 8181
+
+ENTRYPOINT ["crossbar", "start"]
