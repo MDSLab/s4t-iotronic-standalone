@@ -94,7 +94,6 @@ then
 	  if [ "$rm_check" = "no" ]; then
 
 	      mkdir /var/lib/iotronic/
-	      mkdir -p /var/lib/iotronic/plugins/
 	      mkdir -p /var/lib/iotronic/drivers/mountpoints/
 	      cd /var/lib/iotronic/
 
@@ -123,7 +122,6 @@ then
 else
 
       mkdir /var/lib/iotronic/
-      mkdir -p /var/lib/iotronic/plugins/
       mkdir -p /var/lib/iotronic/drivers/mountpoints/
       cd /var/lib/iotronic/
 

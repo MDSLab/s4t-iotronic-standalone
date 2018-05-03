@@ -16,7 +16,7 @@
         "port_reverse": "8080"
       },
       "lib": {
-        "bin": "/usr/bin/wstun"
+        "bin": "wstun"
       },
       "pid": ""
     },
@@ -35,6 +35,15 @@
         "longitude": "",
         "latitude": "",
         "timestamp": ""
+      },
+      "modules": {
+        "plugins_manager": true,
+        "services_manager": true,
+        "nodered_manager": true,
+        "vnets_manager": false,
+        "gpio_manager": true,
+        "drivers_manager": false,
+        "vfs_manager": false
       }
     }
   }

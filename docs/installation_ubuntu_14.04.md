@@ -72,7 +72,6 @@ chmod +x /etc/init.d/s4t-iotronic
 sed -i '/^ *#/b; s%exit 0%/etc/init.d/s4t-iotronic start\nexit 0%g' /etc/rc.local
 
 mkdir /var/lib/iotronic/drivers/
-mkdir /var/lib/iotronic/plugins/
 
 echo "IOTRONIC_HOME=/var/lib/iotronic" >> /etc/environment
 source /etc/environment

@@ -69,7 +69,6 @@ systemctl daemon-reload
 systemctl enable iotronic-standalone.service
 
 mkdir /var/lib/iotronic/drivers/
-mkdir /var/lib/iotronic/plugins/
 
 cp /usr/lib/node_modules/@mdslab/iotronic-standalone/settings.example.json /var/lib/iotronic/settings.json
 
