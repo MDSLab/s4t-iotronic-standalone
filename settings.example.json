@@ -30,7 +30,8 @@
                         },
                         "docs": {
                                 "enable": false,
-                                "path": ""
+                                "path": "",
+                                "url":""
 
                         },
                         "notifier":{
@@ -69,7 +70,8 @@
                         "port_range":{
                                 "high":7000,
                                 "low": 6000
-                        }
+                        },
+                        "ip":""
                 }
 
         }
