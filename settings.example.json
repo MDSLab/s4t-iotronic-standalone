@@ -29,10 +29,15 @@
                                 "loglevel": "info"
                         },
                         "docs": {
-                                "enable": false,
-                                "path": "",
-                                "url":""
-
+                                "embedded":{
+                                        "enable": false,
+                                        "path": ""
+                                },
+                                "exposed":{
+                                        "enable": false,
+                                        "url":"",
+                                        "url_spec":""
+                                }
                         },
                         "notifier":{
                                 "email": {
