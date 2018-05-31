@@ -103,7 +103,7 @@ then
 
 	      cp $NODE_PATH/@mdslab/iotronic-standalone/settings.example.json /var/lib/iotronic/settings.json
 
-	      mkdir -p /var/log/iotronic/
+	      mkdir -p /var/log/iotronic/plugins/
 	      touch /var/log/iotronic/s4t-iotronic.log
 
 	      MYSQL_PW=
@@ -131,7 +131,7 @@ else
 
       cp $NODE_PATH/@mdslab/iotronic-standalone/settings.example.json /var/lib/iotronic/settings.json
 
-      mkdir -p /var/log/iotronic/
+      mkdir -p /var/log/iotronic/plugins/
       touch /var/log/iotronic/s4t-iotronic.log
 
       MYSQL_PW=

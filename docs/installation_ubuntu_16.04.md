@@ -69,7 +69,8 @@ chmod +x /etc/systemd/system/iotronic-standalone.service
 systemctl daemon-reload
 systemctl enable iotronic-standalone.service
 
-mkdir /var/lib/iotronic/drivers/
+mkdir -p /var/lib/iotronic/drivers/
+mkdir -p /var/log/iotronic/plugins/
 
 cp /usr/lib/node_modules/@mdslab/iotronic-standalone/settings.example.json /var/lib/iotronic/settings.json
 

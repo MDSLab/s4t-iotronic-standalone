@@ -37,14 +37,37 @@
         "timestamp": ""
       },
       "modules": {
-        "plugins_manager": true,
-        "services_manager": true,
-        "nodered_manager": true,
-        "vnets_manager": false,
-        "gpio_manager": true,
-        "drivers_manager": false,
-        "vfs_manager": false
+        "plugins_manager": {
+          "enabled": true,
+          "boot": true,
+          "alive_timer": 10000
+        },
+        "services_manager": {
+          "enabled": true,
+          "boot": false
+        },
+        "nodered_manager": {
+          "enabled": true,
+          "boot": true
+        },
+        "vnets_manager": {
+          "enabled": false,
+          "boot": false
+        },
+        "gpio_manager": {
+          "enabled": false,
+          "boot": false
+        },
+        "drivers_manager": {
+          "enabled": false,
+          "boot": false
+        },
+        "vfs_manager": {
+          "enabled": false,
+          "boot": false
+        }
       }
+
     }
   }
 }

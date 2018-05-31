@@ -71,7 +71,8 @@ cp /usr/lib/node_modules/@mdslab/iotronic-standalone/etc/init.d/s4t-iotronic /et
 chmod +x /etc/init.d/s4t-iotronic
 sed -i '/^ *#/b; s%exit 0%/etc/init.d/s4t-iotronic start\nexit 0%g' /etc/rc.local
 
-mkdir /var/lib/iotronic/drivers/
+mkdir -p /var/lib/iotronic/drivers/
+mkdir -p /var/log/iotronic/plugins/
 
 echo "IOTRONIC_HOME=/var/lib/iotronic" >> /etc/environment
 source /etc/environment

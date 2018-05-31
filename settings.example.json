@@ -15,7 +15,8 @@
                                 "encryptKey":"",
                                 "adminToken":"",
                                 "backend":"iotronic",
-                                "expire_time": "30m"
+                                "expire_time": "30m",
+                                "auth_lr_mode":"basic"
                         },
                         "db":{
                                 "host":"localhost",
