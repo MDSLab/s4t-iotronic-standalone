@@ -6,7 +6,7 @@ We tested this procedure on a Ubuntu 14.04 (within a LXD container also). Everyt
 
 ##### Install dependencies via apt-get
 ```
-apt -y install python-dev python-setuptools libyaml-dev libpython2.7-dev mysql-server nmap apache2 unzip socat bridge-utils python-pip python-httplib2 libssl-dev libffi-dev
+apt -y install build-essential python-dev python-setuptools libyaml-dev libpython2.7-dev mysql-server nmap apache2 unzip socat bridge-utils python-pip python-httplib2 libssl-dev libffi-dev
 ```
 
 #### Install Crossbar.io router
@@ -21,17 +21,30 @@ pip install crossbar
 ```
 
 ##### Install latest NodeJS (and npm) distribution:
+Execute the following procedures only if are not already installed:
+
+- NodeJS installation:
 ```
-curl -sL https://deb.nodesource.com/setup_7.x | sudo -E bash -
+curl -sL https://deb.nodesource.com/setup_8.x | sudo -E bash -
 apt-get install -y nodejs
 node -v
-
+```
+- NPM installation:
+```
 npm install -g npm
 npm config set python `which python2.7`
 npm -v
+```
+- Check if the NODE_PATH variable is not already set:
+```
+echo $NODE_PATH
+```
 
+otherwise, locate the global "node_modules" folder in your system ()usually in "/usr/lib/node_modules" or "/usr/local/lib/node_modules")
+and edit the path in the following command:
+```
 echo "NODE_PATH=/usr/lib/node_modules" | tee -a /etc/environment
-source /etc/environment > /dev/null
+. /etc/environment > /dev/null
 echo $NODE_PATH
 ```
 
