@@ -4,6 +4,7 @@
                 {
                         "interface": "",
                         "public_ip": "",
+                        "api_ip": "",
                         "http_port":"8888",
                         "https":{
                                 "enable":"false",
@@ -61,24 +62,50 @@
                         "port": "8181",
                         "ssl": "false",
                         "realm": "s4t",
-                        "topic_connection": "board.connection"
+                        "topic_connection": "board.connection",
+                        "crossbar_pub_ip":""
                 },
-                "socat":
-                {
-                        "ip":"20.0.0.0",
-                        "server":
-                        {
-                                "port":"10000"
-                        }
-                },
-                "wstun":
-                {
-                        "port_range":{
-                                "high":7000,
-                                "low": 6000
+                "modules": {
+                        "plugins_manager": {
+                                "enabled": true
                         },
-                        "ip":""
+                        "services_manager": {
+                                "enabled": true,
+                                "wstun":
+                                {
+                                        "port_range":{
+                                                "high":7000,
+                                                "low": 6000
+                                        },
+                                        "public_ip":""
+                                }
+                        },
+                        "nodered_manager": {
+                                "enabled": true
+                        },
+                        "vnets_manager": {
+                                "enabled": false,
+                                "socat":
+                                {
+                                        "ip":"20.0.0.0",
+                                        "server":
+                                        {
+                                                "port":"10000"
+                                        }
+                                }
+                        },
+                        "gpio_manager": {
+                                "enabled": false
+                        },
+                        "drivers_manager": {
+                                "enabled": false
+                        },
+                        "vfs_manager": {
+                                "enabled": false
+                        }
                 }
 
         }
+
+
 }

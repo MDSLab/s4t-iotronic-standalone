@@ -49,6 +49,12 @@ var genApiDocumentation  = function (){
 
     console.log("[API-DOCS] - Starting doc generation...");
 
+
+    if(port == undefined)
+        var swg_host = IoTronic_IP;
+    else
+        var swg_host = IoTronic_IP+':'+port;
+
     // swagger definition
     var swaggerDefinition = {
         info: {
@@ -56,7 +62,7 @@ var genApiDocumentation  = function (){
             version: '2.1.0',
             description: 'IoTronic-standalone API by Stack4Things.'
         },
-        host: IoTronic_IP+':'+port,
+        //host: swg_host,
         basePath: '/',
         licence:{
             name: 'Apache v2',
@@ -227,7 +233,22 @@ if (argv.i != undefined && argv.e != undefined){
 
             IOTRONIC_CFG = process.env.IOTRONIC_HOME + "/settings.json";
             nconf.file({file: IOTRONIC_CFG});
-            IoTronic_IP = nconf.get('config:server:public_ip');
+
+            // Set fronted IP address
+            public_ip = nconf.get('config:server:public_ip');
+
+            if (public_ip == "")
+                IoTronic_IP = utility.getIP(intr, 'IPv4');
+            else if(public_ip == "env"){
+                IoTronic_IP = process.env.IOTRONIC_PUB_IP;
+            }
+            else if(public_ip == undefined){
+                logger.error("[SYSTEM] - Iotronic public IP not defined: " + public_ip);
+                process.exit();
+            }
+            else
+                IoTronic_IP = public_ip;
+
             https_enable = nconf.get('config:server:https:enable');
             https_key = nconf.get('config:server:https:key');
             https_cert = nconf.get('config:server:https:cert');
