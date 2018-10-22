@@ -16,7 +16,7 @@
                                 "encryptKey":"",
                                 "adminToken":"",
                                 "backend":"iotronic",
-                                "expire_time": "30m",
+                                "expire_time": "1h",
                                 "auth_lr_mode":"basic"
                         },
                         "db":{
@@ -74,8 +74,8 @@
                                 "wstun":
                                 {
                                         "port_range":{
-                                                "high":7000,
-                                                "low": 6000
+                                                "high":40100,
+                                                "low": 40001
                                         },
                                         "public_ip":""
                                 }

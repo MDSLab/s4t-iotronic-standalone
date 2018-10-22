@@ -5,6 +5,7 @@
       "logfile": "/var/log/iotronic/lightning-rod.log",
       "loglevel": "info"
     },
+    "extra":{},
     "board": {
       "label":"",
       "position": {
@@ -12,6 +13,9 @@
         "longitude": "",
         "latitude": "",
         "timestamp": ""
+      },
+      "health":{
+        "local_port":"8888"
       },
       "modules": {
         "plugins_manager": {

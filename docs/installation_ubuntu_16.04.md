@@ -63,7 +63,7 @@ during the installation the procedure asks the following information:
 
 * ##### Install dependencies using npm
 ```
-npm install -g --unsafe log4js@1.1.1 requestify mysql nconf ip express node-uuid autobahn q body-parser ps-node nodemailer nodemailer-smtp-transport swagger-jsdoc cors bcrypt optimist jsonwebtoken md5 crypto
+npm install -g --unsafe log4js@1.1.1 requestify mysql nconf ip express node-uuid autobahn@18.10.2 ws@6.1.0 q body-parser ps-node nodemailer nodemailer-smtp-transport swagger-jsdoc cors bcrypt optimist jsonwebtoken md5 crypto
 
 npm install -g --unsafe @mdslab/wstun
 ```
@@ -71,12 +71,12 @@ npm install -g --unsafe @mdslab/wstun
 * ##### Setup IoTronic environment
 ```
 mkdir /var/lib/iotronic/
-cd /usr/lib/node_modules/@mdslab/
+cd $NODE_PATH/@mdslab/
 
 git clone git://github.com/MDSLab/s4t-iotronic-standalone.git
 mv s4t-iotronic-standalone/ iotronic-standalone
 
-cp /usr/lib/node_modules/@mdslab/iotronic-standalone/etc/systemd/system/iotronic-standalone.service /etc/systemd/system/
+cp $NODE_PATH/@mdslab/iotronic-standalone/etc/systemd/system/iotronic-standalone.service /etc/systemd/system/
 sed -i "s|ExecStart=<IOTRONIC-LAUNCHER>|ExecStart=$NODE_PATH/@mdslab/iotronic-standalone/bin/server|g" /etc/systemd/system/iotronic-standalone.service
 chmod +x /etc/systemd/system/iotronic-standalone.service
 systemctl daemon-reload
@@ -84,8 +84,10 @@ systemctl enable iotronic-standalone.service
 
 mkdir -p /var/lib/iotronic/drivers/
 mkdir -p /var/log/iotronic/plugins/
+mkdir -p /var/log/wstun/
 
-cp /usr/lib/node_modules/@mdslab/iotronic-standalone/settings.example.json /var/lib/iotronic/settings.json
+cp $NODE_PATH/@mdslab/iotronic-standalone/utils/templates/settings.example.json /var/lib/iotronic/settings.json
+cp $NODE_PATH/@mdslab/iotronic-standalone/utils/templates/board_settings_template.json /var/lib/iotronic/board_settings_template.json
 
 echo "IOTRONIC_HOME=/var/lib/iotronic" >> /etc/environment
 source /etc/environment
@@ -94,7 +96,7 @@ echo $IOTRONIC_HOME
 
 * ##### Setup Crossbar.io environment
 ```
-cp /usr/lib/node_modules/@mdslab/iotronic-standalone/etc/systemd/system/crossbar.service /etc/systemd/system/
+cp $NODE_PATH/@mdslab/iotronic-standalone/etc/systemd/system/crossbar.service /etc/systemd/system/
 chmod +x /etc/systemd/system/crossbar.service
 systemctl daemon-reload
 systemctl enable crossbar.service
@@ -103,7 +105,7 @@ systemctl enable crossbar.service
 
 * ##### Configure Websocket reverse tunnel (WSTUN) server
 ```
-cp /usr/lib/node_modules/@mdslab/iotronic-standalone/etc/systemd/system/wstun.service /etc/systemd/system/
+cp $NODE_PATH/@mdslab/iotronic-standalone/etc/systemd/system/wstun.service /etc/systemd/system/
 chmod +x /etc/systemd/system/wstun.service
 systemctl daemon-reload
 systemctl enable wstun.service
@@ -112,14 +114,14 @@ systemctl enable wstun.service
 * ##### Import IoTronic-standalone database
 You need to import the IoTronic database schema. During the installation of the MySQL package you should have been asked for a database root password. Please note that name of the database is set to "s4t-iotronic". If you want to change it, please consider that later on you will need to correctly change it in other configuration files.
 ```
-mysql -u root -p < /usr/lib/node_modules/@mdslab/iotronic-standalone/utils/s4t-db.sql
+mysql -u root -p < $NODE_PATH/@mdslab/iotronic-standalone/utils/s4t-db.sql
 ```
 
 
 ## Configure Crossbar.io router
 Configure Crossbar with SSL:
 ```
-cp /usr/lib/node_modules/@mdslab/iotronic-standalone/etc/crossbar/config.SSL.example.json /etc/crossbar/config.json
+cp $NODE_PATH/@mdslab/iotronic-standalone/etc/crossbar/config.SSL.example.json /etc/crossbar/config.json
 vim /etc/crossbar/config.json
 
     "key": "<PRIVATE-KEY.PEM>",
@@ -129,7 +131,7 @@ vim /etc/crossbar/config.json
 
 or without SSL:
 ```
-cp /usr/lib/node_modules/@mdslab/iotronic-standalone/etc/crossbar/config.example.json /etc/crossbar/config.json
+cp $NODE_PATH/@mdslab/iotronic-standalone/etc/crossbar/config.example.json /etc/crossbar/config.json
 ```
 at the end check the configuration:
 ```
@@ -190,10 +192,42 @@ if you would like to use HTTPS to expose them you have to specify the "https" se
 }
 ```
 
+
+ - configure and enable Iotronic modules:
+```
+"modules": {
+        "plugins_manager": {
+                "enabled": true
+        },
+        etc
+}
+```
+
+each Iotronic module (e.g. "plugins_manager") has a flag "enabled" to set at true or false in order to enable o disable that module.
+
+In particular, the Service Manager module, has to be configured properly (if enabled):
+
+```
+"services_manager": {
+        "enabled": true,
+        "wstun":
+        {
+                "port_range":{
+                        "high":40100,
+                        "low": 40001
+                },
+                "public_ip":""
+        }
+},
+```
+- in the "port_range" section you must specify the range (high and low) of the ports used by this module to expose the board services.
+- the "public_ip" field is used to specify the public IP exposed by Iotronic that the user uses (with the port assigned by Iotronic) to reach the running service in his board.
+
+
 Set authentication parameters:
  - create SuperAdmin token ("adminToken" to set below in the settings.json):
 ```
-node /usr/lib/node_modules/@mdslab/iotronic-standalone/utils/createAdminToken.js <PASSWORD>
+node $NODE_PATH/@mdslab/iotronic-standalone/utils/createAdminToken.js <PASSWORD>
 ```
  - open /var/lib/iotronic/settings.json:
 ```
@@ -202,6 +236,7 @@ node /usr/lib/node_modules/@mdslab/iotronic-standalone/utils/createAdminToken.js
         "adminToken": "<GENERATED-BEFORE>",
         "backend": "iotronic",
         "expire_time": "30m"
+        "auth_lr_mode":"basic"
 }
 ```
 The "encryptKey" field is a user-defined keyword/password used to encrypt/decrypt the users passwords during authentication procedures.
@@ -212,6 +247,10 @@ The "expire_time" field is expressed in seconds (e.g.: 60) or as string describi
 If you decide to express this field in seconds you MUST specify it as integer (e.g. 60 -> 1 minute)
 NOT as a string (e.g. "60" -> 60 milliseconds).
 
+Through "auth_lr_mode" field you can set the authentication mode used by Iotronic to authenticate the Lightning-rod istances. The mode supported are:
+- "basic": Iotronic check only if the board ID provided by the board is registered in the database. If a second board try to connect through the same board ID, the login will be rejected.
+- "password": Iotronic check the password provided by the board during the login procedure. The password is between 4 and 36 char long.
+- "certs": Iotronic verify the signature provided by the board, through the public-key of the board that Iotronic saved in the registration phase into the database.
 
 ## Start IoTronic-standalone
 
@@ -232,6 +271,10 @@ systemctl status iotronic-standalone.service
 You can check logs by typing:
 ```
 tail -f /var/log/iotronic/s4t-iotronic.log
+
+and
+
+tail -f /var/log/wstun/wstun.log
 ```
 
 ##### Register Admin user and project
@@ -270,7 +313,7 @@ RESPONSE:
 
 
 ## API documentation management
-IoTronic releases its APIs documentation by means of Swagger framework. In particular we used ["swagger-jsdoc"](https://www.npmjs.com/package/swagger-jsdoc)  and ["swagger-ui"](https://swagger.io/swagger-ui/)
+IoTronic releases its APIs documentation by means of Swagger framework. In particular we used ["swagger-jsdoc"](https://www.npmjs.com/package/swagger-jsdoc) and ["swagger-ui"](https://swagger.io/swagger-ui/)
 respectively to describe each RESTful API in the source code and publish the produced documentation.
 
 Iotronic is able to expose the documentation:
@@ -375,7 +418,7 @@ Script usage:
 node iotronic-docs-gen.js --iotronic="<IOTRONIC_SOURCE_CODE_PATH>" -e [true|false] [ -p <API_DOCS_PORT> ] [ -w <SWAGGER-JSON-SAVE-PATH>]
 ```
 options:
- - -i, --iotronic  IoTronic suorce code path. (e.g. "/usr/lib/node_modules/@mdslab/iotronic-standalone/")
+ - -i, --iotronic  IoTronic suorce code path. (e.g. "$NODE_PATH/@mdslab/iotronic-standalone/")
  - -e, --embedded  true | false to spawn API webpage documentation; if "false" the "iotronic-swagger.json" will be created in the <SWAGGER-DIST-PATH> folder specified in the "settings.json" file in the "docs" section.
  - -p, --port      [only with --embedded=true] Listening port. (this port has to be different from the ports used by IoTronic "http(s)_port")
  - -w, --web       Web server path: where will be created the swagger json file "iotronic-swagger.json".

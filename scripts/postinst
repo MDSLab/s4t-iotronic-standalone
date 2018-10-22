@@ -38,6 +38,7 @@ if [ "$DISTRO" = "14.04" ]; then
 
         # Configure WSTUN
         echo " - WSTUN init.d configuration..."
+        mkdir -p /var/log/wstun/
         cp $NODE_PATH/@mdslab/iotronic-standalone/etc/init.d/wstun /etc/init.d/
 
         chmod +x /etc/init.d/wstun
@@ -71,8 +72,8 @@ elif [ "$DISTRO" = "16.04" ]; then
 
         # Configure WSTUN
         echo " - WSTUN configuration..."
+        mkdir -p /var/log/wstun/
         cp $NODE_PATH/@mdslab/iotronic-standalone/etc/systemd/system/wstun.service /etc/systemd/system/
-
         chmod +x /etc/systemd/system/wstun.service
         systemctl daemon-reload
         systemctl enable wstun.service
@@ -97,11 +98,12 @@ then
 
 	  if [ "$rm_check" = "no" ]; then
 
-	      mkdir /var/lib/iotronic/
+	      mkdir -p /var/lib/iotronic/
 	      mkdir -p /var/lib/iotronic/drivers/mountpoints/
 	      cd /var/lib/iotronic/
 
-	      cp $NODE_PATH/@mdslab/iotronic-standalone/settings.example.json /var/lib/iotronic/settings.json
+	      cp $NODE_PATH/@mdslab/iotronic-standalone/utils/templates/settings.example.json /var/lib/iotronic/settings.json
+	      cp $NODE_PATH/@mdslab/iotronic-standalone/utils/templates/board_settings_template.json /var/lib/iotronic/board_settings_template.json
 
 	      mkdir -p /var/log/iotronic/plugins/
 	      touch /var/log/iotronic/s4t-iotronic.log
@@ -125,11 +127,12 @@ then
 
 else
 
-      mkdir /var/lib/iotronic/
+      mkdir -p /var/lib/iotronic/
       mkdir -p /var/lib/iotronic/drivers/mountpoints/
       cd /var/lib/iotronic/
 
-      cp $NODE_PATH/@mdslab/iotronic-standalone/settings.example.json /var/lib/iotronic/settings.json
+      cp $NODE_PATH/@mdslab/iotronic-standalone/utils/templates/settings.example.json /var/lib/iotronic/settings.json
+      cp $NODE_PATH/@mdslab/iotronic-standalone/utils/templates/board_settings_template.json /var/lib/iotronic/board_settings_template.json
 
       mkdir -p /var/log/iotronic/plugins/
       touch /var/log/iotronic/s4t-iotronic.log
