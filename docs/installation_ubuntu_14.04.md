@@ -67,7 +67,7 @@ during the installation the procedure asks the following information:
 
 * ##### Install dependencies using npm
 ```
-npm install -g --unsafe log4js@1.1.1 requestify mysql nconf ip express node-uuid autobahn@18.10.2 ws@6.1.0 q body-parser ps-node nodemailer nodemailer-smtp-transport swagger-jsdoc cors bcrypt optimist jsonwebtoken md5 crypto
+npm install -g --unsafe log4js@1.1.1 requestify mysql nconf ip express node-uuid autobahn@18.10.2 ws@6.1.0 q body-parser ps-node nodemailer nodemailer-smtp-transport swagger-jsdoc cors bcrypt@3.0.0 optimist jsonwebtoken md5 crypto
 
 npm install -g --unsafe @mdslab/wstun
 ```

@@ -4,7 +4,7 @@ RUN  apt-get update && apt-get install -y \
  git python-dev python-setuptools libyaml-dev libpython2.7-dev nmap unzip socat bridge-utils python-pip python-httplib2 libssl-dev libffi-dev \
  && rm -rf /var/lib/apt/lists/*
 
-RUN npm install -g --unsafe @mdslab/wstun log4js@1.1.1 requestify mysql nconf ip express node-uuid autobahn@18.10.2 q body-parser ps-node nodemailer nodemailer-smtp-transport swagger-jsdoc cors bcrypt optimist jsonwebtoken md5\
+RUN npm install -g --unsafe @mdslab/wstun log4js@1.1.1 requestify mysql nconf ip express node-uuid autobahn@18.10.2 q body-parser ps-node nodemailer nodemailer-smtp-transport swagger-jsdoc cors bcrypt@3.0.0 optimist jsonwebtoken md5\
  && npm cache --force clean
 
 RUN mkdir -p /var/lib/iotronic/plugins \
