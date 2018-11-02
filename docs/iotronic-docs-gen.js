@@ -25,11 +25,9 @@ var optimist = require('optimist').usage("IoTronic API documentation generator."
     .string("iotronic").alias('i', "iotronic").describe('i', 'IoTronic suorce code path.')
     .boolean("embedded").alias('e', "embedded").describe('e', 'true | false to spawn API webpage documentation.')
     .string("port").alias('p', "port").describe('p', '[only with --embedded=true] Listening port.')
-    .string("web").alias('w', "web").describe('w', 'Web server path.');
+    .string("web").alias('w', "web").describe('w', 'Web server path: where will be created the swagger json file "iotronic-swagger.json".');
 
 var argv = optimist.argv;
-
-//console.log(argv)
 
 /**
  * @swagger
@@ -55,10 +53,10 @@ var genApiDocumentation  = function (){
     var swaggerDefinition = {
         info: {
             title: 'IoTronic API',
-            version: '2.0.0',
+            version: '2.1.0',
             description: 'IoTronic-standalone API by Stack4Things.'
         },
-        host: IoTronic_IP+':8443',
+        host: IoTronic_IP+':'+port,
         basePath: '/',
         licence:{
             name: 'Apache v2',
@@ -90,6 +88,7 @@ var genApiDocumentation  = function (){
             IOTRONIC_CODE +'lib/management/mng_user.js',
             IOTRONIC_CODE +'lib/management/mng_layout.js',
             IOTRONIC_CODE +'lib/management/mng_project.js',
+            IOTRONIC_CODE +'lib/management/mng_request.js',
             IOTRONIC_CODE +'lib/modules/service_manager.js',
             IOTRONIC_CODE +'lib/modules/vnet_iotronic_manager.js',
             IOTRONIC_CODE +'lib/modules/plugin_manager.js',
@@ -129,9 +128,7 @@ var genApiDocumentation  = function (){
         });
 
     }
-
-
-
+    
 
 };
 
@@ -234,7 +231,7 @@ if (argv.i != undefined && argv.e != undefined){
             https_enable = nconf.get('config:server:https:enable');
             https_key = nconf.get('config:server:https:key');
             https_cert = nconf.get('config:server:https:cert');
-            docs_path = nconf.get('config:server:docs:path');
+            docs_path = nconf.get('config:server:docs:embedded:path');
         }
         catch (err) {
             console.log('[API-DOCS] - ' + err);

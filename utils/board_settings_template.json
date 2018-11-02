@@ -1,0 +1,74 @@
+{
+  "config": {
+    "device": "<LAYOUT>",
+    "log": {
+      "logfile": "/var/log/iotronic/lightning-rod.log",
+      "loglevel": "debug"
+    },
+    "wamp": {
+      "url_wamp": "<WAMP-URL>",
+      "port_wamp": "8181",
+      "realm": "s4t",
+      "wifi_force_reconnect": "true"
+    },
+    "reverse": {
+      "server": {
+        "url_reverse": "<WSTUN-URL>",
+        "port_reverse": "8080"
+      },
+      "lib": {
+        "bin": "wstun"
+      },
+      "pid": ""
+    },
+    "socat": {
+      "client": {
+        "port": "20000"
+      },
+      "pid": ""
+    },
+    "board": {
+      "code": "<BOARD-ID>",
+      "label":"",
+      "status": "<BOARD-STATUS>",
+      "position": {
+        "altitude": "",
+        "longitude": "",
+        "latitude": "",
+        "timestamp": ""
+      },
+      "modules": {
+        "plugins_manager": {
+          "enabled": true,
+          "boot": true,
+          "alive_timer": 10000
+        },
+        "services_manager": {
+          "enabled": true,
+          "boot": false
+        },
+        "nodered_manager": {
+          "enabled": true,
+          "boot": true
+        },
+        "vnets_manager": {
+          "enabled": false,
+          "boot": false
+        },
+        "gpio_manager": {
+          "enabled": false,
+          "boot": false
+        },
+        "drivers_manager": {
+          "enabled": false,
+          "boot": false
+        },
+        "vfs_manager": {
+          "enabled": false,
+          "boot": false
+        }
+      }
+
+    }
+  }
+}

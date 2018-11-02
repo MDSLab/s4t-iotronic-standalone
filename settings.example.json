@@ -15,10 +15,12 @@
                                 "encryptKey":"",
                                 "adminToken":"",
                                 "backend":"iotronic",
-                                "expire_time": "30m"
+                                "expire_time": "30m",
+                                "auth_lr_mode":"basic"
                         },
                         "db":{
                                 "host":"localhost",
+                                "port":"3306",
                                 "user":"root",
                                 "password": "",
                                 "db_name": "s4t-iotronic"
@@ -28,9 +30,15 @@
                                 "loglevel": "info"
                         },
                         "docs": {
-                                "enable": true,
-                                "path": ""
-
+                                "embedded":{
+                                        "enable": false,
+                                        "path": ""
+                                },
+                                "exposed":{
+                                        "enable": false,
+                                        "url":"",
+                                        "url_spec":""
+                                }
                         },
                         "notifier":{
                                 "email": {
@@ -51,16 +59,25 @@
                 {
                         "url": "ws://localhost",
                         "port": "8181",
+                        "ssl": "false",
                         "realm": "s4t",
                         "topic_connection": "board.connection"
                 },
                 "socat":
                 {
-                        "ip":"10.0.0.0",
+                        "ip":"20.0.0.0",
                         "server":
                         {
                                 "port":"10000"
                         }
+                },
+                "wstun":
+                {
+                        "port_range":{
+                                "high":7000,
+                                "low": 6000
+                        },
+                        "ip":""
                 }
 
         }

@@ -6,7 +6,7 @@ We tested this procedure on a Ubuntu 14.04 (within a LXD container also). Everyt
 
 ##### Install dependencies via apt-get
 ```
-apt -y install python-dev python-setuptools libyaml-dev libpython2.7-dev mysql-server nmap apache2 unzip socat bridge-utils python-pip python-httplib2 libssl-dev libffi-dev
+apt -y install build-essential python-dev python-setuptools libyaml-dev libpython2.7-dev mysql-server nmap apache2 unzip socat bridge-utils python-pip python-httplib2 libssl-dev libffi-dev
 ```
 
 #### Install Crossbar.io router
@@ -21,17 +21,30 @@ pip install crossbar
 ```
 
 ##### Install latest NodeJS (and npm) distribution:
+Execute the following procedures only if are not already installed:
+
+- NodeJS installation:
 ```
-curl -sL https://deb.nodesource.com/setup_7.x | sudo -E bash -
+curl -sL https://deb.nodesource.com/setup_8.x | sudo -E bash -
 apt-get install -y nodejs
 node -v
-
+```
+- NPM installation:
+```
 npm install -g npm
 npm config set python `which python2.7`
 npm -v
+```
+- Check if the NODE_PATH variable is not already set:
+```
+echo $NODE_PATH
+```
 
+otherwise, locate the global "node_modules" folder in your system ()usually in "/usr/lib/node_modules" or "/usr/local/lib/node_modules")
+and edit the path in the following command:
+```
 echo "NODE_PATH=/usr/lib/node_modules" | tee -a /etc/environment
-source /etc/environment > /dev/null
+. /etc/environment > /dev/null
 echo $NODE_PATH
 ```
 
@@ -41,9 +54,9 @@ You can choose to install IoTronic via NPM or from source-code via Git.
 
 #### Install via NPM
 ```
-npm install -g --unsafe @mdslab/iotronic-standalone
+npm install -g --unsafe @mdslab/wstun
 
-npm install -g @mdslab/wstun
+npm install -g --unsafe @mdslab/iotronic-standalone
 ```
 during the installation the procedure asks the following information:
 
@@ -54,7 +67,7 @@ during the installation the procedure asks the following information:
 
 * ##### Install dependencies using npm
 ```
-npm install -g --unsafe log4js@1.1.1 requestify mysql nconf ip express node-uuid autobahn q body-parser ps-node nodemailer nodemailer-smtp-transport swagger-jsdoc cors bcrypt optimist jsonwebtoken
+npm install -g --unsafe log4js@1.1.1 requestify mysql nconf ip express node-uuid autobahn q body-parser ps-node nodemailer nodemailer-smtp-transport swagger-jsdoc cors bcrypt optimist jsonwebtoken md5
 
 npm install -g --unsafe @mdslab/wstun
 ```
@@ -71,8 +84,8 @@ cp /usr/lib/node_modules/@mdslab/iotronic-standalone/etc/init.d/s4t-iotronic /et
 chmod +x /etc/init.d/s4t-iotronic
 sed -i '/^ *#/b; s%exit 0%/etc/init.d/s4t-iotronic start\nexit 0%g' /etc/rc.local
 
-mkdir /var/lib/iotronic/drivers/
-mkdir /var/lib/iotronic/plugins/
+mkdir -p /var/lib/iotronic/drivers/
+mkdir -p /var/log/iotronic/plugins/
 
 echo "IOTRONIC_HOME=/var/lib/iotronic" >> /etc/environment
 source /etc/environment
@@ -149,6 +162,7 @@ if you would like to use HTTPS to expose them you have to specify the "https" se
 ```
 "db":{
         "host":"localhost",
+        "port":3306,
         "user":"root",
         "password":"<MYSQL-PASSWORD>",
         "db_name": "s4t-iotronic"
@@ -161,9 +175,13 @@ if you would like to use HTTPS to expose them you have to specify the "https" se
         "email": {
                 "address": "<SENDER-EMAIL>",
                 "password": "<SENDER-PASSWORD-EMAIL>"
+                "smtp":{
+                        "smtp_server": "<SMTP-MAIL-SERVER>"",
+                        "smtp_port": "<SMTP-PORT>"",
+                        "smtp_secure": "[ true | false ]"
+                }
         },
         "enable_notify":"[ true | false ]",
-        "retry":<ATTEMPTS-NUMBER>
 }
 ```
 
@@ -178,7 +196,7 @@ node /usr/lib/node_modules/@mdslab/iotronic-standalone/utils/createAdminToken.js
         "encryptKey": "<ENC-KEY>",
         "adminToken": "<GENERATED-BEFORE>",
         "backend": "iotronic",
-        "expire_time": 60
+        "expire_time": "30m"
 }
 ```
 The "encryptKey" field is a user-defined keyword/password used to encrypt/decrypt the users passwords during authentication procedures.
@@ -245,57 +263,115 @@ RESPONSE:
 
 
 ## API documentation management
-IoTronic releases its APIs documentation by means of Swagger framework. In particular we used ["swagger-jsdoc"](https://www.npmjs.com/package/swagger-jsdoc)  and ["swagger-ui"](https://swagger.io/swagger-ui/) respectively to describe each RESTful API in the source code and publish the produced documentation.
+IoTronic releases its APIs documentation by means of Swagger framework. In particular we used ["swagger-jsdoc"](https://www.npmjs.com/package/swagger-jsdoc)  and ["swagger-ui"](https://swagger.io/swagger-ui/)
+respectively to describe each RESTful API in the source code and publish the produced documentation.
 
-To use swagger-ui we need to clone the git repository from [here](https://github.com/swagger-api/swagger-ui)
- and move the "dist" folder where you prefer and specify it inside the "settings.json" configuration file
- as showed below:
+Iotronic is able to expose the documentation:
+ 1. embedded mode: generate and expose runtime the API documentation
+ 2. exposed mode: only specify the URLs of the web-server that is exposing the documentation
 
+In both cases we need to get the "swagger-ui" cloning the git repository from [here](https://github.com/swagger-api/swagger-ui)
+ and rename the "dist/" folder in "iotronic-api-docs/".
+
+#### 1. Embedded mode
 ```
 "docs": {
-        "enable": [ true | false ],
-        "path": "<SWAGGER-DIST-PATH>"
+
+        "embedded":{
+                "enable": true,
+                "path": "<SWAGGER-DIST-PATH>"
+        },
+        "exposed":{
+                "enable": false,
+                "url":"",
+                "url_spec":""
+        }
 
 }
+
+```
+We have to move the "iotronic-api-docs/" folder in the "/var/lib/iotronic/docs/" and we need to specify it inside the
+"settings.json" configuration file, as showed above, in the "path" section substituting "<SWAGGER-DIST-PATH>" variable
+and setting to "true" the "enable" flag in the "embedded" section.
+
+The API documentation will be available at:
+```
+http(s)://<IOTRONIC-IP>:<HTTP(S)-API-PORT>/v1/iotronic-api-docs/    (<URL-API-DOCS>)
+```
+and the location of the Swagger JSON file will be:
+```
+http(s)://<IOTRONIC-IP>:<HTTP(S)-API-PORT>/v1/iotronic-swagger.json     (<URL-SWAGGER-JSON>)
 ```
 
-You have to edit the "index.html" in <SWAGGER-DIST-PATH> as described in the [official guide](https://swagger.io/docs/swagger-tools/#download-33):
+
+#### 2. Exposed mode
+```
+"docs": {
+
+        "embedded":{
+                "enable": false,
+                "path": "<SWAGGER-DIST-PATH>"
+        },
+        "exposed":{
+                "enable": true,
+                "url":"<URL-API-DOCS>",
+                "url_spec":"<URL-SWAGGER-JSON>"
+        }
+
+}
+
+```
+In this case we have to
+1. move the "iotronic-api-docs/" folder in the web-server public folder to expose the "swagger-ui" (e.g. in Apache we
+have to move "iotronic-api-docs/" in "/var/www/html/");
+2. generate the swagger json file "iotronic-swagger.json" executing the the script "iotronic-docs-gen.js" provided
+by Iotronic in the "docs/" folder; e.g.:
+```
+node iotronic-docs-gen.js --iotronic=$NODE_PATH"/@mdslab/iotronic-standalone/" -e false -w /var/www/html/iotronic-api-docs/
+```
+For more information see the below section "Standalone API management".
+
+3. configure the "settings.json" configuration file:
+- set to "true" the "enable" flag in the "exposed" section;
+- specify the urls of the documentation (<URL-API-DOCS>) and the url that exposes the "iotronic-swagger.json" file
+(<URL-SWAGGER-JSON>);
+
+The API documentation will be available at:
+```
+http(s)://<WEB-SERVER-URL>/iotronic-api-docs/   (<URL-API-DOCS>)
+```
+and the location of the Swagger JSON file will be:
+```
+http(s)://<WEB-SERVER-URL>/iotronic-api-docs/iotronic-swagger.json   (<URL-SWAGGER-JSON>)
+```
+
+
+In both the cases you have to edit the "index.html" in <SWAGGER-DIST-PATH> as described in the
+[official guide](https://swagger.io/docs/swagger-tools/#download-33):
 ```
 window.swaggerUi = new SwaggerUi({
  url: <URL-SWAGGER-JSON>,
 …
 });
 ```
-where
-```
-<URL-SWAGGER-JSON> = http(s)://<IOTRONIC-IP>:<HTTP(S)-API-PORT>/<SWAGGER-JSON-LOCATION>/iotronic-swagger.json
-```
-
 [Link to Official guide](https://swagger.io/docs/swagger-tools/#download-33)
 
-#### Embedded API management
-Enabling the above flag ("enable":true) IoTronic will generate end expose the API documentation.
 
-The docs will be available at:
-```
-<URL-API-DOCS> = http(s)://<IOTRONIC-IP>:<HTTP(S)-API-PORT>/v1/iotronic-api-docs/
-```
-and the location of the Swagger JSON file will be:
-```
-<URL-SWAGGER-JSON> = http(s)://<IOTRONIC-IP>:<HTTP(S)-API-PORT>/v1/iotronic-swagger.json
-```
+
 
 #### Standalone API management
-We also provided a NodeJS script ([iotronic-docs-gen.js](iotronic-docs-gen.js)) to do that without using directly IoTronic (we need to set "enable" to false). This script will generate the documentation and will publish it by means of "swagger-ui".
+We also provided a NodeJS script ([iotronic-docs-gen.js](iotronic-docs-gen.js)) to do that without using directly
+IoTronic or a web-server. This script will generate the documentation and will publish it by means of "swagger-ui".
 
 Script usage:
 ```
-node iotronic-docs-gen.js --iotronic="<IOTRONIC_SOURCE_CODE_PATH>" -e [true|false] [ -p <API_DOCS_PORT> ]
+node iotronic-docs-gen.js --iotronic="<IOTRONIC_SOURCE_CODE_PATH>" -e [true|false] [ -p <API_DOCS_PORT> ] [ -w <SWAGGER-JSON-SAVE-PATH>]
 ```
 options:
  - -i, --iotronic  IoTronic suorce code path. (e.g. "/usr/lib/node_modules/@mdslab/iotronic-standalone/")
  - -e, --embedded  true | false to spawn API webpage documentation; if "false" the "iotronic-swagger.json" will be created in the <SWAGGER-DIST-PATH> folder specified in the "settings.json" file in the "docs" section.
  - -p, --port      [only with --embedded=true] Listening port. (this port has to be different from the ports used by IoTronic "http(s)_port")
+ - -w, --web       Web server path: where will be created the swagger json file "iotronic-swagger.json".
 
 The docs will be available at:
 ```
