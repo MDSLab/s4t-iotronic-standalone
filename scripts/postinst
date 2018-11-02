@@ -6,6 +6,9 @@ DISTRO=`cat /etc/*release | grep DISTRIB_RELEASE | cut -d "=" -f2`
 
 echo "--> Server Distribution: " $DISTRO
 
+
+# Services management scripts
+
 if [ "$DISTRO" = "14.04" ]; then
 
         # Configure init.d
@@ -52,7 +55,7 @@ if [ "$DISTRO" = "14.04" ]; then
         fi
 
 
-elif [ "$DISTRO" = "16.04" ]; then
+elif [ "$DISTRO" = "16.04" ] || [ "$DISTRO" = "16.10" ] || [ "$DISTRO" = "18.04" ] || [ "$DISTRO" = "18.10" ]; then
 
         # Configure systemctl
         echo " - systemd configuration..."
@@ -105,7 +108,9 @@ then
 	      cp $NODE_PATH/@mdslab/iotronic-standalone/utils/templates/settings.example.json /var/lib/iotronic/settings.json
 	      cp $NODE_PATH/@mdslab/iotronic-standalone/utils/templates/board_settings_template.json /var/lib/iotronic/board_settings_template.json
 
+
 	      mkdir -p /var/log/iotronic/plugins/
+	      mkdir -p /var/log/wstun/
 	      touch /var/log/iotronic/s4t-iotronic.log
 
 	      MYSQL_PW=
@@ -135,6 +140,7 @@ else
       cp $NODE_PATH/@mdslab/iotronic-standalone/utils/templates/board_settings_template.json /var/lib/iotronic/board_settings_template.json
 
       mkdir -p /var/log/iotronic/plugins/
+      mkdir -p /var/log/wstun/
       touch /var/log/iotronic/s4t-iotronic.log
 
       MYSQL_PW=

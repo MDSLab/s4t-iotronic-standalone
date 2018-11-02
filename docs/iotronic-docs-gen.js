@@ -243,7 +243,7 @@ if (argv.i != undefined && argv.e != undefined){
                 IoTronic_IP = process.env.IOTRONIC_PUB_IP;
             }
             else if(public_ip == undefined){
-                logger.error("[SYSTEM] - Iotronic public IP not defined: " + public_ip);
+                console.log("[SYSTEM] - Iotronic public IP not defined: " + public_ip);
                 process.exit();
             }
             else
