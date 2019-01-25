@@ -1,0 +1,93 @@
+#! /bin/bash
+
+
+NAME=s4t-iotronic
+FOLDER=$NODE_PATH/@mdslab/iotronic-standalone
+DAEMON=$NODE_PATH/@mdslab/iotronic-standalone/bin/server
+DESC=s4t-iotronic
+LOGFILE="/var/log/iotronic/s4t-iotronic.log"
+PIDFILE="/var/run/s4t-iotronic.pid"
+
+
+test -x $DAEMON || exit 0
+set -e
+
+. /lib/lsb/init-functions
+
+MYPID=`ps www | grep $NODE_PATH/@mdslab/iotronic-standalone/bin/server | grep -v grep | awk {'print $1'}`
+
+
+case "$1" in
+        start)
+		#IOTRONIC-STANDALONE
+                echo -e "Starting $DESC ..."
+
+		#IF empty...
+		if [[ -z $MYPID ]];
+		then
+			start-stop-daemon --start -d $FOLDER --quiet --make-pidfile --pidfile $PIDFILE --exec $DAEMON >> /dev/null & # ${LOGFILE} &
+		elif [[ -s $PIDFILE && `cat $PIDFILE` == $MYPID ]];
+		then
+			echo -e "Already started!"
+
+		else
+			echo $MYPID > $PIDFILE
+			echo -e "Already started!"
+		fi
+
+                ;;
+
+
+        stop)
+
+		# IOTRONIC-STANDALONE
+                echo -e "Stopping $DESC ..."
+		if [[ -s $PIDFILE && `cat $PIDFILE` == $MYPID ]];
+		then
+	                kill -9 `cat $PIDFILE`
+			rm $PIDFILE
+		else
+			echo -e "inactive!"
+		fi
+
+                ;;
+
+
+        restart)
+
+		# IOTRONIC-STANDALONE
+                echo -e "Restarting $DESC ..."
+		if [[ -s $PIDFILE && `cat $PIDFILE` == $MYPID ]];
+		then
+	                kill -9 `cat $PIDFILE`
+			rm $PIDFILE
+		fi
+                sleep 1
+                #start-stop-daemon --start -d $FOLDER --quiet --make-pidfile --pidfile $PIDFILE --exec $DAEMON >> ${LOGFILE} 2>&1   || true &
+		start-stop-daemon --start -d $FOLDER --quiet --make-pidfile --pidfile $PIDFILE --exec $DAEMON >> /dev/null & #  ${LOGFILE} &
+
+                ;;
+
+
+        status)
+
+		# IOTRONIC-STANDALONE
+                echo -e "$DESC status..."
+		if [[ -z $MYPID ]];
+		then
+			echo -e "inactive!"
+		else
+	                echo -e "PID: "`cat $PIDFILE`
+		fi
+
+
+                ;;
+
+        *)
+                N=/etc/init.d/$NAME
+                echo "Usage: $N {start|stop|restart|status}" >&2
+                exit 1
+                ;;
+esac
+
+exit 0

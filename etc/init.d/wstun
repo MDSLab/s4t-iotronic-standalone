@@ -1,0 +1,91 @@
+#! /bin/bash
+
+NAME=wstun
+FOLDER=$NODE_PATH/@mdslab/wstun
+DAEMON=$NODE_PATH/@mdslab/wstun/bin/wstun.js
+DAEMON_OPTS='-r -s 8080'
+NAME=wstun
+LOGFILE="/var/log/iotronic/wstun.log"
+PIDFILE="/var/run/wstun.pid"
+
+
+test -x $DAEMON || exit 0
+set -e
+
+. /lib/lsb/init-functions
+
+MYPID2=`ps www | grep $NODE_PATH/@mdslab/wstun/bin/wstun.js | grep -v grep | awk {'print $1'}`
+
+
+case "$1" in
+        start)
+
+		# WSTUN
+		echo -e "Starting $NAME ..."
+
+		# IF empty...
+		if [[ -z $MYPID2 ]];
+		then
+			start-stop-daemon --start -d $FOLDER --quiet --make-pidfile --pidfile $PIDFILE --exec $DAEMON -- $DAEMON_OPTS >> /dev/null & # ${LOGFILE} &
+		elif [[ -s $PIDFILE && `cat $PIDFILE` == $MYPID2 ]];
+		then
+			echo -e "Already started!"
+		else
+			echo $MYPID2 > $PIDFILE
+			echo -e "Already started!"
+		fi
+
+                ;;
+
+
+        stop)
+
+		# WSTUN
+		echo -e "Stopping $NAME ..."
+		if [[ -s $PIDFILE && `cat $PIDFILE` == $MYPID2 ]];
+		then
+			kill -9 `cat $PIDFILE`
+			rm $PIDFILE
+		else
+			echo -e "inactive!"
+		fi
+                ;;
+
+
+        restart)
+
+		# WSTUN
+		echo -e "Restarting $NAME ..."
+		if [[ -s $PIDFILE && `cat $PIDFILE` == $MYPID2 ]];
+		then
+			kill -9 `ps aux | grep wstun | grep -v grep | awk {'print $2'}`
+			rm $PIDFILE
+		fi
+		sleep 1
+		start-stop-daemon --start -d $FOLDER --quiet --make-pidfile --pidfile $PIDFILE --exec $DAEMON -- $DAEMON_OPTS >> /dev/null & # ${LOGFILE} &
+
+                ;;
+
+
+        status)
+
+		# WSTUN
+		echo -e "$NAME status..."
+		if [[ -z $MYPID2 ]];
+		then
+			echo -e "inactive!"
+		else
+			echo -e "PID: "`cat $PIDFILE`
+		fi
+
+                ;;
+
+        *)
+                N=/etc/init.d/$NAME
+                echo "Usage: $N {start|stop|restart|status}" >&2
+                exit 1
+                ;;
+
+esac
+
+exit 0

@@ -1,0 +1,63 @@
+{
+
+  "config": {
+    "log": {
+      "logfile": "/var/log/iotronic/lightning-rod.log",
+      "loglevel": "info"
+    },
+    "extra":{},
+    "board": {
+      "label":"",
+      "position": {
+        "altitude": "",
+        "longitude": "",
+        "latitude": "",
+        "timestamp": ""
+      },
+      "health":{
+        "local_port":"8888"
+      },
+      "modules": {
+        "plugins_manager": {
+          "enabled": true,
+          "boot": true,
+          "alive_timer": 60
+        },
+        "services_manager": {
+          "enabled": true,
+          "boot": false
+        },
+        "nodered_manager": {
+          "enabled": false,
+          "boot": false
+        },
+        "vnets_manager": {
+          "enabled": false,
+          "boot": false,
+          "socat": {
+            "client": {
+              "port": "20000"
+            },
+            "pid": ""
+          },
+          "wstun":{
+            "pid":""
+          }
+        },
+        "gpio_manager": {
+          "enabled": false,
+          "boot": false
+        },
+        "drivers_manager": {
+          "enabled": false,
+          "boot": false
+        },
+        "vfs_manager": {
+          "enabled": false,
+          "boot": false
+        }
+      }
+
+    }
+  }
+}

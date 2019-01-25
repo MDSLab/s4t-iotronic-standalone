@@ -1,0 +1,111 @@
+{
+        "config":{
+                "server":
+                {
+                        "interface": "",
+                        "public_ip": "",
+                        "api_ip": "",
+                        "http_port":"8888",
+                        "https":{
+                                "enable":"false",
+                                "port":"",
+                                "key":"",
+                                "cert":""
+                        },
+                        "auth":{
+                                "encryptKey":"",
+                                "adminToken":"",
+                                "backend":"iotronic",
+                                "expire_time": "1h",
+                                "auth_lr_mode":"basic"
+                        },
+                        "db":{
+                                "host":"localhost",
+                                "port":"3306",
+                                "user":"root",
+                                "password": "",
+                                "db_name": "s4t-iotronic"
+                        },
+                        "log": {
+                                "logfile": "/var/log/iotronic/s4t-iotronic.log",
+                                "loglevel": "info"
+                        },
+                        "docs": {
+                                "embedded":{
+                                        "enable": false,
+                                        "path": ""
+                                },
+                                "exposed":{
+                                        "enable": false,
+                                        "url":"",
+                                        "url_spec":""
+                                }
+                        },
+                        "notifier":{
+                                "email": {
+                                        "address": "",
+                                        "password": "",
+                                        "smtp":{
+                                                "smtp_server": "",
+                                                "smtp_port": "",
+                                                "smtp_secure": ""
+                                        }
+                                },
+                                "enable_notify":"false"
+                        }
+
+
+                },
+                "wamp":
+                {
+                        "url": "ws://localhost",
+                        "port": "8181",
+                        "ssl": "false",
+                        "realm": "s4t",
+                        "topic_connection": "board.connection",
+                        "crossbar_pub_ip":""
+                },
+                "modules": {
+                        "plugins_manager": {
+                                "enabled": true
+                        },
+                        "services_manager": {
+                                "enabled": true,
+                                "wstun":
+                                {
+                                        "port_range":{
+                                                "high":40100,
+                                                "low": 40001
+                                        },
+                                        "public_ip":""
+                                }
+                        },
+                        "nodered_manager": {
+                                "enabled": true
+                        },
+                        "vnets_manager": {
+                                "enabled": false,
+                                "socat":
+                                {
+                                        "ip":"20.0.0.0",
+                                        "server":
+                                        {
+                                                "port":"10000"
+                                        }
+                                }
+                        },
+                        "gpio_manager": {
+                                "enabled": false
+                        },
+                        "drivers_manager": {
+                                "enabled": false
+                        },
+                        "vfs_manager": {
+                                "enabled": false
+                        }
+                }
+
+        }
+
+
+}

@@ -1,0 +1,52 @@
+{
+    "name": "temp_driver",
+    "type": "directory",
+    "permissions": 40755,
+    "children": [
+	{
+	  "name": "ADCres",
+	  "type": "file",
+	  "permissions": 100644,
+	  "read_function": "read_ADCres"
+	},
+	{
+	  "name": "Beta",
+	  "type": "file",
+	  "permissions": 100644,
+	  "read_function": "read_Beta"
+	},
+	{
+	  "name": "Ginf",
+	  "type": "file",
+	  "permissions": 100644,
+	  "read_function": "read_Ginf"
+	},
+	{
+	  "name": "Kelvin",
+	  "type": "file",
+	  "permissions": 100644,
+	  "read_function": "read_Kelvin"
+	},
+	{
+	  "name": "Rb",
+	  "type": "file",
+	  "permissions": 100644,
+	  "read_function": "read_Rb"
+	},
+	{
+	  "name": "pin",
+	  "type": "file",
+	  "permissions": 100644,
+	  "read_function": "read_pin",
+	  "write_function": "write_pin"
+	  
+	},
+	{
+	  "name": "temperature",
+	  "type": "file",
+	  "permissions": 100644,
+	  "read_function": "read_temperature"
+	}
+    ]
+}
+

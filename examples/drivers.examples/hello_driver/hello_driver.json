@@ -1,0 +1,16 @@
+{
+    "name": "hello_driver",
+    "type": "directory",
+    "permissions": 40755,
+    "children": [
+	{
+	  "name": "hello",
+	  "type": "file",
+	  "permissions": 100644,
+	  "read_function": "read_hello",
+	  "write_function": "write_hello"
+	  
+	}
+    ]
+}
+

@@ -1,0 +1,20 @@
+[Unit]
+Description=Stack4Things IoTronic Standalone
+Wants=wstun.service
+After=wstun.service network.target
+
+[Service]
+Type=simple
+User=root
+Group=root
+StandardInput=null
+StandardOutput=journal
+StandardError=journal
+WorkingDirectory=/usr/lib/node_modules/@mdslab/iotronic-standalone
+Environment="NODE_PATH=/usr/lib/node_modules"
+Environment="IOTRONIC_HOME=/var/lib/iotronic"
+ExecStart=<IOTRONIC-LAUNCHER>
+Restart=always
+
+[Install]
+WantedBy=multi-user.target

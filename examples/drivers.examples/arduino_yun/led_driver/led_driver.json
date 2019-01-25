@@ -1,0 +1,16 @@
+{
+    "name": "led_driver",
+    "type": "directory",
+    "permissions": 40755,
+    "children": [
+	{
+	  "name": "led",
+	  "type": "file",
+	  "permissions": 100644,
+	  "read_function": "read_led",
+	  "write_function": "write_led"
+	  
+	}
+    ]
+}
+
