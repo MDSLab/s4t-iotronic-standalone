@@ -1,7 +1,7 @@
 FROM node:8.15-slim
 
 RUN  apt-get update && apt-get install -y \
- git python-dev python-setuptools libyaml-dev libpython2.7-dev nmap unzip socat bridge-utils python-pip python-httplib2 libssl-dev libffi-dev vim\
+ git python-dev python-setuptools libyaml-dev libpython2.7-dev nmap unzip socat bridge-utils python-pip python-httplib2 libssl-dev libffi-dev vim
 
 #Fix Vulnerabilities
 RUN apt-get install -y procps wget curl gnupg openssl
