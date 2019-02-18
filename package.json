@@ -1,6 +1,6 @@
 {
   "name": "@mdslab/iotronic-standalone",
-  "version": "2.3.1",
+  "version": "2.3.2",
   "description": "IoTronic-standalone is the implementation of a personal Cloud to remote manage embedded devices (Arduino YUN/Linino One, Raspberry Pi 2/3, etc)",
   "main": "lib/iotronic_standalone.js",
   "scripts": {
@@ -21,7 +21,7 @@
     "requestify":"0.2.5",
     "mysql":"2.16.0",
     "ps-node":"0.1.6",
-    "bcrypt":"1.0.3",
+    "bcrypt":"3.0.3",
     "optimist":"0.6.1",
     "cors":"2.8.4",
     "nodemailer":"4.6.7",

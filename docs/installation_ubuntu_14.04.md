@@ -146,13 +146,17 @@ Please, note that the config[.SSL].example.json coming with the iotronic-standal
 Please, note that the settings.example.json coming with the iotronic-standalone package sets the IoTronic listening port to "8888", the database name to "s4t-iotronic" (the database server is supposed to be running locally), the WAMP realm to "s4t" (the Crossbar.io WAMP router is supposed to be running locally on port 8181). If you want to change such values, please consider that later on you will need to correctly change them in other configuration files. 
 
 Open /var/lib/iotronic/settings.json:
-- specify the NIC (e.g., change <INTERFACE> with "eth0") or the public IP and the port that IoTronic supposed to use to expose its REST interface;
-if you would like to use HTTPS to expose them you have to specify the "https" section.
+- "public_ip": it is the public IP for the Iotronic Admin dashboard
+- "api_ip": it is the public IP for Iotronic API REST server
+- "http_port": it is the HTTP port of the Iotronic API REST server used if the HTTPS is disabled.
+- "https": options used to expose the Iotronic API REST over HTTPS.
+- "interface" [deprecated]: specify the NIC (e.g., change <INTERFACE> with "eth0") or the public IP and the port that IoTronic supposed to use to expose its REST interface;
 ```
 "server":
 {
         "interface":"<INTERFACE>",
-        "public_ip": "<IOTRONIC-PUBLIC-IP>",
+        "public_ip": "<DASHBOARD-PUBLIC-IP>",
+        "api_ip":"<API-PUBLIC-IP>",
         "http_port":"<HTTP-API-PORT>",
         "https":{
                 "enable":"[ true  | false ]",
@@ -164,6 +168,34 @@ if you would like to use HTTPS to expose them you have to specify the "https" se
 }
 ```
 
+ - specify crossabar WAMP broker settings:
+ 
+```
+ "wamp":
+ {
+         "url": "<CROSSBAR-WAMP-URL>",
+         "port": "8181",
+         "ssl": "[ true | false ]",
+         "realm": "s4t",
+         "topic_connection": "board.connection",
+         "crossbar_pub_ip":"<CROSSBAR-PUBLIC-IP>"
+ }
+```
+```
+ - "url": Crossbar WAMP url (e.g. with SSL enabled wss://<CROSSBAR-IP> or ws://<CROSSBAR-IP> with SSL disabled)
+ 
+ - "port": Crossbar server port
+ 
+ - "ssl": specify "true" or "false" if the Crossbar server has SSL enabled or disabled.
+ 
+ - "realm": don't change it!
+ 
+ - "topic_connection": don't change it!
+ 
+ - "crossbar_pub_ip": Crossbar pubblic IP; if not used, specify the same Crossbar IP (<CROSSBAR-IP>) specified in the url of the field "url"
+
+ ```
+ 
  - specify the database password (use the same password you set while installing the MySQL package):
 ```
 "db":{
@@ -199,14 +231,14 @@ if you would like to use HTTPS to expose them you have to specify the "https" se
                 "enabled": true
         },
         etc
-}  
+}
 ```
 
 each Iotronic module (e.g. "plugins_manager") has a flag "enabled" to set at true or false in order to enable o disable that module.
 
 In particular, the Service Manager module, has to be configured properly (if enabled):
 
-``` 
+```
 "services_manager": {
         "enabled": true,
         "wstun":
@@ -234,7 +266,7 @@ node $NODE_PATH/@mdslab/iotronic-standalone/utils/createAdminToken.js <PASSWORD>
         "encryptKey": "<ENC-KEY>",
         "adminToken": "<GENERATED-BEFORE>",
         "backend": "iotronic",
-        "expire_time": "30m"
+        "expire_time": "1h"
         "auth_lr_mode":"basic"
 }
 ```
