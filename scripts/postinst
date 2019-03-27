@@ -4,6 +4,13 @@ echo "Installing..."
 
 DISTRO=`cat /etc/*release | grep DISTRIB_RELEASE | cut -d "=" -f2`
 
+if [ "$DISTRO" = "" ]; then
+
+    DISTRO=`cat /etc/*release | grep -w "ID" | cut -d "=" -f2`
+
+fi
+
+
 echo "--> Server Distribution: " $DISTRO
 
 
@@ -80,6 +87,34 @@ elif [ "$DISTRO" = "16.04" ] || [ "$DISTRO" = "16.10" ] || [ "$DISTRO" = "18.04"
         chmod +x /etc/systemd/system/wstun.service
         systemctl daemon-reload
         systemctl enable wstun.service
+
+
+elif [ "$DISTRO" = "debian" ]; then
+
+        # Configure systemctl
+        echo " - systemd configuration..."
+        cp $NODE_PATH/@mdslab/iotronic-standalone/etc/systemd/system/iotronic-standalone.service /etc/systemd/system/
+        sed -i "s|ExecStart=<IOTRONIC-LAUNCHER>|ExecStart=$NODE_PATH/@mdslab/iotronic-standalone/bin/server|g" /etc/systemd/system/iotronic-standalone.service
+        chmod +x /etc/systemd/system/iotronic-standalone.service
+        systemctl daemon-reload
+        systemctl enable iotronic-standalone.service
+
+        # Configure Crossbar.io
+        echo " - Crossbar.io configuration..."
+        mkdir -p /etc/crossbar
+        cp $NODE_PATH/@mdslab/iotronic-standalone/etc/systemd/system/crossbar.service /etc/systemd/system/
+        chmod +x /etc/systemd/system/crossbar.service
+        systemctl daemon-reload
+        systemctl enable crossbar.service
+
+        # Configure WSTUN
+        echo " - WSTUN configuration..."
+        mkdir -p /var/log/wstun/
+        cp $NODE_PATH/@mdslab/iotronic-standalone/etc/systemd/system/wstun.service /etc/systemd/system/
+        chmod +x /etc/systemd/system/wstun.service
+        systemctl daemon-reload
+        systemctl enable wstun.service
+
 
 fi
 
