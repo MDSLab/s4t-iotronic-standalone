@@ -96,6 +96,7 @@ CREATE TABLE IF NOT EXISTS `s4t-iotronic`.`boards` (
   `pubkey` LONGTEXT NULL,
   `password` VARCHAR(60) NULL,
   `lr_version` VARCHAR(10) NULL,
+  `conn_time` TIMESTAMP NULL DEFAULT NULL,
   PRIMARY KEY (`board_id`),
   INDEX `fk_boards_layout1_idx` (`layout_id` ASC),
   INDEX `fk_boards_projects1_idx` (`projects_id` ASC),
@@ -651,6 +652,7 @@ INSERT INTO `s4t-iotronic`.`layouts` (`id_layout`, `model`, `manufacturer`, `ima
 INSERT INTO `s4t-iotronic`.`layouts` (`id_layout`, `model`, `manufacturer`, `image`, `layout`, `distro`) VALUES (4, 'Raspberry Pi 3', 'Raspberry', 'Raspbian', 'raspberry_pi', 'debian');
 INSERT INTO `s4t-iotronic`.`layouts` (`id_layout`, `model`, `manufacturer`, `image`, `layout`, `distro`) VALUES (5, 'Orange Pi Zero', 'Orange', 'Armbian', 'raspberry_pi', 'debian');
 INSERT INTO `s4t-iotronic`.`layouts` (`id_layout`, `model`, `manufacturer`, `image`, `layout`, `distro`) VALUES (6, 'Artik', 'Samsung', 'Ubuntu-16.04', 'artik', 'debian');
+INSERT INTO `s4t-iotronic`.`layouts` (`id_layout`, `model`, `manufacturer`, `image`, `layout`, `distro`) VALUES (7, 'Arancino', 'Smartme.IO', 'Arancino OS', 'raspberry_pi', 'debian');
 
 COMMIT;
 
@@ -701,7 +703,7 @@ START TRANSACTION;
 USE `s4t-iotronic`;
 INSERT INTO `s4t-iotronic`.`services` (`id`, `name`, `port`, `protocol`) VALUES (1, 'SSH', 22, 'SSH');
 INSERT INTO `s4t-iotronic`.`services` (`id`, `name`, `port`, `protocol`) VALUES (2, 'WEB', 80, 'HTTP');
-INSERT INTO `s4t-iotronic`.`services` (`id`, `name`, `port`, `protocol`) VALUES (3, 'WEB SSL', 443, 'HTTPS');
+INSERT INTO `s4t-iotronic`.`services` (`id`, `name`, `port`, `protocol`) VALUES (3, 'WEB-SSL', 443, 'HTTPS');
 INSERT INTO `s4t-iotronic`.`services` (`id`, `name`, `port`, `protocol`) VALUES (4, 'Node-RED', 1880, 'HTTP');
 INSERT INTO `s4t-iotronic`.`services` (`id`, `name`, `port`, `protocol`) VALUES (5, 'Mosquitto', 1883, 'HTTP');
 
