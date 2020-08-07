@@ -139,6 +139,7 @@ it:
 landingURL: 'http://stack4things.unime.it/'
 legal:
   license: Apache-2.0
+  mainCopyrightOwner: MDSLAB
   repoOwner: MDSLAB
 localisation:
   availableLanguages:
