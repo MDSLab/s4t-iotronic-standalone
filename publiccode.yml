@@ -8,6 +8,9 @@ categories:
   - communications
   - data-collection
   - it-management
+  - cloud-management
+  - data-visualization
+  - event-management
 description:
   it:
     apiDocumentation: 'http://stack4things.unime.it/iotronic-api-docs/'
