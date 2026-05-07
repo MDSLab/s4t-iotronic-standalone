@@ -1,8 +1,8 @@
-# This repository adheres to the publiccode.yml standard by including this 
+# This repository adheres to the publiccode.yml standard by including this
 # metadata file that makes public software easily discoverable.
-# More info at https://github.com/italia/publiccode.yml
+# More info at https://github.com/publiccodeyml/publiccode.yml
 
-publiccodeYmlVersion: '0.2'
+publiccodeYmlVersion: '0'
 applicationSuite: Stack4Things
 categories:
   - communications
@@ -13,12 +13,10 @@ categories:
   - event-management
 description:
   it:
-    apiDocumentation: 'http://stack4things.unime.it/iotronic-api-docs/'
     documentation: 'https://github.com/MDSLab/s4t-iotronic-standalone'
     features:
       - IoT Management
       - Fleet IoT Management
-    genericName: IoTronic
     localisedName: S4T
     longDescription: >
       Stack4Things è un framework per l'Internet of Things sviluppato dal Mobile
@@ -122,25 +120,9 @@ description:
       IoTronic è utilizzato al fine di gestire dispositivi IoT, fornendo la
       possibilità di gestire tali dispositivi durante il loro ciclo vitale
 developmentStatus: stable
-it:
-  conforme:
-    gdpr: false
-    lineeGuidaDesign: false
-    misureMinimeSicurezza: false
-    modelloInteroperabilita: true
-  countryExtensionVersion: '0.2'
-  piattaforme:
-    anpr: false
-    cie: false
-    pagopa: false
-    spid: false
-  riuso:
-    codiceIPA: udsm_me
-landingURL: 'http://stack4things.unime.it/'
 legal:
   license: Apache-2.0
   mainCopyrightOwner: MDSLAB
-  repoOwner: MDSLAB
 localisation:
   availableLanguages:
     - en
@@ -150,11 +132,11 @@ maintenance:
     - affiliation: Università degli Studi di Messina
       email: gmerlino@unime.it
       name: Giovanni Merlino
-  contractors:
-    - name: smartme.IO
-      until: '2022-08-06'
   type: internal
 name: IoTronic
+organisation:
+  name: MDSLAB
+  uri: 'urn:x-italian-pa:udsm_me'
 platforms:
   - linux
   - web
