@@ -21,7 +21,7 @@
     "requestify":"0.2.5",
     "mysql":"2.16.0",
     "ps-node":"0.1.6",
-    "bcrypt":"3.0.3",
+    "bcrypt":"5.0.0",
     "optimist":"0.6.1",
     "cors":"2.8.4",
     "nodemailer":"4.6.7",
